@@ -19,11 +19,13 @@ RPi Info Screen
 (PiTFT version)
 '''
 
+
+
 import sys
 import pygame
 import imp
 import os
-import getopt 
+import getopt
 import traceback
 from time import time
 
@@ -75,21 +77,6 @@ longPressTime = 200
 SWIPE_TO_SCREEN=0
 CURRENT_SCREEN=-1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # methods to be called be command line flags
 def usage():
     '''Background about the script - to be shown when called with help flag'''
@@ -108,7 +95,7 @@ def listPlugins():
     a=1
     for i in pluginScreens:
         id = str(a)
-        print "\t" + id + "\t" + i.showInfo()  
+        print "\t" + id + "\t" + i.showInfo()
         a = a + 1
 ##############################################################################
 
@@ -118,7 +105,7 @@ def log(message):
         print message
 
 ##############################################################################
-# Plugin handling code adapted from: 
+# Plugin handling code adapted from:
 # http://lkubuntu.wordpress.com/2012/10/02/writing-a-python-plugin-api/
 # THANK YOU!
 # ############################################################################
@@ -156,7 +143,7 @@ def getScreens():
             loadedscreen = plugin.myScreen(size, userevents=piscreenevents)
             a.append(loadedscreen)
             showLoadedPlugin(loadedscreen)
-        
+
         except:
             # If it doesn't work, ignore that plugin and move on
             log(traceback.format_exc())
@@ -189,7 +176,7 @@ def showWelcomeScreen():
     labelpos = label.get_rect()
     labelpos.centerx = screen.get_rect().centerx
     labelpos.centery = screen.get_rect().centery
-    screen.blit(label, labelpos) 
+    screen.blit(label, labelpos)
     pygame.display.flip()
 
 def showLoadedPlugin(plugin):
@@ -203,7 +190,7 @@ def showLoadedPlugin(plugin):
     # labelpos = label.get_rect()
     # labelpos.centerx = screen.get_rect().centerx
     # labelpos.centery = screen.get_rect().centery
-    # screen.blit(label, labelpos) 
+    # screen.blit(label, labelpos)
     # pygame.display.flip()
 
 def setNextScreen(a, screenindex):
@@ -228,9 +215,9 @@ def displayLoadingScreen(a):
     # It may be needed if screens take too long to loading
     # ---------------------------------------------
     # screen.fill((0,0,0))
-    # holdtext = myfont.render("Loading screen: %s" 
+    # holdtext = myfont.render("Loading screen: %s"
                             # % pluginScreens[a].screenName(),
-                            # 1, 
+                            # 1,
                             # (255,255,255))
     # holdrect = holdtext.get_rect()
     # holdrect.centerx = screen.get_rect().centerx
@@ -363,7 +350,7 @@ for o,a in opts:
         usage()
         sys.exit()
     # TO DO: add option for automatic screen change (with timeout)
-    
+
 # Set some useful variables for controlling the display
 
 
@@ -409,16 +396,16 @@ while not quit:
         # Handle quit message received
         if event.type == pygame.QUIT:
             quit=True
-    
+
         # send the event to the current screenindex
-        # this allows user interaction without interfering with 
+        # this allows user interaction without interfering with
         # swipe gestures
         pluginScreens[screenindex].event_handler(event)
-        # 'Q' to quit    
-        if (event.type == pygame.KEYUP): 
+        # 'Q' to quit
+        if (event.type == pygame.KEYUP):
             if (event.key == pygame.K_q):
                 quit = True
-        
+
         # mouse button pressed
         if (event.type == pygame.MOUSEBUTTONDOWN):
             mouseDownTime = pygame.time.get_ticks()
@@ -437,20 +424,20 @@ while not quit:
 
         if (event.type == pygame.KEYDOWN):
             if (event.key == pygame.K_s):
-                filename = "screen" + str(a) + ".jpeg"                
+                filename = "screen" + str(a) + ".jpeg"
                 pygame.image.save(screen, filename)
 
         if (event.type == TFTBUTTONCLICK):
-            if (event.button == 1):                
+            if (event.button == 1):
                 pluginScreens[a].Button1Click()
 
-            if (event.button == 2):                
+            if (event.button == 2):
                 pluginScreens[a].Button2Click()
 
-            if (event.button == 3):                
+            if (event.button == 3):
                 pluginScreens[a].Button3Click()
 
-            if (event.button == 4):                
+            if (event.button == 4):
                 pluginScreens[a].Button4Click()
 
         if (event.type == UPDATESCREEN):
@@ -461,7 +448,7 @@ while not quit:
             showNewScreen()
 
 
-    #Control FPS    
+    #Control FPS
     clock.tick(FPS)
 
 # If we're here we've exited the display loop...

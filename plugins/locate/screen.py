@@ -22,32 +22,33 @@ class myScreen(PiInfoScreen):
 
     # Sets up variables. Some values are stored in /config/settings.ini
     def setPluginVariables(self):
-        self.font_size  =   int(self.pluginConfig["title_settings"]["size"])
-        self.font       =   self.pluginConfig["title_settings"]["font"]
-        self.font_color =   self.pluginConfig["title_settings"]["color"]
-        self.default_font = os.path.join(self.plugindir, "resources", self.font)
-        self.large_default_font = pygame.font.Font(self.default_font, self.font_size)
-        self.small_default_font = pygame.font.Font(self.default_font, self.font_size)
-
-        self.input_font_face = self.pluginConfig["input_settings"]["font"]
-        self.input_font_size = int(self.pluginConfig["input_settings"]["size"])
-        self.input_font_color = self.pluginConfig["input_settings"]["color"]
-        self.input_font_location = os.path.join(self.plugindir, "resources", self.input_font_face)
-        self.input_font = pygame.font.Font(self.input_font_location, self.input_font_size)
-        
 
         self.name = self.pluginConfig["plugin_info"]["name"]
         self.color = self.pluginConfig["plugin_info"]["color"]
 
 
+        # create a dict with fonts defined in config/settings.ini
+        self.fonts = {}
+        for key in self.pluginConfig['fonts']:
+            font = self.pluginConfig['fonts'][key]
+
+            font_file   = font['font']
+            font_size   = int(font['size'])
+            font_color  = font['color']
+
+            self.fonts[key] = {
+                'font': pygame.font.Font(os.path.join(self.plugindir, "resources", font_file), font_size),
+                'color': font_color}
+
+
         self.accn_input = eztext.Input(
-                    font=self.input_font,
-                    maxlength=20, 
-                    color=COLORS[self.input_font_color], 
-                    prompt='Accn #: ', 
+                    font=self.fonts['input_font']['font'],
+                    maxlength=20,
+                    color=COLORS[self.fonts['input_font']['color']],
+                    prompt='Accn #: ',
                     x=2, y=2)
 
-    # default.py reads the events and will send them to this function. 
+    # default.py reads the events and will send them to this function.
     # by default, this function contains "pass"
     def event_handler(self, event):
         if event.type == KEYDOWN and event.key == K_RETURN:
@@ -59,10 +60,10 @@ class myScreen(PiInfoScreen):
     def display_title(self):
 
         title = gui_objects.text_label(
-                            surface=self.surface, 
-                            font=self.large_default_font, 
-                            text=self.name, 
-                            color=COLORS[self.font_color],
+                            surface=self.surface,
+                            font=self.fonts['title_font']['font'],
+                            text=self.name,
+                            color=COLORS[self.fonts['title_font']['color']],
                             # Rect(left, top, width, height) -> Rect
                             rect=TITLE_RECT,
                             background_color = COLORS[self.color])

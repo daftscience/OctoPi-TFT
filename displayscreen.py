@@ -15,6 +15,7 @@
 
 import pygame
 import ConfigParser
+import configobj
 import sys
 import os
 import urllib2
@@ -24,69 +25,105 @@ sys.dont_write_bytecode = True
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 class PiInfoScreen():
-    
+
     # Set default names
     pluginname = "UNDEFINED"
     plugininfo = "You should set pluginname and plugininfo in your plugin subclass"
-    
+
     # List of screen sizes supported by the script
     supportedsizes = [ (320,240) ]
-    
+
     # Refresh time = how often the data on the screen should be updated (seconds)
     refreshtime = 30
-    
+
     # How long screen should be displayed before moving on to next screen (seconds)
     # only relevant when screen is autmatically changing screens
     # rather than waiting for key press
     displaytime = 5
-    
+
+    # This function should not be overriden
+    def __init__(self, screensize, scale=True, userevents=None):
+
+        # Set config filepath...
+        self.plugindir=os.path.dirname(sys.modules[self.__class__.__module__].__file__)
+        self.configfile = os.path.join(self.plugindir, "config", "screen.ini")
+
+        # ...and read the config file
+        self.readConfig()
+
+        # Save the requested screen size
+        self.screensize = screensize
+
+        self.userevents = userevents
+
+
+        # Check requested screen size is compatible and set supported property
+        if screensize not in self.supportedsizes:
+            self.supported = False
+        else:
+            self.supported = True
+
+        # Initialise pygame for the class
+        if self.supported or scale:
+            pygame.init()
+            self.screen = pygame.display.set_mode(self.screensize)
+            self.surfacesize = self.supportedsizes[0]
+            self.surface = pygame.Surface(self.surfacesize)
+
+
+
+
+
+
+
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
-        class AutoVivification(dict):
-            """Implementation of perl's autovivification feature."""
-            def __getitem__(self, item):
-                try:
-                    return dict.__getitem__(self, item)
-                except KeyError:
-                    value = self[item] = type(self)()
-                    return value
-        
-        self.pluginConfig = AutoVivification()
-        
+        # class AutoVivification(dict):
+            # """Implementation of perl's autovivification feature."""
+            # def __getitem__(self, item):
+                # try:
+                    # return dict.__getitem__(self, item)
+                # except KeyError:
+                    # value = self[item] = type(self)()
+                    # return value
+
+        # self.pluginConfig = AutoVivification()
+
         try:
             config = ConfigParser.ConfigParser()
-            config.read(self.configfile)
-            for section in config.sections():
-                for option in config.options(section):
-                    self.pluginConfig[section][option] = config.get(section,option)
+            self.pluginConfig = configobj.ConfigObj(self.configfile)
+            # config.read(self.configfile)
+            # for section in config.sections():
+                # for option in config.options(section):
+                    # self.pluginConfig[section][option] = config.get(section,option)
         except:
-            pass
-            
+            print "Error reading config/settings.ini file"
+
         self.setPluginVariables()
-    
+
     # Can be overriden to allow plugin to change option type
     # Default method is to treat all options as strings
-    # If option needs different type (bool, int, float) then this should be 
+    # If option needs different type (bool, int, float) then this should be
     # done here
-    # Alternatively, plugin can just read variables from the pluginConfig 
+    # Alternatively, plugin can just read variables from the pluginConfig
     # dictionary that's created
     # Any other variables (colours, fonts etc.) should be defined here
     def setPluginVariables(self):
         pass
-    
-    # Tells the main script that the plugin is compatible with the requested 
+
+    # Tells the main script that the plugin is compatible with the requested
     # screen size
     def supported(self):
         return self.supported
-    
-    # Returns the refresh time    
+
+    # Returns the refresh time
     def refreshtime(self):
         return self.refreshtime
-    
+
     # Returns the display time
     def displaytime(self):
         return self.displaytime
-    
+
     # Returns a short description of the script
     # displayed when user requests list of installed plugins
     def showInfo(self):
@@ -103,13 +140,13 @@ class PiInfoScreen():
         pass
 
     def Button2Click(self):
-        pass        
+        pass
 
     def Button3Click(self):
         pass
 
     def Button3Click(self):
-        pass   
+        pass
 
     # Get web page
     def getPage(self, url):
@@ -119,14 +156,14 @@ class PiInfoScreen():
         response = urllib2.urlopen(request)
         the_page = response.read()
         return the_page
-    
-    # Function to get image and return in format pygame can use    
+
+    # Function to get image and return in format pygame can use
     def LoadImageFromUrl(self, url, solid = False):
         f = urllib.urlopen(url)
         buf = StringIO.StringIO(f.read())
         image = self.LoadImage(buf, solid)
         return image
-        
+
     def LoadImage(self, fileName, solid = False):
         image = pygame.image.load(fileName)
         image = image.convert()
@@ -134,10 +171,10 @@ class PiInfoScreen():
             colorkey = image.get_at((0,0))
             image.set_colorkey(colorkey, pygame.RLEACCEL)
         return image
-    
-    
-    # Draws a progress bar    
-    def showProgress(self, position, barsize, 
+
+
+    # Draws a progress bar
+    def showProgress(self, position, barsize,
                      bordercolour, fillcolour, bgcolour):
         try:
             if position < 0 : position = 0
@@ -151,9 +188,9 @@ class PiInfoScreen():
         pygame.draw.rect(progress,bordercolour,(0,0,barsize[0],barsize[1]),1)
         return progress
 
-    def render_textrect(self, string, font, rect, text_color, 
-                        background_color, justification=0, vjustification=0, 
-                        margin=0, shrink = False, SysFont=None, FontPath=None, 
+    def render_textrect(self, string, font, rect, text_color,
+                        background_color, justification=0, vjustification=0,
+                        margin=0, shrink = False, SysFont=None, FontPath=None,
                         MaxFont=0, MinFont=0):
         """Returns a surface containing the passed text string, reformatted
         to fit within the given rect, word-wrapping as necessary. The text
@@ -174,14 +211,14 @@ class PiInfoScreen():
         Returns the following values:
 
         Success - a surface object with the text rendered onto it.
-        Failure - raises a TextRectException if the text won't fit onto the 
+        Failure - raises a TextRectException if the text won't fit onto the
         surface.
         """
-        
+
         """ Amended by el_Paraguayo:
          - cutoff=True - cuts off text instead of raising error
-         - margin=(left,right,top,bottom) or 
-         - margin=2 is equal to margin = (2,2,2,2) 
+         - margin=(left,right,top,bottom) or
+         - margin=2 is equal to margin = (2,2,2,2)
          - shrink=True adds variable font size to fit text
             - Has additional args:
                 - SysFont=None - set SysFont to use when shrinking
@@ -193,15 +230,15 @@ class PiInfoScreen():
             1 = Middle
             2 = Bottom
         """
-        
+
         class TextRectException(Exception):
             def __init__(self, message = None):
                 self.message = message
             def __str__(self):
                 return self.message
 
-        def draw_text_rect(string, font, rect, text_color, background_color, 
-                           justification=0, vjustification=0, margin=0, 
+        def draw_text_rect(string, font, rect, text_color, background_color,
+                           justification=0, vjustification=0, margin=0,
                            cutoff=True):
             final_lines = []
             requested_lines = string.splitlines()
@@ -213,30 +250,30 @@ class PiInfoScreen():
                     # if any of our words are too long to fit, return.
                     # for word in words:
                     #     if font.size(word)[0] >= (rect.width - (margin * 2)):
-                    #         raise TextRectException, "The word " + word + " 
+                    #         raise TextRectException, "The word " + word + "
                     # is too long to fit in the rect passed."
-                            
+
                     # Start a new line
                     accumulated_line = ""
                     for word in words:
                         test_line = accumulated_line + word + " "
-                        # Build the line while the words fit.    
+                        # Build the line while the words fit.
                         if font.size(test_line.strip())[0] < (rect.width - (margin[0] + margin[1])) :
-                            accumulated_line = test_line 
-                        else: 
-                            final_lines.append(accumulated_line) 
-                            accumulated_line = word + " " 
+                            accumulated_line = test_line
+                        else:
+                            final_lines.append(accumulated_line)
+                            accumulated_line = word + " "
                     final_lines.append(accumulated_line)
-                else: 
-                    final_lines.append(requested_line) 
+                else:
+                    final_lines.append(requested_line)
 
             # Let's try to write the text out on the surface.
 
-            surface = pygame.Surface(rect.size) 
-            surface.fill(background_color) 
+            surface = pygame.Surface(rect.size)
+            surface.fill(background_color)
 
-            accumulated_height = 0 
-            for line in final_lines: 
+            accumulated_height = 0
+            for line in final_lines:
                 if accumulated_height + font.size(line)[1] >= (rect.height - margin[2] - margin[3]):
                     if not cutoff:
                         raise TextRectException, "Once word-wrapped, the text string was too tall to fit in the rect."
@@ -246,7 +283,7 @@ class PiInfoScreen():
                     tempsurface = font.render(line.strip(), 1, text_color)
                     if justification == 0:
                         surface.blit(tempsurface, (0 + margin[0], accumulated_height + margin[2]))
-                    elif justification == 1: 
+                    elif justification == 1:
                         surface.blit(tempsurface, ((rect.width - tempsurface.get_width()) / 2, accumulated_height + margin[2]))
                     elif justification == 2:
                         surface.blit(tempsurface, (rect.width - tempsurface.get_width() - margin[1], accumulated_height + margin[2]))
@@ -274,9 +311,9 @@ class PiInfoScreen():
             else:
                 raise TextRectException, "Invalid vjustification argument: " + str(justification)
             return surface
-            
+
         surface = None
-        
+
         if type(margin) is tuple:
             if not len(margin) == 4:
                 try:
@@ -287,12 +324,12 @@ class PiInfoScreen():
             margin = (margin, margin, margin, margin)
         else:
             margin = (0,0,0,0)
-        
+
         if not shrink:
-            surface = draw_text_rect(string, font, rect, text_color, background_color, 
-                                     justification=justification, vjustification=vjustification, 
+            surface = draw_text_rect(string, font, rect, text_color, background_color,
+                                     justification=justification, vjustification=vjustification,
                                      margin=margin, cutoff=False)
-        
+
         else:
             fontsize = MaxFont
             fit = False
@@ -302,68 +339,37 @@ class PiInfoScreen():
                 else:
                     myfont = pygame.font.Font(FontPath,fontsize)
                 try:
-                    surface = draw_text_rect(string, myfont, rect,text_color, background_color, 
-                                             justification=justification, vjustification=vjustification, 
+                    surface = draw_text_rect(string, myfont, rect,text_color, background_color,
+                                             justification=justification, vjustification=vjustification,
                                              margin=margin, cutoff=False)
                     fit = True
                     break
                 except:
                     fontsize -= 1
             if not fit:
-                surface = draw_text_rect(string, myfont, rect, text_color, background_color, 
-                                         justification=justification, vjustification=vjustification, 
+                surface = draw_text_rect(string, myfont, rect, text_color, background_color,
+                                         justification=justification, vjustification=vjustification,
                                          margin=margin)
 
         return surface
-    
+
     # Main function - returns screen to main script
     # Will be overriden by plugins
     # Defaults to showing name and description of plugin
     def showScreen(self):
         self.screen.fill([0,0,0])
-   
+
         screentext = pygame.font.SysFont("freesans",20).render("%s: %s." % (self.pluginname, self.plugininfo),1,(255,255,255))
         screenrect = screentext.get_rect()
         screenrect.centerx = self.screen.get_rect().centerx
         screenrect.centery = self.screen.get_rect().centery
         self.screen.blit(screentext,screenrect)
-            
+
         return self.screen
     def event_handler(self, event):
         pass
 
-        
+
     def setUpdateTimer(self):
         pygame.time.set_timer(self.userevents["update"], 0)
         pygame.time.set_timer(self.userevents["update"], int(self.refreshtime * 1000))
-
-        
-    # This function should not be overriden
-    def __init__(self, screensize, scale=True, userevents=None):
-        
-        # Set config filepath...
-        self.plugindir=os.path.dirname(sys.modules[self.__class__.__module__].__file__)
-        self.configfile = os.path.join(self.plugindir, "config", "screen.ini")
-        
-        # ...and read the config file
-        self.readConfig()
-        
-        # Save the requested screen size
-        self.screensize = screensize
-
-        self.userevents = userevents
-
-        
-        # Check requested screen size is compatible and set supported property
-        if screensize not in self.supportedsizes:
-            self.supported = False
-        else:
-            self.supported = True
-         
-        # Initialise pygame for the class
-        if self.supported or scale:    
-            pygame.init()
-            self.screen = pygame.display.set_mode(self.screensize)
-            self.surfacesize = self.supportedsizes[0]
-            self.surface = pygame.Surface(self.surfacesize)
-            
