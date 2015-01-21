@@ -41,13 +41,6 @@ class myScreen(PiInfoScreen):
                 'color': font_color}
 
 
-        # self.accn_input = eztext.Input(
-                    # font=self.fonts['input_font']['font'],
-                    # maxlength=20,
-                    # color=COLORS[self.fonts['input_font']['color']],
-                    # prompt='Accn #: ',
-                    # x=2, y=2)
-
     # default.py reads the events and will send them to this function.
     # by default, this function contains "pass"
     def event_handler(self, event):

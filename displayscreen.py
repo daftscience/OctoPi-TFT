@@ -14,7 +14,6 @@
 '''
 
 import pygame
-import ConfigParser
 import configobj
 import sys
 import os
@@ -78,26 +77,10 @@ class PiInfoScreen():
 
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
-        # class AutoVivification(dict):
-            # """Implementation of perl's autovivification feature."""
-            # def __getitem__(self, item):
-                # try:
-                    # return dict.__getitem__(self, item)
-                # except KeyError:
-                    # value = self[item] = type(self)()
-                    # return value
-
-        # self.pluginConfig = AutoVivification()
-
         try:
-            config = ConfigParser.ConfigParser()
             self.pluginConfig = configobj.ConfigObj(self.configfile)
-            # config.read(self.configfile)
-            # for section in config.sections():
-                # for option in config.options(section):
-                    # self.pluginConfig[section][option] = config.get(section,option)
         except:
-            print "Error reading config/settings.ini file"
+            print "Error reading config/settings.ini"
 
         self.setPluginVariables()
 
