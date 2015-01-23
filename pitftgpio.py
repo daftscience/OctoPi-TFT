@@ -21,13 +21,14 @@ Can also be used to turn backlight on or off.
 '''
 import sys
 import RPi.GPIO as GPIO
+import subprocess
 from os.path import exists
 sys.dont_write_bytecode = True
 
 
 class PiTFT_GPIO(object):
 
-    def __init__(self, v2 = True, buttons = [True, True, True, True]):
+    def __init__(self, v2=True, buttons=[True, True, True, True]):
         '''Initialise class.
 
         v2 = True - if using older (v1) revision of board this should be
@@ -49,11 +50,10 @@ class PiTFT_GPIO(object):
         self.__pin1 = 23
         self.__pin2 = 22
         self.__pin3 = 27
-        self.__pin4 = 18
+        self.__pin4 = 17
 
         # set GPIO mode
         GPIO.setmode(GPIO.BCM)
-
 
         # Initialise buttons
         if buttons[0]:
@@ -84,27 +84,57 @@ class PiTFT_GPIO(object):
             self.Backlight(True)
 
     def __setupBacklight(self):
-        
-        # Check if GPIO252 has already been set up
-        if not exists(self.backlightpath):
-            try:
-                with open("/sys/class/gpio/export", "w") as bfile:
-                    bfile.write("252")
 
-            except:
-                return False
+        set_pwm = 'echo pwm > /sys/class/rpi-pwm/pwm0/mode'
+        set_frequency = 'echo 1000 > /sys/class/rpi-pwm/pwm0/frequency'
+        set_duty = 'echo 50 > /sys/class/rpi-pwm/pwm0/duty'
+
+        subprocess.call(set_pwm, shell=True)
+        subprocess.call(set_frequency, shell=True)
+        subprocess.call(set_duty, shell=True)
+
+        # This is old code, it may bee needed with the resistive touch screens
+        # Check if GPIO252 has already been set up
+        # if not exists(self.backlightpath):
+        #     try:
+        #         with open("/sys/class/gpio/export", "w") as bfile:
+        #             bfile.write("252")
+
+        #     except:
+        #         return False
 
         # Set the direction
-        try:
-            with open("/sys/class/gpio/gpio252/direction", "w") as bfile:
-                bfile.write("out")
+        # try:
+        #     with open("/sys/class/gpio/gpio252/direction", "w") as bfile:
+        #         bfile.write("out")
 
-        except:
-            return False
+        # except:
+        #     return False
 
         # If we had no errors up to here then we should be able to control
         # backlight
         return True
+
+    def set_backlight_brightness(self, duty):
+        set_pwm = 'echo pwm > /sys/class/rpi-pwm/pwm0/mode'
+        set_frequency = 'echo 1000 > /sys/class/rpi-pwm/pwm0/frequency'
+        set_duty = 'echo 50 > /sys/class/rpi-pwm/pwm0/duty'
+        set_duty = 'echo ' + str(duty) + ' > /sys/class/rpi-pwm/pwm0/duty'
+        subprocess.call(set_pwm, shell=True)
+        subprocess.call(set_frequency, shell=True)
+        subprocess.call(set_duty, shell=True)
+
+    def backlight_off(self, *arg):
+        self.set_backlight_brightness('1')
+
+    def backlight_low(self, *arg):
+        self.set_backlight_brightness('10')
+
+    def backlight_med(self, *arg):
+        self.set_backlight_brightness('25')
+
+    def backlight_high(self, *arg):
+        self.set_backlight_brightness('99')
 
     def Backlight(self, light):
         '''Turns the PiTFT backlight on or off.
@@ -121,38 +151,37 @@ class PiTFT_GPIO(object):
                 pass
 
     # Add interrupt handling...
-    def Button1Interrupt(self,callback=None,bouncetime=200):
-        if self.__b1: 
-            GPIO.add_event_detect(self.__pin1, 
-                                  GPIO.FALLING, 
-                                  callback=callback, 
+    def Button1Interrupt(self, callback=None, bouncetime=200):
+        if self.__b1:
+            GPIO.add_event_detect(self.__pin1,
+                                  GPIO.FALLING,
+                                  callback=callback,
                                   bouncetime=bouncetime)
 
-    def Button2Interrupt(self,callback=None,bouncetime=200):
-        if self.__b2: 
-            GPIO.add_event_detect(self.__pin2, 
-                                  GPIO.FALLING, 
-                                  callback=callback, 
+    def Button2Interrupt(self, callback=None, bouncetime=200):
+        if self.__b2:
+            GPIO.add_event_detect(self.__pin2,
+                                  GPIO.FALLING,
+                                  callback=callback,
                                   bouncetime=bouncetime)
 
-    def Button3Interrupt(self,callback=None,bouncetime=200):
-        if self.__b3: 
-            GPIO.add_event_detect(self.__pin3, 
-                                  GPIO.FALLING, 
-                                  callback=callback, 
+    def Button3Interrupt(self, callback=None, bouncetime=200):
+        if self.__b3:
+            GPIO.add_event_detect(self.__pin3,
+                                  GPIO.FALLING,
+                                  callback=callback,
                                   bouncetime=bouncetime)
 
-    def Button4Interrupt(self,callback=None,bouncetime=200):
-        if self.__b4: 
-            GPIO.add_event_detect(self.__pin4, 
-                                  GPIO.FALLING, 
-                                  callback=callback, 
+    def Button4Interrupt(self, callback=None, bouncetime=200):
+        if self.__b4:
+            GPIO.add_event_detect(self.__pin4,
+                                  GPIO.FALLING,
+                                  callback=callback,
                                   bouncetime=bouncetime)
 
     # Include the GPIO cleanup method
     def Cleanup(self):
         GPIO.cleanup()
-
 
     # Some properties to retrieve value state of pin and return more logical
     # True when pressed.
@@ -178,7 +207,4 @@ class PiTFT_GPIO(object):
     def Button4(self):
         '''Returns value of Button 4. Equals True when pressed.'''
         if self.__b4:
-            return not GPIO.input(self.__pin4)                      
-
-
-    
+            return not GPIO.input(self.__pin4)
