@@ -1,31 +1,12 @@
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-'''
-
-'''
-Python module for Adafruit PiTFT by elParaguayo.
-
-Initialises GPIO for all 4 tactile buttons.
-Can also be used to turn backlight on or off.
-'''
 import sys
-import RPi.GPIO as GPIO
 import subprocess
-from os.path import exists
+try:
+    import RPi.GPIO as GPIO
+except:
+   print "Please install RPi.GPIO module"
+
+
 sys.dont_write_bytecode = True
-
-
 class PiTFT_GPIO(object):
 
     def __init__(self, v2=True, buttons=[True, True, True, True]):

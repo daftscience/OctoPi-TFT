@@ -34,7 +34,6 @@ if os.name == 'posix':
     os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
     tftscreen = PiTFT_GPIO()
     print "pitft has been set up"
-
     print "buttons set up"
 ##############################################################################
 # Create a clock and set max FPS (This reduces a lot CPU ussage)
@@ -65,30 +64,6 @@ longPressTime = 200
 SWIPE_TO_SCREEN = 0
 CURRENT_SCREEN = -1
 
-# methods to be called be command line flags
-
-
-# def usage():
-#     '''Background about the script - to be shown when called with help flag'''
-#     print "RPi Info Screen by elParaguayo"
-#     print "Displays custom screens on attached display\n"
-#     print "Usage: " + sys.argv[0] + " [options]"
-#     print "\t-l\tList available screens"
-#     print "\t-h\tDisplay this screen"
-
-
-# def listPlugins():
-#     '''Function for displaying list of plugins that should work'''
-#     global pluginScreens
-#     print "RPi Info Screen\n"
-#     print "Available screens:"
-#     a = 1
-#     for i in pluginScreens:
-#         id = str(a)
-#         print "\t" + id + "\t" + i.showInfo()
-#         a = a + 1
-# ##############################################################################
-
 
 def log(message):
     '''Prints message if user has set debug flag to true.'''
@@ -108,7 +83,8 @@ def getPlugins():
     a = 1
     for i in possibleplugins:
         location = os.path.join(PluginFolder, i)
-        if not os.path.isdir(location) or not PluginScript in os.listdir(location):
+        if not os.path.isdir(
+                location) or PluginScript not in os.listdir(location):
             continue
         inf = imp.find_module(MainModule, [location])
         plugins.append({"name": i, "info": inf, "id": a})
@@ -335,22 +311,22 @@ showWelcomeScreen()
 pluginScreens = getScreens()
 
 # Parse some options
-try:
-    opts, args = getopt.getopt(sys.argv[1:], 'lh', ['help', 'list'])
-except getopt.GetoptError as err:
-    log(err)
-    usage()
-    sys.exit()
+# try:
+#     opts, args = getopt.getopt(sys.argv[1:], 'lh', ['help', 'list'])
+# except getopt.GetoptError as err:
+#     log(err)
+#     usage()
+#     sys.exit()
 
-for o, a in opts:
-    # Show installed plugins
-    if o in ("-l", "--list"):
-        listPlugins()
-        sys.exit()
-    # Show help
-    if o in ("-h", "--help"):
-        usage()
-        sys.exit()
+# for o, a in opts:
+# Show installed plugins
+#     if o in ("-l", "--list"):
+#         listPlugins()
+#         sys.exit()
+# Show help
+#     if o in ("-h", "--help"):
+#         usage()
+#         sys.exit()
     # TO DO: add option for automatic screen change (with timeout)
 
 # Set some useful variables for controlling the display
