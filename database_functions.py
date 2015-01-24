@@ -20,9 +20,13 @@ class sqlite_database:
             print "Error reading config/settings.ini"
 
         self.db_file = self.config['storage_settings']['database']
-        self.column_width = self.config['storage_settings']['columns']
-        self.row_height = self.config['storage_settings']['rows']
-
+        self.column_width = int(self.config['storage_settings']['columns'])
+        self.row_height = int(self.config['storage_settings']['rows'])
+        
+        print ('db config info')
+        print self.column_width
+        print self.row_height
+        print '----------'
         self.db = sqlite3.connect(self.db_file)
         self.db.execute("""
                         CREATE TABLE IF NOT EXISTS tube_data (

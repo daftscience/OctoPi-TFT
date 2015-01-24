@@ -70,6 +70,7 @@ class PiInfoScreen():
             self.surfacesize = self.supportedsizes[0]
             self.surface = pygame.Surface(self.surfacesize)
 
+        self.accn_surface = self.surface.subsurface(0, 0, 320, 27)
         self.title_surface = self.surface.subsurface(TITLE_RECT)
         self.swipe_hint_surface = self.surface.subsurface(SWIPE_HINT_RECT)
 
@@ -113,6 +114,7 @@ class PiInfoScreen():
                 'color': font_color}
 
         if self.pluginConfig["ui_settings"]["has_input"] == 'True':
+            # self.has_accn = True
             self.accn_input = eztext.Input(
                 font=self.fonts['input_font']['font'],
                 maxlength=20,
@@ -209,7 +211,7 @@ class PiInfoScreen():
     def render_textrect(self, string, font, rect, text_color,
                         background_color, justification=0, vjustification=0,
                         margin=0, shrink=False, SysFont=None, FontPath=None,
-                        MaxFont=0, MinFont=0):
+                        MaxFont=50, MinFont=5):
 
         """Returns a surface containing the passed text string, reformatted
         to fit within the given rect, word-wrapping as necessary. The text
@@ -402,6 +404,7 @@ class PiInfoScreen():
                         margin=margin,
                         cutoff=False)
                     fit = True
+                    print("Fit Font: " + str(fontsize))
                     break
                 except:
                     fontsize -= 1
