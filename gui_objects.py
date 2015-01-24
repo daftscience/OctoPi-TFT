@@ -42,6 +42,7 @@ class text_label(pygame.sprite.Sprite):
 
 
 # http://www.pygame.org/wiki/ShadowEffects?parent=CookBook
+<<<<<<< HEAD
 
 def DrawRoundRect(surface, color, rect, width, xr, yr):
     clip = surface.get_clip()
@@ -63,9 +64,42 @@ def DrawRoundRect(surface, color, rect, width, xr, yr):
     surface.set_clip(clip.clip(rect.left, rect.bottom - yr, xr, yr))
     pygame.draw.ellipse(surface, color, pygame.Rect(
         rect.left, rect.bottom - 2 * yr, 2 * xr, 2 * yr), width)
+=======
+
+def DrawRoundRect(surface, color, rect, width, xr, yr):
+
+    clip = surface.get_clip()
+    # left and right
+    surface.set_clip(clip.clip(rect.inflate(0, -yr * 2)))
+    pygame.draw.rect(surface, color, rect.inflate(1 - width, 0), width)
+
+    # top and bottom
+    surface.set_clip(clip.clip(rect.inflate(-xr * 2, 0)))
+    pygame.draw.rect(surface, color, rect.inflate(0, 1 - width), width)
+
+    # top left corner
+    surface.set_clip(clip.clip(rect.left, rect.top, xr, yr))
+    corner = pygame.Rect(rect.left, rect.top, 2 * xr, 2 * yr)
+    pygame.draw.ellipse(surface, color, corner, width)
+
+    # top right corner
+    surface.set_clip(clip.clip(rect.right - xr, rect.top, xr, yr))
+    pygame.draw.ellipse(surface, color, pygame.Rect(
+        rect.right - 2 * xr, rect.top, 2 * xr, 2 * yr), width)
+
+    # bottom left
+    surface.set_clip(clip.clip(rect.left, rect.bottom - yr, xr, yr))
+    pygame.draw.ellipse(surface, color, pygame.Rect(
+        rect.left, rect.bottom - 2 * yr, 2 * xr, 2 * yr), width)
+
+>>>>>>> origin/master
     # bottom right
     surface.set_clip(clip.clip(rect.right - xr, rect.bottom - yr, xr, yr))
     pygame.draw.ellipse(surface, color, pygame.Rect(
         rect.right - 2 * xr, rect.bottom - 2 * yr, 2 * xr, 2 * yr), width)
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
     surface.set_clip(clip)
     return clip
