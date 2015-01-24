@@ -1,126 +1,120 @@
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-'''
-
-'''
-The Imaginatively Titled
-RPi Info Screen
-(PiTFT version)
-'''
-
-
-
 import sys
 import pygame
 import imp
 import os
 import getopt
+import random
+import gui_objects
+import eztext
+from database_functions import RACK_DB
 import traceback
-from time import time
+from global_variables import COLORS, TITLE_RECT, LOADING_MESSEGES
+from pprint import pprint
+from time import time, sleep
 
 sys.dont_write_bytecode = True
 
-RASPBERRYPI = True
-
-if RASPBERRYPI:
-    from pitftgpio import PiTFT_GPIO
-
-# USER VARIABLES - CAN BE EDITED
 debug = True
 screensleep = 60000
 
-# DON'T CHANGE ANYTHING BELOW THIS LINE
-##############################################################################
+# This is where we start
+# Initialise pygame
 
+RASPBERRYPI = False
+# pprint(pygame.display.list_modes(), 3)
 # Tell the RPi to use the TFT screen and that it's a touchscreen device
-if RASPBERRYPI:
+if os.name == 'posix':
+    RASPBERRYPI = True
+    print "You're running raspberry pi"
+    # Hide mouse
+    from pitftgpio import PiTFT_GPIO
     os.putenv('SDL_VIDEODRIVER', 'fbcon')
-    os.putenv('SDL_FBDEV'      , '/dev/fb1')
-    os.putenv('SDL_MOUSEDRV'   , 'TSLIB')
-    os.putenv('SDL_MOUSEDEV'   , '/dev/input/touchscreen')
+    os.putenv('SDL_FBDEV', '/dev/fb1')
+    os.putenv('SDL_MOUSEDRV', 'TSLIB')
+    os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
+    tftscreen = PiTFT_GPIO()
+    print "pitft has been set up"
 
+    print "buttons set up"
 ##############################################################################
+# Create a clock and set max FPS (This reduces a lot CPU ussage)
 
-#Create a clock and set max FPS (This reduces a lot CPU ussage)
-FPS=30
+pygame.init()
+pygame.mouse.set_visible(False if RASPBERRYPI else True)
+
+
+FPS = 30
 clock = pygame.time.Clock()
+screenindex = 0
 
 
-screenindex=0
-
-
-quit=False
-b=pygame.time.get_ticks()
-d=0
-newscreen=False
-newwait=0
+quit = False
+b = pygame.time.get_ticks()
+d = 0
+newscreen = False
+newwait = 0
 refresh = 60000
 refreshNow = False
 mouseDownTime = 0
-mouseDownPos = (0,0)
+mouseDownPos = (0, 0)
 # Mouse related variables
 minSwipe = 50
 maxClick = 15
 longPressTime = 200
 
-SWIPE_TO_SCREEN=0
-CURRENT_SCREEN=-1
+SWIPE_TO_SCREEN = 0
+CURRENT_SCREEN = -1
 
 # methods to be called be command line flags
-def usage():
-    '''Background about the script - to be shown when called with help flag'''
-    print "RPi Info Screen by elParaguayo"
-    print "Displays custom screens on attached display\n"
-    print "Usage: " + sys.argv[0] + " [options]"
-    print "\t-l\tList available screens"
-    print "\t-h\tDisplay this screen"
 
 
-def listPlugins():
-    '''Function for displaying list of plugins that should work'''
-    global pluginScreens
-    print "RPi Info Screen\n"
-    print "Available screens:"
-    a=1
-    for i in pluginScreens:
-        id = str(a)
-        print "\t" + id + "\t" + i.showInfo()
-        a = a + 1
-##############################################################################
+# def usage():
+#     '''Background about the script - to be shown when called with help flag'''
+#     print "RPi Info Screen by elParaguayo"
+#     print "Displays custom screens on attached display\n"
+#     print "Usage: " + sys.argv[0] + " [options]"
+#     print "\t-l\tList available screens"
+#     print "\t-h\tDisplay this screen"
+
+
+# def listPlugins():
+#     '''Function for displaying list of plugins that should work'''
+#     global pluginScreens
+#     print "RPi Info Screen\n"
+#     print "Available screens:"
+#     a = 1
+#     for i in pluginScreens:
+#         id = str(a)
+#         print "\t" + id + "\t" + i.showInfo()
+#         a = a + 1
+# ##############################################################################
+
 
 def log(message):
     '''Prints message if user has set debug flag to true.'''
     if debug:
         print message
 
-##############################################################################
+# ##############################################################################
 # Plugin handling code adapted from:
 # http://lkubuntu.wordpress.com/2012/10/02/writing-a-python-plugin-api/
 # THANK YOU!
-# ############################################################################
+# # ######################################################################
+
+
 def getPlugins():
     plugins = []
     possibleplugins = os.listdir(PluginFolder)
-    a=1
+    a = 1
     for i in possibleplugins:
-        location = os.path.join(PluginFolder,i)
+        location = os.path.join(PluginFolder, i)
         if not os.path.isdir(location) or not PluginScript in os.listdir(location):
             continue
         inf = imp.find_module(MainModule, [location])
         plugins.append({"name": i, "info": inf, "id": a})
-        a=a+1
+        a = a + 1
     return plugins
+
 
 def loadPlugin(plugin):
     return imp.load_module(MainModule, *plugin["info"])
@@ -164,57 +158,65 @@ def setUpdateTimer(pluginloadtime):
     '''
     interval = max(5 * pluginloadtime, pluginScreens[screenindex].refreshtime)
 
-    pygame.time.set_timer(UPDATESCREEN,0)
+    pygame.time.set_timer(UPDATESCREEN, 0)
     pygame.time.set_timer(UPDATESCREEN, interval)
 
-def showWelcomeScreen():
-    '''Display a temporary screen to show it's working
-    May not display for long because of later code to show plugin loading
-    '''
-    screen.fill([0,0,0])
-    label = myfont.render("Initialising screens...", 1, (255,255,255))
-    labelpos = label.get_rect()
-    labelpos.centerx = screen.get_rect().centerx
-    labelpos.centery = screen.get_rect().centery
-    screen.blit(label, labelpos)
-    pygame.display.flip()
 
-def showLoadedPlugin(plugin):
-    '''Display a temporary screen to show when a module is successfully
-    loaded.
-    '''
-    pass
-    # screen.fill([0,0,0])
-    # label = myfont.render("Successfully imported: %s"
-                          # % (plugin.screenName()), 1, (255,255,255))
+def showWelcomeScreen():
+    # '''Display a temporary screen to show it's working
+    # May not display for long because of later code to show plugin loading
+    # '''
+    # screen.fill([0, 0, 0])
+    # label = myfont.render("Initialising screens...", 1, (255, 255, 255))
     # labelpos = label.get_rect()
     # labelpos.centerx = screen.get_rect().centerx
     # labelpos.centery = screen.get_rect().centery
     # screen.blit(label, labelpos)
     # pygame.display.flip()
+    pass
+
+
+def showLoadedPlugin(plugin):
+    '''Display a temporary screen to show when a module is successfully
+    loaded.
+    '''
+    # pass
+    print "showloadedplugin"
+    screen.fill(COLORS['CLOUD'])
+    label = myfont.render(
+        random.choice(LOADING_MESSEGES), 1, COLORS[(plugin.color)])
+    labelpos = label.get_rect()
+    labelpos.centerx = screen.get_rect().centerx
+    labelpos.centery = screen.get_rect().centery
+    screen.blit(label, labelpos)
+    pygame.display.flip()
+    # sleep(2)
+
 
 def setNextScreen(a, screenindex):
     '''Queues the next screen.'''
-    pygame.time.set_timer(NEWSCREEN,0)
-    pygame.time.set_timer(UPDATESCREEN,0)
+    pygame.time.set_timer(NEWSCREEN, 0)
+    pygame.time.set_timer(UPDATESCREEN, 0)
     pygame.event.post(pygame.event.Event(NEXTSCREEN))
 
-
-
     screenindex += a
-    if screenindex < 0: screenindex = len(pluginScreens) -1
-    if screenindex > len(pluginScreens)-1: screenindex = 0
+    if screenindex < 0:
+        screenindex = len(pluginScreens) - 1
+    if screenindex > len(pluginScreens) - 1:
+        screenindex = 0
 
     displayLoadingScreen(screenindex)
     return screenindex
 
+
 def displayLoadingScreen(a):
-    '''Displays a loading screen.'''
+    # '''Displays a loading screen.'''
 
     # -----------KEEP THIS!!!--------------
     # It may be needed if screens take too long to loading
     # ---------------------------------------------
-    # screen.fill((0,0,0))
+    # screen.fill(COLORS['CLOUD'])
+
     # holdtext = myfont.render("Loading screen: %s"
                             # % pluginScreens[a].screenName(),
                             # 1,
@@ -228,51 +230,51 @@ def displayLoadingScreen(a):
     # NEWSCREEN()
     pygame.time.set_timer(NEWSCREEN, 1)
     # pass
+
+
 def showNewScreen():
     '''Show the next screen.'''
-    pygame.time.set_timer(NEWSCREEN,0)
+    pygame.time.set_timer(NEWSCREEN, 0)
     strttime = time()
     screen = pluginScreens[screenindex].showScreen()
     stptime = time()
-    plugdiff = int((stptime - strttime)*2000)
+    plugdiff = int((stptime - strttime) * 2000)
     # print plugdiff
     setUpdateTimer(plugdiff)
     pygame.display.flip()
-##############################################################################
+#############################################################################
 
 ##############################################################################
 # Call back functions for TFT Buttons
+
+
 def TFTBtn1Click(channel):
-    pygame.event.post(click1event)
+    tftscreen.backlight_off()
+
 
 def TFTBtn2Click(channel):
-    pygame.event.post(click2event)
+    tftscreen.backlight_low()
+
 
 def TFTBtn3Click(channel):
-    pygame.event.post(click3event)
+    tftscreen.backlight_med()
+
 
 def TFTBtn4Click(channel):
-    pygame.event.post(click4event)
-##############################################################################
+    tftscreen.backlight_high()
+#############################################################################
 
 
 def longPress(downTime):
-    if pygame.time.get_ticks()-longPressTime>downTime:
+    if pygame.time.get_ticks() - longPressTime > downTime:
         return True
     else:
         return False
 
 
-
-
-
-# This is where we start
-# Initialise pygame
-pygame.init()
-
 # Initialise screen object
-if RASPBERRYPI:
-    tftscreen = PiTFT_GPIO()
+# if RASPBERRYPI:
+#     tftscreen = PiTFT_GPIO()
 
 # Plugin location and names
 PluginFolder = "./plugins"
@@ -281,7 +283,7 @@ MainModule = "screen"
 pluginScreens = []
 
 # Screen size (currently fixed)
-size = width, height = 320,240
+size = width, height = 320, 240
 
 # Set up some custom events
 TFTBUTTONCLICK = pygame.USEREVENT + 1
@@ -290,6 +292,8 @@ NEXTSCREEN = UPDATESCREEN + 1
 NEWSCREEN = NEXTSCREEN + 1
 SLEEPEVENT = NEWSCREEN + 1
 
+
+# This code needs work-------------------------------------
 # Set up the four TFT button events
 click1event = pygame.event.Event(TFTBUTTONCLICK, button=1)
 click2event = pygame.event.Event(TFTBUTTONCLICK, button=2)
@@ -302,6 +306,7 @@ if RASPBERRYPI:
     tftscreen.Button2Interrupt(TFTBtn2Click)
     tftscreen.Button3Interrupt(TFTBtn3Click)
     tftscreen.Button4Interrupt(TFTBtn4Click)
+
 
 # Dict of events that are accessible to screens
 piscreenevents = {
@@ -316,9 +321,6 @@ screen = pygame.display.set_mode(size)
 
 # Set header (useful for testing, not so much for full screen mode!)
 pygame.display.set_caption("Info screen")
-
-# Hide mouse
-pygame.mouse.set_visible(False)
 
 # Stop keys repeating
 pygame.key.set_repeat()
@@ -340,7 +342,7 @@ except getopt.GetoptError as err:
     usage()
     sys.exit()
 
-for o,a in opts:
+for o, a in opts:
     # Show installed plugins
     if o in ("-l", "--list"):
         listPlugins()
@@ -354,37 +356,36 @@ for o,a in opts:
 # Set some useful variables for controlling the display
 
 
-
 # Function to detect swipes
 # -1 is that it was not detected as a swipe or click
 # It will return 1 , 2 for horizontal swipe
 # If the swipe is vertical will return 3, 4
 # If it was a click it will return 0
 def getSwipeType():
-    x,y=pygame.mouse.get_rel()
-    if abs(x)<=minSwipe:
-        if abs(y)<=minSwipe:
-            if abs(x) < maxClick and abs(y)< maxClick:
+    x, y = pygame.mouse.get_rel()
+    if abs(x) <= minSwipe:
+        if abs(y) <= minSwipe:
+            if abs(x) < maxClick and abs(y) < maxClick:
                 return 0
             else:
                 return -1
-        elif y>minSwipe:
+        elif y > minSwipe:
             return 3
-        elif y<-minSwipe:
+        elif y < -minSwipe:
             return 4
-    elif abs(y)<=minSwipe:
-        if x>minSwipe:
+    elif abs(y) <= minSwipe:
+        if x > minSwipe:
             return 1
-        elif x<-minSwipe:
+        elif x < -minSwipe:
             return 2
     return 0
 
+
 def longPress(downTime):
-    if pygame.time.get_ticks()-longPressTime>downTime:
+    if pygame.time.get_ticks() - longPressTime > downTime:
         return True
     else:
         return False
-
 
 
 # Queue the first screen
@@ -395,8 +396,7 @@ while not quit:
     for event in pygame.event.get():
         # Handle quit message received
         if event.type == pygame.QUIT:
-            quit=True
-
+            quit = True
         # send the event to the current screenindex
         # this allows user interaction without interfering with
         # swipe gestures
@@ -447,8 +447,7 @@ while not quit:
         if (event.type == NEWSCREEN):
             showNewScreen()
 
-
-    #Control FPS
+    # Control FPS
     clock.tick(FPS)
 
 # If we're here we've exited the display loop...

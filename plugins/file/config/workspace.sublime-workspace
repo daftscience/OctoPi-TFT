@@ -1,0 +1,1271 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"show",
+				"show_overlay"
+			],
+			[
+				"swipe",
+				"swipe_font"
+			],
+			[
+				"Pi",
+				"PiInfoScreen.__init__"
+			],
+			[
+				"sw",
+				"SWIPE_HINT_RECT	statement"
+			],
+			[
+				"swi",
+				"SWIPE_HINT_RECT	instance"
+			],
+			[
+				"create",
+				"create_objects"
+			],
+			[
+				"SWIPE",
+				"SWIPE_HINT_RECT"
+			],
+			[
+				"default",
+				"default_font"
+			],
+			[
+				"ac",
+				"accn"
+			],
+			[
+				"file",
+				"file_accn	(function)"
+			],
+			[
+				"database",
+				"database_functions"
+			],
+			[
+				"db",
+				"db_file"
+			],
+			[
+				"rac",
+				"RACK_DB	instance"
+			],
+			[
+				"ra",
+				"RACK_DB	statement"
+			],
+			[
+				"global",
+				"global_variables"
+			],
+			[
+				"loading",
+				"loading_message"
+			],
+			[
+				"set",
+				"set_backlight_brightness	(function)"
+			],
+			[
+				"get",
+				"get_size"
+			],
+			[
+				"title",
+				"TITLE_RECT	instance"
+			],
+			[
+				"tit",
+				"TITLE_RECT	instance"
+			],
+			[
+				"shadow",
+				"shadow_offset"
+			],
+			[
+				"font",
+				"fontRect"
+			],
+			[
+				"raspberry",
+				"RASPBERRYPI	statement"
+			],
+			[
+				"colo",
+				"COLORS	(array)"
+			],
+			[
+				"over",
+				"overwrite_newer_prevention"
+			],
+			[
+				"setup",
+				"setPluginVariables"
+			],
+			[
+				"input",
+				"input_font"
+			],
+			[
+				"input_font",
+				"input_font_location"
+			],
+			[
+				"acn",
+				"accn_input"
+			],
+			[
+				"display",
+				"display_title"
+			],
+			[
+				"pi",
+				"PiInfoScreen"
+			],
+			[
+				"plug",
+				"PLUGIN_INFO"
+			],
+			[
+				"PL",
+				"PLUGIN_NAME"
+			],
+			[
+				"fill",
+				"fill_background"
+			],
+			[
+				"blit",
+				"blit_text"
+			],
+			[
+				"back",
+				"background_color"
+			],
+			[
+				"background",
+				"background_color"
+			],
+			[
+				"backg",
+				"background_color"
+			],
+			[
+				"text",
+				"text_label"
+			],
+			[
+				"screen",
+				"screenindex"
+			],
+			[
+				"SWE",
+				"SWIPE_TO_SCREEN"
+			],
+			[
+				"NEX",
+				"NEXT_SCREEN"
+			],
+			[
+				"plugin",
+				"pluginScreens"
+			],
+			[
+				"rect",
+				"rect_coord"
+			],
+			[
+				"earl",
+				"earliest_date_epoch"
+			],
+			[
+				"rackD",
+				"rackDay"
+			],
+			[
+				"fa",
+				"False"
+			],
+			[
+				"loc",
+				"locate_screen"
+			],
+			[
+				"info",
+				"info_text"
+			],
+			[
+				"rend",
+				"rendered_text"
+			],
+			[
+				"k",
+				"K_RETURN"
+			],
+			[
+				"osk",
+				"osk_btn"
+			],
+			[
+				"as",
+				"asphalt"
+			],
+			[
+				"bg",
+				"bgColor"
+			],
+			[
+				"last",
+				"last_stored"
+			],
+			[
+				"max",
+				"max_id"
+			],
+			[
+				"next",
+				"locate_next"
+			],
+			[
+				"earlie",
+				"earliest_date"
+			],
+			[
+				"debgu",
+				"debug"
+			],
+			[
+				"time",
+				"time_filed"
+			],
+			[
+				"da",
+				"days_stored"
+			],
+			[
+				"nex",
+				"next_row"
+			],
+			[
+				"rack",
+				"rack_date"
+			],
+			[
+				"t",
+				"timeFiled"
+			],
+			[
+				"row",
+				"row_height"
+			],
+			[
+				"column",
+				"column_width"
+			],
+			[
+				"col",
+				"column_width"
+			],
+			[
+				"find",
+				"findAll"
+			],
+			[
+				"fi",
+				"findAccn"
+			],
+			[
+				"test",
+				"testDB"
+			],
+			[
+				"sql",
+				"sql"
+			],
+			[
+				"l",
+				"tubeLocations"
+			],
+			[
+				"str",
+				"str_day"
+			],
+			[
+				"date",
+				"datetime"
+			],
+			[
+				"accn",
+				"accn_table"
+			],
+			[
+				"p",
+				"pprint"
+			],
+			[
+				"def",
+				"default_color"
+			],
+			[
+				"sub",
+				"sub_title_text"
+			],
+			[
+				"windo",
+				"window_objects"
+			],
+			[
+				"location",
+				"location_text"
+			],
+			[
+				"__b",
+				"__backlight_pwm"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/Tom/Desktop/GitHub/pifile/default.py",
+			"settings":
+			{
+				"buffer_size": 12984,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Tom/Desktop/GitHub/pifile/config/settings.ini",
+			"settings":
+			{
+				"buffer_size": 296,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/screen.py",
+			"settings":
+			{
+				"buffer_size": 2276,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "import os\nimport sys\nimport pygame\nimport gui_objects\nfrom pprint import pprint\nimport eztext\nfrom pygame.locals import K_RETURN, KEYDOWN\nfrom global_variables import COLORS, TITLE_RECT, SWIPE_HINT_RECT\nfrom displayscreen import PiInfoScreen\nfrom database_functions import RACK_DB\nsys.dont_write_bytecode = True\n\n\n# For more information on the variables and functions in this file view\n# displayscreen.py in the root folder of this project\n\n\nclass myScreen(PiInfoScreen):\n    # PiInfoScreen.__init__()\n    refreshtime = 1\n    displaytime = 5\n    pluginname = \"File Accn\"\n    plugininfo = \"place to file things. \"\n    accn = ''\n\n    def __init__(self, *args, **kwargs):\n        PiInfoScreen.__init__(self, args[0], kwargs)\n        print \"inside of init\"\n        self.create_objects()\n\n    # default.py reads the events and will send them to this function.\n    # by default, this function contains \"pass\"\n    def event_handler(self, event):\n        if event.type == KEYDOWN and event.key == K_RETURN:\n            accn = self.accn_input.value\n            RACK_DB.file_accn(accn)\n            print RACK_DB.last_stored\n            print accn\n        self.accn_input.update(event)\n\n    def create_objects(self):\n        self.title = gui_objects.text_label(\n            surface=self.title_surface,\n            font=self.fonts['title_font']['font'],\n            text=self.name,\n            color=COLORS[self.fonts['title_font']['color']],\n            # Rect(left, top, width, height) -> Rect\n            rect=TITLE_RECT,\n            background_color=COLORS[self.color])\n\n        self.swipe_hint = gui_objects.text_label(\n            surface=self.swipe_hint_surface,\n            font=self.fonts['swipe_font']['font'],\n            text='<    Swipe    >',\n            color=COLORS[self.fonts['swipe_font']['color']],\n            # Rect(left, top, width, height) -> Rect\n            rect=TITLE_RECT,\n            background_color=COLORS[self.color])\n\n    def showScreen(self):\n\n        self.surface.fill(COLORS['CLOUD'])\n        gui_objects.DrawRoundRect(\n            self.title_surface, COLORS[self.color], self.title_surface.get_rect(), 0, 3, 3)\n        self.accn_input.draw(self.surface)\n        self.title.update()\n        self.swipe_hint.update()\n\n        self.screen.blit(self.surface, (0, 0))\n        return self.screen\n",
+			"file": "/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/screen.py",
+			"file_size": 2386,
+			"file_write_time": 130665404890275405,
+			"settings":
+			{
+				"buffer_size": 2314,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 372,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 578,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n    // leave empty string to use default system interpreter\n    // e.g. /usr/local/bin/python\n    // or \"C:\\\\Python27\\\\python.exe\"\n    // if you use virtualenvs, then set the absolute path to the virtualenv's\n    // python in your project settings (Project->Edit Project) as in:\n    //\n    // {\n    //     \"folders\": ...\n    //     \"settings\":\n    //     {\n    //         \"python_interpreter\": \"/Users/USER/.virtualenvs/PROJECT/bin/python\"\n    //     }\n    // }\n    \"python_interpreter\": \"\",\n\n    // make python_open_documentation command output in a view or in the output\n    // panel if false\n    \"open_pydoc_in_view\": false,\n\n    // when a doc view is created it will be placed in the active view group\n    // if false and only one group exist then a new group will be created\n    \"create_view_in_same_group\": false,\n\n    // Linter settings\n    \"python_linting\": false,\n    \"python_linter_mark_style\": \"outline\", // \"none\" or \"outline\"\n    \"python_linter_gutter_marks\": true,\n    \"python_linter_gutter_marks_theme\": \"simple\", // see folder gutter_mark_themes\n\n    // linting colors\n    \"warning_color\":\"EDBA00\",\n    \"error_color\":\"DA2000\",\n\n    \"pep8\": false,\n    // disable certain pep8 errors\n    // overview of possible error codes at http://pep8.readthedocs.org/en/latest/intro.html#error-codes\n    \"pep8_ignore\": [],\n    \"pep8_max_line_length\": 80,\n    \"pyflakes_ignore\": [],\n\n    // If the organize imports refactoring should be called on every file save\n    \"python_organize_imports_on_save\": false\n}\n",
+			"file": "/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/SublimePythonIDE/SublimePython.sublime-settings",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 1513,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 455.0,
+		"selected_items":
+		[
+			[
+				"themr",
+				"Themr: List themes"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"color",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"grou",
+				"Open Groupy"
+			],
+			[
+				"col",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"the",
+				"Themr: List themes"
+			],
+			[
+				"colo",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"gro",
+				"Open Groupy"
+			],
+			[
+				"groupy",
+				"Open Groupy"
+			],
+			[
+				"group",
+				"Open Groupy"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"package re",
+				"Package Control: Remove Channel"
+			],
+			[
+				"them",
+				"Themr: List favorite themes"
+			],
+			[
+				"thrm",
+				"Themr: List themes"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"theme",
+				"Themr: List favorite themes"
+			],
+			[
+				"theme ne",
+				"Themr: Next theme"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"th",
+				"Themr: Next theme"
+			],
+			[
+				"packins",
+				"Package Control: Install Package"
+			],
+			[
+				"anaconda set",
+				"Anaconda: Show error list"
+			],
+			[
+				"Package Control: rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"packagecins",
+				"Package Control: Install Package"
+			],
+			[
+				"toggle",
+				"ToggleWrap: Change to \"\""
+			],
+			[
+				"pain",
+				"Package Control: Install Package"
+			],
+			[
+				"git",
+				"Git: Gui"
+			],
+			[
+				"git comm",
+				"Git: Commit"
+			],
+			[
+				"git com",
+				"Set Syntax: Git Commit Message"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git ",
+				"Git: Commit"
+			],
+			[
+				"packagin",
+				"Package Control: Install Package"
+			],
+			[
+				"packin",
+				"Package Control: Install Package"
+			],
+			[
+				"packre",
+				"Package Control: Remove Package"
+			],
+			[
+				"pakin",
+				"Package Control: Install Package"
+			],
+			[
+				"package conin",
+				"Package Control: Install Package"
+			],
+			[
+				"package control re",
+				"Package Control: Remove Package"
+			],
+			[
+				"packaginst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: re",
+				"Package Control: Remove Package"
+			],
+			[
+				"packag",
+				"Package Control: Remove Package"
+			],
+			[
+				"shell",
+				"Shell Command"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"package control in",
+				"Package Control: Install Package"
+			],
+			[
+				"pep8",
+				"Python: Disable Pep8 Linting On View"
+			],
+			[
+				"package insta",
+				"Package Control: Install Package"
+			],
+			[
+				"packagecon ins",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"package con insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"package control install ",
+				"Package Control: Install Package"
+			],
+			[
+				"package insta ",
+				"Package Control: Install Package"
+			],
+			[
+				"package instal",
+				"Package Control: Install Package"
+			],
+			[
+				"package control install",
+				"Package Control: Install Package"
+			],
+			[
+				"package control instal",
+				"Package Control: Install Package"
+			],
+			[
+				"package control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: instal",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Add Channel"
+			],
+			[
+				"Package control: discover Packages",
+				"Package Control: Discover Packages"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"packga",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 612.0
+	},
+	"console":
+	{
+		"height": 234.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2deb499853c4371624f5a07e27c334aa' + 'bf8c4e67d14fb0525ba4f89698a6d7e1'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": true,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Tom/Desktop/GitHub/pifile",
+		"/C/Users/Tom/Desktop/GitHub/pifile/modules"
+	],
+	"file_history":
+	[
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings/config/screen.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/config/screen.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/config/screen.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/config/settings.ini",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Colorsublime/Colorsublime.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Colorsublime.sublime-settings",
+		"/C/Users/Tom/Desktop/GitHub/pifile/database_functions.py",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Tom/Desktop/GitHub/pifile/get_resolution.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/screen.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/screen.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings/screen.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/displayscreen.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/default.py",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Flatland Dark (SublimePythonIDE).tmTheme",
+		"/C/Users/Tom/Desktop/GitHub/pifile/gui_objects.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/global_variables.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/piTFT.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/pitftgpio.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/config.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/rounded_corners.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/constants.py",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/C/Users/Tom/Desktop/GitHub/pifile/eztext.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/pifile.sublime-project",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/SublimePythonIDE/SublimePython.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Installed Packages/Flatron.sublime-package",
+		"/C/Users/Tom/Desktop/GitHub/pifile/weather/resources/cachedWeather.json",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/SideBarEnhancements/Side Bar.sublime-settings",
+		"/C/Users/Tom/Desktop/GitHub/pifile/ftpsync.settings",
+		"/C/Users/Tom/Desktop/GitHub/pifile/weather/screen.py",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Themr/ThemrFavorites.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
+		"/C/Python27/lib/site-packages/pygame/__init__.py",
+		"/C/Python27/lib/pprint.py",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Default (Windows).sublime-keymap",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Git.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Git/Git.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/SideBarGit/SideBarGit.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/KeyboardSpellCheck/KeyboardSpellCheck.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Shell Command/Default.sublime-keymap",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/SublimePython.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/FTPSync.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/FTPSync/FTPSync.sublime-settings",
+		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/SimpleSync/SimpleSync.sublime-settings",
+		"/F/tubesorter/label.py",
+		"/F/tubesorter/eztext.py",
+		"/F/tubesorter/tubesorter_UI.py",
+		"/F/pifile/plugins/locate/config/screen.ini",
+		"/F/pifile/plugins/file/config/screen.ini",
+		"/F/pifile/gui_objects.py",
+		"/F/pifile/eztext.py",
+		"/F/pifile/plugins/settings/config/screen.ini",
+		"/F/pifile/plugins/file/screen.py",
+		"/F/pifile/default.py",
+		"/F/pifile/displayscreen.py",
+		"/F/tubesorter/run.py",
+		"/F/pifile/plugins/locate/screen.py",
+		"/F/pifile/plugins/settings/screen.py",
+		"/F/pifile/constants.py",
+		"/F/pifile/weather/screen.py",
+		"/F/pifile/plugins/file/config.py",
+		"/F/pifile/get_resolution.py",
+		"/F/tubesorter/database_functions.py",
+		"/F/tubesorter/constants.py",
+		"/F/pifile/pitftgpio.py",
+		"/F/RPI-Info-Screen/plugins/clock/screen.py",
+		"/F/RPI-Info-Screen/plugins/weather/screen.py",
+		"/F/RPI-Info-Screen/constants.py",
+		"/F/RPI-Info-Screen/plugins/file/screen.py",
+		"/F/RPI-Info-Screen/displayscreen.py",
+		"/F/RPI-Info-Screen/plugins/file/weather/config/screen.ini",
+		"/F/RPI-Info-Screen/plugins/weather/config/screen.ini",
+		"/F/RPI-Info-Screen/plugins/weather/resources/cachedWeather.json",
+		"/F/RPI-Info-Screen/plugins/file_screen/screen.py",
+		"/F/RPI-Info-Screen/plugins/myPlugin/screen.py",
+		"/F/tubesorter/textrect.py",
+		"/F/tubesorter/test.py",
+		"/F/tubesorter/button.py",
+		"/F/tubesorter/test,py",
+		"/F/RPI-Info-Screen/default.py",
+		"/F/RPI-Info-Screen/plugins/buses/screen.py",
+		"/F/.kivy/config.ini",
+		"/F/tubesorter/textrect,py.py",
+		"/C/Users/Tom/Desktop/run.py",
+		"/C/Users/Tom/Desktop/database_functions.py",
+		"/C/Users/Tom/Desktop/label.py",
+		"/C/Users/Tom/Desktop/tubesorter_UI.py",
+		"/F/tubesorter/databaseFunctions.py",
+		"/F/tubesorter.py",
+		"/F/databaseFunctions.py",
+		"/F/piTFT.py",
+		"/F/database_functions.py",
+		"/F/eztext.py",
+		"/F/tubesorter_UI.py",
+		"/F/label.py",
+		"/F/test.py",
+		"/F/font.py",
+		"/F/tubesorter/piTFT.py",
+		"/F/tubesorter/tubesorter.py",
+		"/C/Users/Tom/Documents/GitHub/tubesorter/tubesorter.py",
+		"/C/Users/Tom/Documents/GitHub/tubesorter/tubesorter_UI.py"
+	],
+	"find":
+	{
+		"height": 51.0
+	},
+	"find_in_files":
+	{
+		"height": 145.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"theme",
+			"ctrl+p",
+			"tab",
+			"font",
+			"mysc",
+			"PiInfoScreen",
+			"self.surface",
+			"default",
+			"file",
+			"random",
+			"message",
+			"setpluginva",
+			"eztext",
+			"log",
+			"setplugin",
+			"print",
+			"self.configfile",
+			"configob",
+			"RACK_DIM",
+			"message",
+			"plugininfo",
+			"sleep",
+			"displayload",
+			"TFTBtn1Cl",
+			"tftbut",
+			"tft",
+			"button",
+			"tft",
+			"tftscre",
+			"skip",
+			"self.color",
+			"color",
+			"title",
+			"build",
+			"displ",
+			"surface",
+			"rect",
+			"self.configfile",
+			"plugincon",
+			"plugin",
+			"plugin con",
+			"no attrib",
+			"clip",
+			"property",
+			"font",
+			"init",
+			"raspberr",
+			"'",
+			"surrou",
+			"expand",
+			"raspberrypi",
+			"json",
+			"command_p",
+			"command pa",
+			"ctrl+p",
+			"mouse",
+			"outpu",
+			"print",
+			"pluginscreens",
+			"print",
+			"plugin",
+			"    def showScreen(self):",
+			"dirty",
+			"blit",
+			"setnext",
+			"set",
+			"screenindex",
+			"screenind",
+			"setnext",
+			"pluginScreen",
+			"NEXTSCREEN",
+			"automode",
+			"swipe",
+			"swiple",
+			"setnext",
+			"pluginscreens",
+			"getsw",
+			"Set",
+			"0",
+			"\n#",
+			"long",
+			"event",
+			"rect ",
+			"rect",
+			"surface",
+			"draw",
+			"blit",
+			"weather",
+			"displaysc",
+			"display",
+			"displayscre",
+			"setPluginVariables",
+			"newscreen",
+			"loading",
+			"setupl",
+			"plugdiff",
+			"setUpda",
+			"Label",
+			"ezt",
+			"fi",
+			"fill",
+			"k_REtu",
+			"textrect",
+			"time",
+			"Purple",
+			"cloud",
+			"CLOUD",
+			"cloud",
+			"mouse",
+			"render",
+			"alias",
+			"databaseFunctions",
+			"finda",
+			"findall",
+			"last_file",
+			"lastF",
+			"lastf",
+			"fileacc",
+			"locaten",
+			"locateNext",
+			"max",
+			"lastfiled",
+			"one",
+			"fetch",
+			"osk_",
+			"key",
+			"txtb",
+			"screen"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Tom/Desktop/GitHub/pifile/default.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12984,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								337,
+								337
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 522.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Tom/Desktop/GitHub/pifile/config/settings.ini",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 296,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								60,
+								52
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/INI/INI.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/screen.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2276,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/screen.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2314,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								522,
+								542
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 522.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 372,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								148,
+								148
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 578,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								189,
+								189
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 261.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/SublimePythonIDE/SublimePython.sublime-settings",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1513,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1022,
+								1028
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 348.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 39.0
+	},
+	"input":
+	{
+		"height": 50.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.anaconda_documentation":
+	{
+		"height": 194.0
+	},
+	"output.exec":
+	{
+		"height": 686.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 194.0
+	},
+	"output.settings_documentation_panel":
+	{
+		"height": 206.0
+	},
+	"project": "/C/Users/Tom/Desktop/GitHub/pifile/pifile.sublime-project",
+	"replace":
+	{
+		"height": 74.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"default.py"
+			],
+			[
+				"boun",
+				"Bound Keys"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 750.0,
+		"selected_items":
+		[
+		],
+		"width": 570.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"last_automatic_layout":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		]
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 333.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
