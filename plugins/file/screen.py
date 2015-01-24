@@ -23,10 +23,10 @@ class myScreen(PiInfoScreen):
     def __init__(self, *args, **kwargs):
         PiInfoScreen.__init__(self, args[0], kwargs)
         self.create_objects()
-        self.info_rect = pygame.Rect(0, 120, 320, 70)
-        self.info_surface = self.surface.subsurface(self.info_rect)
+        self.hint_rect = pygame.Rect(0, 130, 320, 70)
+        self.hint_surface = self.surface.subsurface(self.hint_rect)
 
-        self.create_info_area()
+        self.create_hint_area()
 
     # default.py reads the events and will send them to this function.
     # by default, this function contains "pass"
@@ -51,24 +51,22 @@ class myScreen(PiInfoScreen):
         self.swipe_hint = gui_objects.text_label(
             surface=self.swipe_hint_surface,
             font=self.fonts['swipe_font']['font'],
-            text='<    Swipe    >',
+            text='<-locate       settings>',
             color=COLORS[self.fonts['swipe_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=TITLE_RECT,
             background_color=COLORS[self.color])
 
-    def create_info_area(self):
-
-        self.info_text = self.render_textrect(
-            string="Scan to store...\nSwipe up for keyboard...",
+    def create_hint_area(self):
+        self.hint_text = self.render_textrect(
+            string="Scan to store\nSwipe up for keyboard",
             font=self.fonts['info_font']['font'],
-            rect=self.info_rect,
+            rect=self.hint_rect,
             text_color=COLORS[self.color],
             background_color=COLORS['CLOUD'],
             justification=1,
             vjustification=1)
 
-        self.info_surface.blit(self.info_text, (0, 0))
 
     def showScreen(self):
 
@@ -84,7 +82,7 @@ class myScreen(PiInfoScreen):
         self.accn_input.draw(self.surface)
         self.title.update()
         self.swipe_hint.update()
-        self.info_surface.blit(self.info_text, (0, 0))
+        self.hint_surface.blit(self.hint_text, (0, 0))
 
         # self.info_area.update()
 
