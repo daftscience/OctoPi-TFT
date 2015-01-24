@@ -72,7 +72,6 @@ class PiInfoScreen():
 
         self.title_surface = self.surface.subsurface(TITLE_RECT)
         self.swipe_hint_surface = self.surface.subsurface(SWIPE_HINT_RECT)
-        
 
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
@@ -93,10 +92,10 @@ class PiInfoScreen():
     # Any other variables (colours, fonts etc.) should be defined here
     def setPluginVariables(self):
 
-
         self.name = self.pluginConfig["plugin_info"]["name"]
         self.color = self.pluginConfig["plugin_info"]["color"]
-        self.loadingMessage = self.pluginConfig["plugin_info"]['loading_message']
+        self.loadingMessage = self.pluginConfig[
+            "plugin_info"]['loading_message']
 
         # create a dict with fonts defined in config/settings.ini
         self.fonts = {}
@@ -160,8 +159,9 @@ class PiInfoScreen():
     def Button3Click(self):
         pass
 
-    def Button3Click(self):
+    def Button4Click(self):
         pass
+
 
     # Get web page
     def getPage(self, url):
@@ -173,11 +173,11 @@ class PiInfoScreen():
         return the_page
 
     # Function to get image and return in format pygame can use
-    def LoadImageFromUrl(self, url, solid=False):
-        f = urllib.urlopen(url)
-        buf = StringIO.StringIO(f.read())
-        image = self.LoadImage(buf, solid)
-        return image
+    # def LoadImageFromUrl(self, url, solid=False):
+    #     f = urllib.urlopen(url)
+    #     buf = StringIO.StringIO(f.read())
+    #     image = self.LoadImage(buf, solid)
+    #     return image
 
     def LoadImage(self, fileName, solid=False):
         image = pygame.image.load(fileName)
@@ -210,6 +210,7 @@ class PiInfoScreen():
                         background_color, justification=0, vjustification=0,
                         margin=0, shrink=False, SysFont=None, FontPath=None,
                         MaxFont=0, MinFont=0):
+
         """Returns a surface containing the passed text string, reformatted
         to fit within the given rect, word-wrapping as necessary. The text
         will be anti-aliased.
@@ -265,7 +266,8 @@ class PiInfoScreen():
             # Create a series of lines that will fit on the provided
             # rectangle.
             for requested_line in requested_lines:
-                if font.size(requested_line)[0] > (rect.width - (margin[0] + margin[1])):
+                if font.size(requested_line)[0] > (
+                        rect.width - (margin[0] + margin[1])):
                     words = requested_line.split(' ')
                     # if any of our words are too long to fit, return.
                     # for word in words:
@@ -278,7 +280,8 @@ class PiInfoScreen():
                     for word in words:
                         test_line = accumulated_line + word + " "
                         # Build the line while the words fit.
-                        if font.size(test_line.strip())[0] < (rect.width - (margin[0] + margin[1])):
+                        if font.size(test_line.strip())[0] < (
+                                rect.width - (margin[0] + margin[1])):
                             accumulated_line = test_line
                         else:
                             final_lines.append(accumulated_line)
@@ -294,25 +297,39 @@ class PiInfoScreen():
 
             accumulated_height = 0
             for line in final_lines:
-                if accumulated_height + font.size(line)[1] >= (rect.height - margin[2] - margin[3]):
+                if accumulated_height + \
+                        font.size(line)[1] >= (rect.height - margin[2] - margin[3]):
                     if not cutoff:
-                        raise TextRectException, "Once word-wrapped, the text string was too tall to fit in the rect."
+                        raise TextRectException(
+                            "Once word-wrapped, the text string was too tall to fit in the rect.")
                     else:
                         break
                 if line != "":
                     tempsurface = font.render(line.strip(), 1, text_color)
                     if justification == 0:
                         surface.blit(
-                            tempsurface, (0 + margin[0], accumulated_height + margin[2]))
+                            tempsurface,
+                            (0 +
+                             margin[0],
+                                accumulated_height +
+                                margin[2]))
                     elif justification == 1:
-                        surface.blit(tempsurface, ((
-                            rect.width - tempsurface.get_width()) / 2, accumulated_height + margin[2]))
+                        surface.blit(
+                            tempsurface,
+                            ((rect.width - tempsurface.get_width()) / 2,
+                             accumulated_height + margin[2]))
                     elif justification == 2:
                         surface.blit(
-                            tempsurface, (rect.width - tempsurface.get_width() - margin[1], accumulated_height + margin[2]))
+                            tempsurface,
+                            (rect.width -
+                             tempsurface.get_width() -
+                                margin[1],
+                                accumulated_height +
+                                margin[2]))
                     else:
-                        raise TextRectException, "Invalid justification argument: " + \
-                            str(justification)
+                        raise TextRectException(
+                            "Invalid justification argument: " +
+                            str(justification))
                 accumulated_height += font.size(line)[1]
 
             if vjustification == 0:
@@ -335,28 +352,35 @@ class PiInfoScreen():
                     surface, vpos, (0, 0, rect.size[0], accumulated_height))
                 surface = tempsurface
             else:
-                raise TextRectException, "Invalid vjustification argument: " + \
-                    str(justification)
+                raise TextRectException("Invalid vjustification argument: " +
+                                        str(justification))
             return surface
 
         surface = None
 
-        if type(margin) is tuple:
+        if isinstance(margin, tuple):
             if not len(margin) == 4:
                 try:
                     margin = (
-                        int(margin),  int(margin), int(margin), int(margin))
+                        int(margin), int(margin), int(margin), int(margin))
                 except:
                     margin = (0, 0, 0, 0)
-        elif type(margin) is int:
+        elif isinstance(margin, int):
             margin = (margin, margin, margin, margin)
         else:
             margin = (0, 0, 0, 0)
 
         if not shrink:
-            surface = draw_text_rect(string, font, rect, text_color, background_color,
-                                     justification=justification, vjustification=vjustification,
-                                     margin=margin, cutoff=False)
+            surface = draw_text_rect(
+                string,
+                font,
+                rect,
+                text_color,
+                background_color,
+                justification=justification,
+                vjustification=vjustification,
+                margin=margin,
+                cutoff=False)
 
         else:
             fontsize = MaxFont
@@ -367,17 +391,30 @@ class PiInfoScreen():
                 else:
                     myfont = pygame.font.Font(FontPath, fontsize)
                 try:
-                    surface = draw_text_rect(string, myfont, rect, text_color, background_color,
-                                             justification=justification, vjustification=vjustification,
-                                             margin=margin, cutoff=False)
+                    surface = draw_text_rect(
+                        string,
+                        myfont,
+                        rect,
+                        text_color,
+                        background_color,
+                        justification=justification,
+                        vjustification=vjustification,
+                        margin=margin,
+                        cutoff=False)
                     fit = True
                     break
                 except:
                     fontsize -= 1
             if not fit:
-                surface = draw_text_rect(string, myfont, rect, text_color, background_color,
-                                         justification=justification, vjustification=vjustification,
-                                         margin=margin)
+                surface = draw_text_rect(
+                    string,
+                    myfont,
+                    rect,
+                    text_color,
+                    background_color,
+                    justification=justification,
+                    vjustification=vjustification,
+                    margin=margin)
 
         return surface
 

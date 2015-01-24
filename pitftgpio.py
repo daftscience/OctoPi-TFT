@@ -1,10 +1,6 @@
 import sys
 import subprocess
-try:
-    import RPi.GPIO as GPIO
-except:
-   print "Please install RPi.GPIO module"
-
+import RPi.GPIO as GPIO
 
 sys.dont_write_bytecode = True
 class PiTFT_GPIO(object):
