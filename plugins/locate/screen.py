@@ -50,9 +50,9 @@ class myScreen(PiInfoScreen):
 
         self.swipe_hint = gui_objects.text_label(
             surface=self.swipe_hint_surface,
-            font=self.fonts['default_font']['font'],
+            font=self.fonts['swipe_font']['font'],
             text='<    Swipe    >',
-            color=COLORS[self.fonts['default_font']['color']],
+            color=COLORS[self.fonts['swipe_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=TITLE_RECT,
             background_color=COLORS[self.color])
