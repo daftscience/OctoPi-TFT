@@ -2,15 +2,10 @@ import sys
 import pygame
 import imp
 import os
-import getopt
 import random
-import gui_objects
-import eztext
-from database_functions import RACK_DB
 import traceback
-from global_variables import COLORS, TITLE_RECT, LOADING_MESSEGES
-from pprint import pprint
-from time import time, sleep
+from global_variables import COLORS, LOADING_MESSEGES
+from time import time
 
 sys.dont_write_bytecode = True
 
@@ -378,9 +373,6 @@ while not quit:
         # swipe gestures
         pluginScreens[screenindex].event_handler(event)
         # 'Q' to quit
-        if (event.type == pygame.KEYUP):
-            if (event.key == pygame.K_q):
-                quit = True
 
         # mouse button pressed
         if (event.type == pygame.MOUSEBUTTONDOWN):
@@ -396,12 +388,11 @@ while not quit:
                 screenindex = setNextScreen(1, screenindex)
             elif swipe == 2:
                 screenindex = setNextScreen(-1, screenindex)
+            elif swipe == 3:
+                quit = True
+                continue
             # print "Screen Index After: " + str(screenindex)
 
-        if (event.type == pygame.KEYDOWN):
-            if (event.key == pygame.K_s):
-                filename = "screen" + str(a) + ".jpeg"
-                pygame.image.save(screen, filename)
 
         if (event.type == TFTBUTTONCLICK):
             if (event.button == 1):

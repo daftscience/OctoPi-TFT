@@ -1,5 +1,4 @@
 import pygame
-import pprint
 import sys
 from global_variables import COLORS
 sys.dont_write_bytecode = True
@@ -17,7 +16,7 @@ class text_label(pygame.sprite.Sprite):
             self.valign = kwargs['valign']
         else:
             self.valign = 'center'
-        
+
         if 'rounded' in kwargs:
             self.rounded = kwargs['rounded']
         else:
@@ -45,11 +44,11 @@ class text_label(pygame.sprite.Sprite):
         self.fontRect = self.label.get_rect()
         # create the text object
 
-        if self.align =='left':
+        if self.align == 'left':
             self.fontRect.left = self.surface.get_rect().left
             # fontRect.left = bg_rect.left
             # self.image.blit(fontSurface, fontRect)
-        elif self.align =='right':
+        elif self.align == 'right':
             self.fontRect.right = self.surface.get_rect().right
             # fontRect = fontSurface.get_rect()
             # bg_rect = self.image.get_rect()
@@ -58,26 +57,21 @@ class text_label(pygame.sprite.Sprite):
         else:
             self.fontRect.centerx = self.surface.get_rect().centerx
 
-
-
         if self.valign == 'top':
             self.fontRect.top = self.surface.get_rect().top
         elif self.valign == 'bottom':
             self.fontRect.bottom = self.surface.get_rect().bottom
         else:
             self.fontRect.centery = self.surface.get_rect().centery
-            
-
-
 
         if self.rounded:
             DrawRoundRect(
-                    self.surface,
-                    self.background_color,
-                    pygame.Rect(0, 0, 310, 60),
-                    0,
-                    3,
-                    3)
+                self.surface,
+                self.background_color,
+                pygame.Rect(0, 0, 310, 60),
+                0,
+                3,
+                3)
         else:
             if self.background_color:
                 self.surface.fill(self.background_color)
@@ -85,12 +79,8 @@ class text_label(pygame.sprite.Sprite):
                 # self.image.fill(self.background_color)
                 # self.surface.blit(self.image, self.fontRect)
             else:
-                self.surface.fill(COLORS['CLOUD'])     
+                self.surface.fill(COLORS['CLOUD'])
         self.surface.blit(self.label, self.fontRect)
-
-
-
-
 
     def update(self):
         self.blit_text()

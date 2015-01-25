@@ -2,14 +2,11 @@ import sys
 import pygame
 import gui_objects
 from time import strftime, localtime
-# from time import time, gmtime, strftime, mktime, localtime
-from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
 from global_variables import COLORS, TITLE_RECT, ROWS
 from displayscreen import PiInfoScreen
 from database_functions import RACK_DB
 sys.dont_write_bytecode = True
-
 
 
 # For more information on the variables and functions in this file view
@@ -41,10 +38,10 @@ class myScreen(PiInfoScreen):
             rect=TITLE_RECT,
             rounded=True,
             background_color=COLORS[self.color])
-        ###---------------------------------------------
+        # ---------------------------------------------
         # These are hardcoded information labels
         #-----------------------------------------------
-        
+
         self.hint_rect = pygame.Rect(0, 120, 320, 70)
         self.hint_surface = self.surface.subsurface(self.hint_rect)
         self.hint_text = self.render_textrect(
@@ -59,7 +56,7 @@ class myScreen(PiInfoScreen):
 
         self.info0_rect = pygame.Rect(5, 93, 140, 25)
         self.info0_surface = self.surface.subsurface(self.info0_rect)
-        self.info0 =  gui_objects.text_label(
+        self.info0 = gui_objects.text_label(
             surface=self.info0_surface,
             font=self.fonts['info_font']['font'],
             text="Location to file: ",
@@ -72,7 +69,7 @@ class myScreen(PiInfoScreen):
 
         self.info1_rect = pygame.Rect(5, 200, 140, 20)
         self.info1_surface = self.surface.subsurface(self.info1_rect)
-        self.info1 =  gui_objects.text_label(
+        self.info1 = gui_objects.text_label(
             surface=self.info1_surface,
             font=self.fonts['info_font']['font'],
             text="Last sample stored: ",
@@ -83,14 +80,12 @@ class myScreen(PiInfoScreen):
             align="left",
             background_color=COLORS['CLOUD'])
 
-
-
-        ##------------------------------------------
+        # ------------------------------------------
         # These information labels will change when the screen is updated
         #----------------------------------------
         self.info2_rect = pygame.Rect(120, 93, 160, 25)
         self.info2_surface = self.surface.subsurface(self.info2_rect)
-        self.info2 =  gui_objects.text_label(
+        self.info2 = gui_objects.text_label(
             surface=self.info2_surface,
             font=self.fonts['default_font']['font'],
             text="Unavailable Location: ",
@@ -103,7 +98,7 @@ class myScreen(PiInfoScreen):
 
         self.info3_rect = pygame.Rect(150, 200, 160, 20)
         self.info3_surface = self.surface.subsurface(self.info3_rect)
-        self.info3 =  gui_objects.text_label(
+        self.info3 = gui_objects.text_label(
             surface=self.info3_surface,
             font=self.fonts['default_font']['font'],
             text="Unavailable Last Sample: ",
@@ -113,12 +108,15 @@ class myScreen(PiInfoScreen):
             valign='bottom',
             align="left",
             background_color=COLORS['CLOUD'])
-        self.text_objects = [self.title, self.info0, self.info1, self.info2, self.info3]
+        self.text_objects = [
+            self.title,
+            self.info0,
+            self.info1,
+            self.info2,
+            self.info3]
 
-
-        for thing in self.text_objects: 
+        for thing in self.text_objects:
             thing.update()
-
 
     def event_handler(self, event):
         if event.type == KEYDOWN and event.key == K_RETURN:
@@ -138,12 +136,10 @@ class myScreen(PiInfoScreen):
         column = str(RACK_DB.next_column)
         day = strftime('%a', localtime(RACK_DB.rack_date))
 
-        file_string = day+rack+': '+row+''+column 
-
+        file_string = day + rack + ': ' + row + '' + column
 
         self.info3.text = RACK_DB.last_stored
         self.info3.update()
-
 
         self.info2.text = file_string
         self.info2.update()
@@ -154,7 +150,6 @@ class myScreen(PiInfoScreen):
         # self.title.update()
 
         self.hint_surface.blit(self.hint_text, (0, 0))
-        # self.update_locations()
 
         self.screen.blit(self.surface, (0, 0))
         return self.screen
