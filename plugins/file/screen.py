@@ -129,15 +129,17 @@ class myScreen(PiInfoScreen):
         pass
 
     def showScreen(self):
+
+        # change this to use gui_objects.format_location somehow
         row = ROWS[str(RACK_DB.next_row)]
         rack = str(RACK_DB.next_rack)
         column = str(RACK_DB.next_column)
         # day = strftime('%a', localtime(RACK_DB.rack_date))
         day = RACK_DB.rack_day
-        print day
-        print row
-        print rack
-        print column
+        # print day
+        # print row
+        # print rack
+        # print column
 
 
         file_string = day + rack + ': ' + row + '' + column
@@ -145,7 +147,7 @@ class myScreen(PiInfoScreen):
             self.info3.text = str(RACK_DB.last_filed['accn'])
         except:
             self.info3.text = "Unavailable"
-        print "info"+self.info3.text
+        # print "info"+self.info3.text
         self.info3.update()
 
         self.info2.text = file_string
