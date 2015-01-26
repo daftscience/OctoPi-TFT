@@ -7,7 +7,7 @@ from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
 from global_variables import COLORS, TITLE_RECT, ROWS
 from displayscreen import PiInfoScreen
-from database_functions import RACK_DB
+from database import RACK_DB
 sys.dont_write_bytecode = True
 
 
@@ -30,7 +30,7 @@ class myScreen(PiInfoScreen):
         self.surface.fill(COLORS['CLOUD'])
         # draw the title background
         self.accn_surface.fill(COLORS['CLOUD'])
-        RACK_DB.locate_next()
+        RACK_DB.next_location()
 
         self.title = gui_objects.text_label(
             surface=self.title_surface,

@@ -5,7 +5,7 @@ from time import strftime, localtime
 from pygame.locals import K_RETURN, KEYDOWN
 from global_variables import COLORS, TITLE_RECT, ROWS
 from displayscreen import PiInfoScreen
-from database_functions import RACK_DB
+from database import RACK_DB
 sys.dont_write_bytecode = True
 
 
@@ -27,7 +27,7 @@ class myScreen(PiInfoScreen):
         self.surface.fill(COLORS['CLOUD'])
         # draw the title background
         self.accn_surface.fill(COLORS['CLOUD'])
-        RACK_DB.locate_next()
+        RACK_DB.next_location()
 
         self.title = gui_objects.text_label(
             surface=self.title_surface,
@@ -123,8 +123,6 @@ class myScreen(PiInfoScreen):
             accn = self.accn_input.value
             if accn != '':
                 RACK_DB.file_accn(accn)
-                print RACK_DB.last_stored
-                print accn
         self.accn_input.update(event)
 
     def update_locations(self):
@@ -134,11 +132,20 @@ class myScreen(PiInfoScreen):
         row = ROWS[str(RACK_DB.next_row)]
         rack = str(RACK_DB.next_rack)
         column = str(RACK_DB.next_column)
-        day = strftime('%a', localtime(RACK_DB.rack_date))
+        # day = strftime('%a', localtime(RACK_DB.rack_date))
+        day = RACK_DB.rack_day
+        print day
+        print row
+        print rack
+        print column
+
 
         file_string = day + rack + ': ' + row + '' + column
-
-        self.info3.text = RACK_DB.last_stored
+        try:
+            self.info3.text = str(RACK_DB.last_filed['accn'])
+        except:
+            self.info3.text = "Unavailable"
+        print "info"+self.info3.text
         self.info3.update()
 
         self.info2.text = file_string
