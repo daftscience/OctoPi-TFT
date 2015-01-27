@@ -20,6 +20,7 @@ import os
 import urllib2
 import urllib
 import StringIO
+import gui_objects
 import eztext
 from global_variables import COLORS, TITLE_RECT, LOADING_MESSEGES, SWIPE_HINT_RECT
 sys.dont_write_bytecode = True
@@ -70,9 +71,22 @@ class PiInfoScreen():
             self.surfacesize = self.supportedsizes[0]
             self.surface = pygame.Surface(self.surfacesize)
 
-        self.accn_surface = self.surface.subsurface(0, 0, 320, 27)
+        self.accn_surface = self.surface.subsurface(5, 0, 249, 27)
         self.title_surface = self.surface.subsurface(TITLE_RECT)
         self.swipe_hint_surface = self.surface.subsurface(SWIPE_HINT_RECT)
+
+        self.clock_rect = pygame.Rect(270, 2, 45, 25)
+        self.clock_surface = self.surface.subsurface(self.clock_rect)
+        self.clock = gui_objects.text_label(
+            surface=self.clock_surface,
+            font=self.fonts['clock_font']['font'],
+            text='',
+            color=COLORS[self.fonts['clock_font']['color']],
+            # Rect(left, top, width, height) -> Rect
+            rect=self.clock_rect,
+            valign='bottom',
+            align="center",
+            background_color=COLORS['CLOUD'])
 
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
@@ -111,16 +125,18 @@ class PiInfoScreen():
 
             self.fonts[key] = {
                 'font': pygame.font.Font(font_location, font_size),
-                'color': font_color}
+                'color': font_color,
+                'path': font_location,
+                'size': font_size}
 
         if self.pluginConfig["ui_settings"]["has_input"] == 'True':
             # self.has_accn = True
             self.accn_input = eztext.Input(
                 font=self.fonts['input_font']['font'],
-                maxlength=20,
+                maxlength=13,
                 color=COLORS[self.fonts['input_font']['color']],
                 prompt='Accn #: ',
-                x=2, y=2)
+                x=5, y=2)
         else:
             self.accn_input = None
 
@@ -163,7 +179,6 @@ class PiInfoScreen():
 
     def Button4Click(self):
         pass
-
 
     # Get web page
     def getPage(self, url):
@@ -212,7 +227,6 @@ class PiInfoScreen():
                         background_color, justification=0, vjustification=0,
                         margin=0, shrink=False, SysFont=None, FontPath=None,
                         MaxFont=50, MinFont=5):
-
         """Returns a surface containing the passed text string, reformatted
         to fit within the given rect, word-wrapping as necessary. The text
         will be anti-aliased.
@@ -223,11 +237,11 @@ class PiInfoScreen():
         font - a Font object
         rect - a rectstyle giving the size of the surface requested.
         text_color - a three-byte tuple of the rgb value of the
-                     text color. ex (0, 0, 0) = BLACK
+                                 text color. ex (0, 0, 0) = BLACK
         background_color - a three-byte tuple of the rgb value of the surface.
         justification - 0 (default) left-justified
-                        1 horizontally centered
-                        2 right-justified
+                                        1 horizontally centered
+                                        2 right-justified
 
         Returns the following values:
 
@@ -313,8 +327,8 @@ class PiInfoScreen():
                             tempsurface,
                             (0 +
                              margin[0],
-                                accumulated_height +
-                                margin[2]))
+                             accumulated_height +
+                             margin[2]))
                     elif justification == 1:
                         surface.blit(
                             tempsurface,
@@ -325,9 +339,9 @@ class PiInfoScreen():
                             tempsurface,
                             (rect.width -
                              tempsurface.get_width() -
-                                margin[1],
-                                accumulated_height +
-                                margin[2]))
+                             margin[1],
+                             accumulated_height +
+                             margin[2]))
                     else:
                         raise TextRectException(
                             "Invalid justification argument: " +

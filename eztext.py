@@ -56,7 +56,8 @@ class Input:
         """ Set the font for the input """
         self.font = font
 
-    def draw(self, surface):
+    def draw(self, surface, subsurface, color):
+        subsurface.fill(color)
         """ Draw the text input to a surface """
         text = self.font.render(self.prompt + self.value, True, self.color)
         surface.blit(text, (self.x, self.y))
@@ -268,6 +269,5 @@ class Input:
                     self.value += '>'
                 elif event.key == K_SLASH and '?' in self.restricted:
                     self.value += '?'
-
         if len(self.value) > self.maxlength and self.maxlength >= 0:
             self.value = self.value[:-1]

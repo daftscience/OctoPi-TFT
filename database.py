@@ -93,7 +93,7 @@ class tiny_db():
         result = self.db.search(
             (where('accn') == accn) & (
                 where('time') > twoDaysAgo))
-        pprint(result)
+        # pprint(result)
         return result
 
     def list_all(self):

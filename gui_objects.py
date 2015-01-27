@@ -1,5 +1,6 @@
 import pygame
 import sys
+from time import strftime, localtime
 from global_variables import COLORS, ROWS
 sys.dont_write_bytecode = True
 
@@ -81,6 +82,7 @@ class text_label(pygame.sprite.Sprite):
             else:
                 self.surface.fill(COLORS['CLOUD'])
         self.surface.blit(self.label, self.fontRect)
+        # pygame.Surface.blit(self.surface, (0,0))
 
     def update(self):
         self.blit_text()
@@ -120,7 +122,10 @@ def format_location(item):
     column = str(item['column'])
     # day = strftime('%a', localtime(RACK_DB.rack_date))
     day = item['rackDay']
-    file_string = day + rack + ': ' + row + '' + column
+    time = strftime("%H:%M %b %d", localtime(item['time']))
+    print time
+    file_string = day + '-' + rack + ': ' + \
+        row + '' + column + " @ " + time
     return file_string
 
 
@@ -129,7 +134,7 @@ class render_textrect():
     def __init__(self, string, font, rect, text_color,
                  background_color, justification=0, vjustification=0,
                  margin=0, shrink=False, SysFont=None, FontPath=None,
-                 MaxFont=50, MinFont=5):
+                 MaxFont=50, MinFont=5, cutoff=True, surface=None):
         self.string = string
         self.font = font
         self.rect = rect
@@ -138,12 +143,19 @@ class render_textrect():
         self.justification = justification
         self.vjustification = vjustification
         self.margin = margin
-        # self.cutoff = cutoff
+        self.cutoff = cutoff
         self.shrink = shrink
         self.SysFont = SysFont
         self.FontPath = FontPath
         self.MaxFont = MaxFont
         self.MinFont = MinFont
+
+
+
+        print "----font size----"
+        print self.MaxFont
+        print self.MinFont
+        print "-----------------"
 
         if isinstance(self.margin, tuple):
             if not len(self.margin) == 4:
@@ -159,20 +171,45 @@ class render_textrect():
         else:
             self.margin = (0, 0, 0, 0)
 
-
     def update(self):
-    	return self.draw_text_rect()
+        self.fontsize = self.MaxFont
+        if not self.shrink:
+            print "not shrunk"
+            surface = self.draw_text_rect()
+        else:
+            fit = False
+            while self.fontsize >= self.MinFont:
+                if self.FontPath is None:
+                    self.font = pygame.font.SysFont(
+                        self.SysFont,
+                        self.fontsize)
+                    self.font = pygame.font.Font(self.FontPath, self.fontsize)
+                try:
+                    surface = self.draw_text_rect()
+                    fit = True
+                    break
+                except self.TextRectException:
+                    self.fontsize -= 1
+                    print "trying new font" + str(self.fontsize)
+            if not fit:
+                self.cutoff = True
+                print "shrunk to font: " + str(self.fontsize)
+                self.font = pygame.font.Font(self.FontPath, self.fontsize)
+                surface = self.draw_text_rect()
+        return self.draw_text_rect()
 
     class TextRectException(Exception):
 
-            def __init__(self, message=None):
-                self.message = message
+        def __init__(self, message=None):
+            self.message = message
 
-            def __str__(self):
-                return self.message
+        def __str__(self):
+            return self.message
 
     def draw_text_rect(self):
         final_lines = []
+        # print self.string
+        # string = self.string
         requested_lines = self.string.splitlines()
         # Create a series of lines that will fit on the provided
         # rectangle.
@@ -284,52 +321,5 @@ class render_textrect():
                 "Invalid vjustification argument: " + str(self.justification))
         return surface
         surface = None
-
-        if not self.shrink:
-            surface = self.draw_text_rect(
-                self.string,
-                self.font,
-                self.rect,
-                self, text_color,
-                self.background_color,
-                justification=self.justification,
-                vjustification=self.vjustification,
-                margin=self.margin,
-                cutoff=False)
-
-        else:
-            self.fontsize = self.MaxFont
-            fit = False
-            while self.fontsize >= self.MinFont:
-                if self.FontPath is None:
-                    myfont = pygame.font.SysFont(self.SysFont, self.fontsize)
-                else:
-                    myfont = pygame.font.Font(self.FontPath, self.fontsize)
-                try:
-                    surface = self.draw_text_rect(
-                        self.string,
-                        self.myfont,
-                        self.rect,
-                        self.text_color,
-                        self.background_color,
-                        justification=self.justification,
-                        vjustification=self.vjustification,
-                        margin=self.margin,
-                        cutoff=False)
-                    fit = True
-                    print("Fit Font: " + str(self.fontsize))
-                    break
-                except:
-                    self.fontsize -= 1
-            if not fit:
-                surface = draw_text_rect(
-                    self.string,
-                    self.myfont,
-                    self.rect,
-                    self.text_color,
-                    self.background_color,
-                    justification=self.justification,
-                    vjustification=self.vjustification,
-                    margin=self.margin)
 
         return surface

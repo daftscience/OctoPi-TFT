@@ -352,6 +352,10 @@ def getSwipeType():
     return 0
 
 
+
+
+
+
 def longPress(downTime):
     if pygame.time.get_ticks() - longPressTime > downTime:
         return True

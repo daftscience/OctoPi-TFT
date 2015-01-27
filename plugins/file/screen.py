@@ -42,7 +42,7 @@ class myScreen(PiInfoScreen):
         # These are hardcoded information labels
         #-----------------------------------------------
 
-        self.hint_rect = pygame.Rect(0, 120, 320, 70)
+        self.hint_rect = pygame.Rect(0, 120, 320, 90)
         self.hint_surface = self.surface.subsurface(self.hint_rect)
         self.hint_text = self.render_textrect(
             string="scan to store\nswipe up for keyboard",
@@ -67,7 +67,7 @@ class myScreen(PiInfoScreen):
             align="left",
             background_color=COLORS['CLOUD'])
 
-        self.info1_rect = pygame.Rect(5, 200, 140, 20)
+        self.info1_rect = pygame.Rect(5, 210, 140, 20)
         self.info1_surface = self.surface.subsurface(self.info1_rect)
         self.info1 = gui_objects.text_label(
             surface=self.info1_surface,
@@ -96,7 +96,7 @@ class myScreen(PiInfoScreen):
             align="left",
             background_color=COLORS['CLOUD'])
 
-        self.info3_rect = pygame.Rect(150, 200, 160, 20)
+        self.info3_rect = pygame.Rect(150, 210, 160, 20)
         self.info3_surface = self.surface.subsurface(self.info3_rect)
         self.info3 = gui_objects.text_label(
             surface=self.info3_surface,
@@ -154,11 +154,16 @@ class myScreen(PiInfoScreen):
         self.info2.update()
 
         # print ( pygame.mouse.get_pos())
-        self.accn_surface.fill(COLORS['CLOUD'])
-        self.accn_input.draw(self.surface)
+        # self.accn_surface.fill(COLORS['CLOUD'])
+        # self.accn_input.draw(self.surface)
+        self.accn_input.draw(self.surface, self.accn_surface, COLORS['CLOUD'])
+
+
         # self.title.update()
 
         self.hint_surface.blit(self.hint_text, (0, 0))
-
+        self.clock.text = strftime("%H:%M", localtime(time()))
+        self.clock.update()
         self.screen.blit(self.surface, (0, 0))
+        self.clock.update()
         return self.screen
