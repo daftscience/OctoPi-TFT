@@ -25,98 +25,71 @@ class myScreen(PiInfoScreen):
         PiInfoScreen.__init__(self, args[0], kwargs)
 
         self.surface.fill(COLORS['CLOUD'])
-        # draw the title background
-        self.accn_surface.fill(COLORS['CLOUD'])
+        self.title.update()
+        self.hint_text.string = "scan to store\nswipe up for keyboard"
         RACK_DB.next_location()
 
-        self.title = gui_objects.text_label(
-            surface=self.title_surface,
-            font=self.fonts['title_font']['font'],
-            text=self.name,
-            color=COLORS[self.fonts['title_font']['color']],
-            # Rect(left, top, width, height) -> Rect
-            rect=TITLE_RECT,
-            rounded=True,
-            background_color=COLORS[self.color])
-        # ---------------------------------------------
-        # These are hardcoded information labels
-        #-----------------------------------------------
-
-        self.hint_rect = pygame.Rect(0, 120, 320, 90)
-        self.hint_surface = self.surface.subsurface(self.hint_rect)
-        self.hint_text = self.render_textrect(
-            string="scan to store\nswipe up for keyboard",
-            font=self.fonts['swipe_font']['font'],
-            rect=self.hint_rect,
-            text_color=COLORS[self.color],
-            background_color=COLORS['CLOUD'],
-            # background_color=COLORS['RED'],
-            justification=1,
-            vjustification=1)
-
+        # Hardcoded info boxes....
+        # because they don't change, they should
+        # NOT BE UDPATED
         self.info0_rect = pygame.Rect(5, 93, 140, 25)
         self.info0_surface = self.surface.subsurface(self.info0_rect)
         self.info0 = gui_objects.text_label(
             surface=self.info0_surface,
-            font=self.fonts['info_font']['font'],
+            font=self.fonts['default_font']['font'],
             text="Location to file: ",
-            color=COLORS[self.fonts['info_font']['color']],
+            color=COLORS[self.fonts['default_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=self.info0_rect,
             valign='bottom',
             align="left",
             background_color=COLORS['CLOUD'])
-
-        self.info1_rect = pygame.Rect(5, 210, 140, 20)
+        self.info0.update()
+        self.info1_rect = pygame.Rect(5, 210, 130, 20)
         self.info1_surface = self.surface.subsurface(self.info1_rect)
         self.info1 = gui_objects.text_label(
             surface=self.info1_surface,
-            font=self.fonts['info_font']['font'],
+            font=self.fonts['default_font']['font'],
             text="Last sample stored: ",
-            color=COLORS[self.fonts['info_font']['color']],
+            color=COLORS[self.fonts['default_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=self.info1_rect,
             valign='bottom',
             align="left",
             background_color=COLORS['CLOUD'])
+        self.info1.update()
 
         # ------------------------------------------
         # These information labels will change when the screen is updated
+           # They will need to be updated
         #----------------------------------------
-        self.info2_rect = pygame.Rect(120, 93, 160, 25)
+        self.info2_rect = pygame.Rect(0, 93, 100, 25)
+        self.info2_rect.centerx = 160
         self.info2_surface = self.surface.subsurface(self.info2_rect)
         self.info2 = gui_objects.text_label(
             surface=self.info2_surface,
-            font=self.fonts['default_font']['font'],
-            text="Unavailable Location: ",
-            color=COLORS[self.fonts['default_font']['color']],
+            font=self.fonts['info_font']['font'],
+            text="Unavailable Location",
+            color=COLORS[self.fonts['info_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=self.info2_rect,
             valign='bottom',
-            align="left",
+            align="center",
             background_color=COLORS['CLOUD'])
 
-        self.info3_rect = pygame.Rect(150, 210, 160, 20)
+        self.info3_rect = pygame.Rect(130, 210, 160, 20)
+        self.info3_rect.left = self.info1_rect.right + 3
         self.info3_surface = self.surface.subsurface(self.info3_rect)
         self.info3 = gui_objects.text_label(
             surface=self.info3_surface,
-            font=self.fonts['default_font']['font'],
-            text="Unavailable Last Sample: ",
-            color=COLORS[self.fonts['default_font']['color']],
+            font=self.fonts['info_font']['font'],
+            text="Unavailable",
+            color=COLORS[self.fonts['info_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=self.info3_rect,
             valign='bottom',
             align="left",
             background_color=COLORS['CLOUD'])
-        self.text_objects = [
-            self.title,
-            self.info0,
-            self.info1,
-            self.info2,
-            self.info3]
-
-        for thing in self.text_objects:
-            thing.update()
 
     def event_handler(self, event):
         if event.type == KEYDOWN and event.key == K_RETURN:
@@ -129,20 +102,23 @@ class myScreen(PiInfoScreen):
         pass
 
     def showScreen(self):
+        self.hint_surface.blit(self.hint_text.update(), (0, 0))
 
         # change this to use gui_objects.format_location somehow
-        row = ROWS[str(RACK_DB.next_row)]
-        rack = str(RACK_DB.next_rack)
-        column = str(RACK_DB.next_column)
+        # row = ROWS[str(RACK_DB.next_row)]
+        # rack = str(RACK_DB.next_rack)
+        # column = str(RACK_DB.next_column)
         # day = strftime('%a', localtime(RACK_DB.rack_date))
-        day = RACK_DB.rack_day
+        # day = RACK_DB.rack_day
         # print day
         # print row
         # print rack
         # print column
 
+        # file_string = day + rack + ': ' + row + '' + column
+        # pprint(RACK_DB.next)
 
-        file_string = day + rack + ': ' + row + '' + column
+        file_string = gui_objects.format_location(RACK_DB.next)
         try:
             self.info3.text = str(RACK_DB.last_filed['accn'])
         except:
@@ -158,10 +134,8 @@ class myScreen(PiInfoScreen):
         # self.accn_input.draw(self.surface)
         self.accn_input.draw(self.surface, self.accn_surface, COLORS['CLOUD'])
 
-
         # self.title.update()
 
-        self.hint_surface.blit(self.hint_text, (0, 0))
         self.clock.text = strftime("%H:%M", localtime(time()))
         self.clock.update()
         self.screen.blit(self.surface, (0, 0))

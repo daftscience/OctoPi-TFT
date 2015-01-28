@@ -12,15 +12,16 @@ class tiny_db():
         self.column_width = 6
         self.get_last_filed()
         self.rack_day = None
+        self.next={}
         self.next_location()
 
     def file_accn(self, accn):
         insert = {
             'accn': accn,
-            'rack': self.next_rack,
-            'rackDay': self.rack_day,
-            'column': self.next_column,
-            'row': self.next_row,
+            'rack': self.next['rack'],
+            'rackDay': self.next['rackDay'],
+            'column': self.next['column'],
+            'row': self.next['row'],
             'time': time()
         }
         # this does a few thigns:
@@ -44,10 +45,10 @@ class tiny_db():
     def new_day(self):
         # print('creating new rack')
         today = strftime('%a', localtime(time()))
-        self.next_column = 1
-        self.next_rack = 1
-        self.next_row = 1
-        self.rack_day = today
+        self.next['column'] = 1
+        self.next['rack'] = 1
+        self.next['row'] = 1
+        self.next['rackDay'] = today
 
     def next_location(self):
         today = strftime('%a', localtime(time()))
@@ -61,18 +62,46 @@ class tiny_db():
             self.new_day()
         elif self.last_filed['column'] == self.column_width:
             if self.last_filed['row'] == self.row_height:
-                self.next_column = 1
-                self.next_row = 1
-                self.next_rack = self.last_filed['rack'] + 1
+                self.next['column'] = 1
+                self.next['row'] = 1
+                self.next['rack'] = self.last_filed['rack'] + 1
             else:
-                self.next_column = 1
-                self.next_row = self.last_filed['row'] + 1
-                self.next_rack = self.last_filed['rack']
+                self.next['column'] = 1
+                self.next['row'] = self.last_filed['row'] + 1
+                self.next['rack'] = self.last_filed['rack']
         else:
-            self.next_column = self.last_filed['column'] + 1
-            self.next_rack = self.last_filed['rack']
-            self.next_row = self.last_filed['row']
-        self.rack_day = today
+            self.next['column'] = self.last_filed['column'] + 1
+            self.next['rack'] = self.last_filed['rack']
+            self.next['row'] = self.last_filed['row']
+        self.next['rackDay'] = today
+
+
+
+    # def next_location(self):
+    #     today = strftime('%a', localtime(time()))
+    #     self.next = 
+    #     # print today
+    #     if self.last_filed is None:
+    #         self.new_day()
+    #         return
+    #     # pprint (self.last_filed)
+    #     if self.last_filed['rackDay'] != today:
+    #         # print "creating new day"
+    #         self.new_day()
+    #     elif self.last_filed['column'] == self.column_width:
+    #         if self.last_filed['row'] == self.row_height:
+    #             self.next_column = 1
+    #             self.next_row = 1
+    #             self.next_rack = self.last_filed['rack'] + 1
+    #         else:
+    #             self.next_column = 1
+    #             self.next_row = self.last_filed['row'] + 1
+    #             self.next_rack = self.last_filed['rack']
+    #     else:
+    #         self.next_column = self.last_filed['column'] + 1
+    #         self.next_rack = self.last_filed['rack']
+    #         self.next_row = self.last_filed['row']
+    #     self.rack_day = today
 
     def print_properties(self):
         print self.last_filed
