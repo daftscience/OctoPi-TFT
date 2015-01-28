@@ -1,5 +1,14 @@
 #!/usr/bin/python
 
+http://www.pygame.org/docs/ref/image.html
+
+
+# asurf = pygame.image.load(os.path.join('data', 'bla.png'))
+# Surface.convert()
+# convert_alpha()
+
+# treeImage = pygame.image.load("tree.png").convert_alpha()
+
 import array
 import math
 
