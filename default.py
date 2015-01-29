@@ -415,7 +415,7 @@ while not quit:
             showNewScreen()
 
     # Control FPS
-    clock.tick(FPS)
+    # clock.tick(FPS)
 
 # If we're here we've exited the display loop...
 log("Exiting...")
