@@ -1,7 +1,8 @@
 import sys
+import os
 import pygame
 import gui_objects
-from time import strftime, localtime
+from time import strftime, localtime, time
 # from time import time, gmtime, strftime, mktime, localtime
 from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
@@ -26,38 +27,48 @@ class myScreen(PiInfoScreen):
     def __init__(self, *args, **kwargs):
         PiInfoScreen.__init__(self, args[0], kwargs)
 
-        self.surface.fill(COLORS['CLOUD'])
-        # draw the title background
-        self.accn_surface.fill(COLORS['CLOUD'])
-        RACK_DB.next_location()
-        self.result = []
-        self.title = gui_objects.text_label(
-            surface=self.title_surface,
-            font=self.fonts['title_font']['font'],
-            text=self.name,
-            color=COLORS[self.fonts['title_font']['color']],
-            # Rect(left, top, width, height) -> Rect
-            rect=TITLE_RECT,
-            rounded=True,
-            background_color=COLORS[self.color])
-        # ---------------------------------------------
-        # These are hardcoded information labels
-        #-----------------------------------------------
+        self.timer = False
+        self.timeout = 0
+        self.timeout_delay = 4  # in seconds
+        self.new_result = False
 
-        self.hint_rect = pygame.Rect(0, 120, 320, 70)
-        self.hint_surface = self.surface.subsurface(self.hint_rect)
-        self.hint_text = gui_objects.render_textrect(
-            string="scan to locate\nswipe up for keyboard",
-            font=self.fonts['swipe_font']['font'],
-            rect=self.hint_rect,
+        self.surface.fill(COLORS['CLOUD'])
+        self.hint_text.string = "scan to locate\nswipe up for keyboard"
+        self.title.update()
+        self.hint_surface.blit(self.hint_text.update(), (0, 0))
+
+        self.not_found_path = os.path.join("resources/icons", 'sadface.png')
+        self.not_found = pygame.image.load(self.not_found_path).convert_alpha()
+        self.not_found_rect = self.not_found.get_rect()
+        print "width: " + str(self.not_found_rect.width)
+
+        # pprint(self.hint_surface.get_rect())
+        self.not_found_rect.centerx = self.hint_surface.get_rect().centerx
+        self.not_found_rect.top = 0
+        pprint(self.not_found_rect)
+        self.not_found_surface = self.hint_surface.subsurface(
+            self.not_found_rect)
+
+        RACK_DB.next_location()
+
+        # This is the box where location results go
+        self.result_rect = pygame.Rect(0, 200, 320, 60)
+        self.result_text = gui_objects.render_textrect(
+            string="",
+            font=self.fonts['result_font']['font'],
+            rect=self.result_rect,
             text_color=COLORS[self.color],
             background_color=COLORS['CLOUD'],
-            # background_color=COLORS['RED'],
             justification=1,
+            FontPath=self.fonts['result_font']['path'],
+            cutoff=False,
+            MinFont=self.fonts['result_font']['size'] - 8,
+            MaxFont=self.fonts['result_font']['size'],
+            shrink=True,
             vjustification=1)
-        # self.hint_surface = self.hint_text.update()
 
-        self.info0_rect = pygame.Rect(5, 93, 140, 25)
+        # An info box
+        self.info0_rect = pygame.Rect(5, 93, 310, 25)
         self.info0_surface = self.surface.subsurface(self.info0_rect)
         self.info0 = gui_objects.text_label(
             surface=self.info0_surface,
@@ -67,10 +78,11 @@ class myScreen(PiInfoScreen):
             # Rect(left, top, width, height) -> Rect
             rect=self.info0_rect,
             valign='bottom',
-            align="left",
+            align="center",
             background_color=COLORS['CLOUD'])
 
-        self.info1_rect = pygame.Rect(5, 200, 140, 20)
+        # another info box
+        self.info1_rect = pygame.Rect(5, 205, 310, 20)
         self.info1_surface = self.surface.subsurface(self.info1_rect)
         self.info1 = gui_objects.text_label(
             surface=self.info1_surface,
@@ -79,82 +91,84 @@ class myScreen(PiInfoScreen):
             color=COLORS[self.fonts['info_font']['color']],
             # Rect(left, top, width, height) -> Rect
             rect=self.info1_rect,
-            valign='bottom',
-            align="left",
+            valign='center',
+            align="center",
             background_color=COLORS['CLOUD'])
 
-        # ------------------------------------------
-        # These information labels will change when the screen is updated
-        #----------------------------------------
-        self.info2_rect = pygame.Rect(120, 93, 160, 25)
-        self.info2_surface = self.surface.subsurface(self.info2_rect)
-        self.info2 = gui_objects.text_label(
-            surface=self.info2_surface,
-            font=self.fonts['default_font']['font'],
-            text="",
-            color=COLORS[self.fonts['default_font']['color']],
-            # Rect(left, top, width, height) -> Rect
-            rect=self.info2_rect,
-            valign='bottom',
-            align="left",
-            background_color=COLORS['CLOUD'])
-
-        self.info3_rect = pygame.Rect(150, 200, 160, 20)
-        self.info3_surface = self.surface.subsurface(self.info3_rect)
-        self.info3 = gui_objects.text_label(
-            surface=self.info3_surface,
-            font=self.fonts['default_font']['font'],
-            text="",
-            color=COLORS[self.fonts['default_font']['color']],
-            # Rect(left, top, width, height) -> Rect
-            rect=self.info3_rect,
-            valign='bottom',
-            align="left",
-            background_color=COLORS['CLOUD'])
-        self.text_objects = [
-            self.title,
-            self.info0,
-            self.info1,
-            self.info2,
-            self.info3]
-
-        for thing in self.text_objects:
-            thing.update()
+    def reset(self):
+        # self.hint_text.fontsize = self.hint_text.MaxFont
+        self.hint_surface.fill(COLORS['CLOUD'])
+        self.result_text.font = self.fonts['result_font']['font']
+        self.info0.text = ''
+        self.info0.update()
+        self.info1.text = ''
+        self.info1.update()
+        self.result_text.cutoff = False
 
     def event_handler(self, event):
         if event.type == KEYDOWN and event.key == K_RETURN:
             accn = self.accn_input.value
             if accn != '':
+                self.new_result = True
+                self.reset()
+                self.timeout = time() + self.timeout_delay
+                self.timer = True
                 result = RACK_DB.find_accn(accn)
                 if not result:
-                    self.hint_text.string = accn + "\n Not Found"
+                    self.result_text.string = "not found"
+                    self.info0.text = accn
+                    self.info1.text = "sorry, not found"
                 else:
-                    self.info0.text = "accn: " + accn + ' Found!'
-                    self.hint_text.string = ''
-                    for item in result:
-                        self.hint_text.string += gui_objects.format_location(
-                            item) + '\n'
-
+                    self.info0.text = "Accn #: " + accn
+                    self.result_text.string = ''
+                    if len(result) <= 4:
+                        if len(result) == 1:
+                            self.info1.text = str(
+                                len(result)) + ' location found'
+                        else:
+                            self.info1.text = str(
+                                len(result)) + ' locations found'
+                        reversed_list = reversed(result)
+                    else:
+                        self.info1.text = "Showing last 4 locations"
+                        reversed_list = reversed(result[-4:])
+                    formated = []
+                    for item in reversed_list:
+                        formated.append(gui_objects.format_location(item))
+                    self.result_text.string = "\n".join(formated)
+                    pprint(formated)
+                    print self.result_text.string
         self.accn_input.update(event)
 
     def update_locations(self):
         pass
 
     def showScreen(self):
+        # print pygame.mouse.get_pos()
+        if self.timer:
+            if self.timeout > time():
+                if self.new_result:
+                    self.new_result = False
+                    if self.result_text.string == "not found":
+                        print "not found man"
+                        self.hint_surface.blit(
+                            self.not_found, self.not_found_rect)
+                        # self.surface.blit(self.hint_surface, self.hint_rect)
+                    else:
+                        print "blitting result_rect"
+                        self.hint_surface.blit(
+                            self.result_text.update(), (0, 0))
+                pass
+            else:
+                self.timer = False
+                self.reset()
+                print "blitting hint"
+                self.hint_surface.blit(self.hint_text.update(), (0, 0))
 
-        # self.info3.text = RACK_DB.last_stored
+        self.clock.text = strftime("%H:%M", localtime(time()))
+        self.clock.update()
         self.info0.update()
-
-        # self.info2.text = file_string
-        # self.info2.update()
-
-        # print ( pygame.mouse.get_pos())
-        self.accn_surface.fill(COLORS['CLOUD'])
-        self.accn_input.draw(self.surface)
-
-        self.hint_surface.blit(self.hint_text.update(), (0, 0))
-        # self.t.blit(self.hint_surface, (0,0))
-        # self.update_locations()
-
+        self.info1.update()
+        self.accn_input.draw(self.surface, self.accn_surface, COLORS['CLOUD'])
         self.screen.blit(self.surface, (0, 0))
         return self.screen

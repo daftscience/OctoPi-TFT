@@ -8,7 +8,6 @@ from global_variables import COLORS, LOADING_MESSEGES
 from time import time
 
 sys.dont_write_bytecode = True
-
 debug = True
 screensleep = 60000
 
@@ -34,6 +33,7 @@ if os.name == 'posix':
 # Create a clock and set max FPS (This reduces a lot CPU ussage)
 
 pygame.init()
+
 pygame.mouse.set_visible(False if RASPBERRYPI else True)
 
 
@@ -350,6 +350,10 @@ def getSwipeType():
         elif x < -minSwipe:
             return 2
     return 0
+
+
+
+
 
 
 def longPress(downTime):
