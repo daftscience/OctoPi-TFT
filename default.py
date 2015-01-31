@@ -6,6 +6,7 @@ import random
 import traceback
 from global_variables import COLORS, LOADING_MESSEGES
 from time import time
+from keyboard import VirtualKeyboard
 
 sys.dont_write_bytecode = True
 debug = True
@@ -395,6 +396,9 @@ while not quit:
             elif swipe == 3:
                 quit = True
                 continue
+            elif swipe == 4:
+                vkey = VirtualKeyboard(screen)
+                txt = vkey.run('')
             # print "Screen Index After: " + str(screenindex)
 
 

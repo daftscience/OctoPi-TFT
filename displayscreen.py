@@ -71,7 +71,7 @@ class PiInfoScreen():
             self.surface = pygame.Surface(self.surfacesize)
 
         if self.has_accn_input == True:
-            self.accn_surface = self.surface.subsurface(5, 0, 249, 27)
+            self.accn_surface = self.surface.subsurface(5, 0, 260, 27)
             self.accn_input = eztext.Input(
                 font=self.fonts['input_font']['font'],
                 maxlength=13,
@@ -110,7 +110,7 @@ class PiInfoScreen():
             shrink=True,
             vjustification=1)
 
-        self.clock_rect = pygame.Rect(270, 2, 45, 25)
+        self.clock_rect = pygame.Rect(265, 2, 50, 25)
         self.clock_surface = self.surface.subsurface(self.clock_rect)
         self.clock = gui_objects.text_label(
             surface=self.clock_surface,

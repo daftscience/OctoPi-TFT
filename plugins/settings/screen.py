@@ -8,7 +8,10 @@ from pygame.locals import K_RETURN, KEYDOWN
 from global_variables import COLORS, TITLE_RECT, ROWS
 from displayscreen import PiInfoScreen
 from database import RACK_DB
+# import virtkeyboard
 sys.dont_write_bytecode = True
+
+
 
 
 # For more information on the variables and functions in this file view
@@ -29,6 +32,9 @@ class myScreen(PiInfoScreen):
         self.surface.fill(COLORS['CLOUD'])
         self.hint_text.string = "settings will\n be here soon!"
         self.title.update()
+        mykeys = virtkeyboard.VirtualKeyboard()
+        userinput = mykeyboard.run(self.serface, "Something?")
+
         RACK_DB.next_location()
 
     def event_handler(self, event):

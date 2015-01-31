@@ -32,7 +32,7 @@ class myScreen(PiInfoScreen):
         # Hardcoded info boxes....
         # because they don't change, they should
         # NOT BE UDPATED
-        self.info0_rect = pygame.Rect(5, 93, 140, 25)
+        self.info0_rect = pygame.Rect(5, 93, 120, 25)
         self.info0_surface = self.surface.subsurface(self.info0_rect)
         self.info0 = gui_objects.text_label(
             surface=self.info0_surface,
@@ -45,7 +45,9 @@ class myScreen(PiInfoScreen):
             align="left",
             background_color=COLORS['CLOUD'])
         self.info0.update()
-        self.info1_rect = pygame.Rect(5, 210, 130, 20)
+
+
+        self.info1_rect = pygame.Rect(5, 210, 145, 20)
         self.info1_surface = self.surface.subsurface(self.info1_rect)
         self.info1 = gui_objects.text_label(
             surface=self.info1_surface,
@@ -64,7 +66,7 @@ class myScreen(PiInfoScreen):
            # They will need to be updated
         #----------------------------------------
         self.info2_rect = pygame.Rect(0, 93, 100, 25)
-        self.info2_rect.centerx = 160
+        self.info2_rect.left = self.info0_rect.right + 3
         self.info2_surface = self.surface.subsurface(self.info2_rect)
         self.info2 = gui_objects.text_label(
             surface=self.info2_surface,
@@ -74,7 +76,7 @@ class myScreen(PiInfoScreen):
             # Rect(left, top, width, height) -> Rect
             rect=self.info2_rect,
             valign='bottom',
-            align="center",
+            align="left",
             background_color=COLORS['CLOUD'])
 
         self.info3_rect = pygame.Rect(130, 210, 160, 20)

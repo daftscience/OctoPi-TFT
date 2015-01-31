@@ -5,6 +5,41 @@ from global_variables import COLORS, ROWS
 sys.dont_write_bytecode = True
 
 
+class keyboard():
+
+    def __init__(self, *args, **kwargs):
+        self.one = {'value': 1,
+                    'rect': (20, 75, 50, 50)
+                    }
+        self.two = {'value': 2,
+                    'rect': (71, 75, 50, 50)
+                    }
+        self.three = {'value': 3,
+                      'rect': (122, 75, 50, 50)
+                      }
+        self.four = {'value': 4,
+                     'rect': (20, 126, 50, 50)
+                     }
+        self.five = {'value': 5,
+                     'rect': (71, 126, 50, 50)
+                     }
+        self.six = {'value': 6,
+                    'rect': (122, 126, 50, 50)
+                    }
+        self.seven = {'value': 7,
+                      'rect': (20, 178, 50, 50)
+                      }
+        self.eight = {'value': 8,
+                      'rect': (71, 178, 50, 50)
+                      }
+        self.nine = {'value': 9,
+                     'rect': (122, 178, 50, 50)
+                     }
+        self.zero = {'value': 0,
+                     'rect': (71, 229, 50, 50)
+                     }
+
+
 class text_label(pygame.sprite.Sprite):
 
     def __init__(self, *args, **kwargs):
@@ -267,7 +302,8 @@ class render_textrect():
         for line in final_lines:
             if accumulated_height + \
                     self.font.size(line)[1] >= self.rect.height:
-                # print "throwing exception - lineheight=" + str(accumulated_height)
+                # print "throwing exception - lineheight=" +
+                # str(accumulated_height)
                 raise self.TextRectException(
                     "Once word-wrapped, the text string was too tall to fit in the rect.")
             if line != "":
