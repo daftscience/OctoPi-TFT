@@ -17,7 +17,7 @@ ROWS = {'1': 'A',
         }
 
 # TITLE_RECT = pygame.Rect(3, 30, 314, 60)
-TITLE_RECT = pygame.Rect(5, 30, 310, 60)
+TITLE_RECT = pygame.Rect(0, 25, 320, 70)
 SWIPE_HINT_RECT = pygame.Rect(0, 210, 320, 30)
 
 

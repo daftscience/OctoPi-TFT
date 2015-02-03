@@ -1,43 +1,12 @@
 import pygame
 import sys
-from time import strftime, localtime
+from PIL import Image, ImageFilter
+from time import strftime, localtime, sleep
+# from shadow import dropShadow, rounded_rectangle
+from PIL import Image, ImageDraw, ImageFilter
 from global_variables import COLORS, ROWS
 sys.dont_write_bytecode = True
-
-
-class keyboard():
-
-    def __init__(self, *args, **kwargs):
-        self.one = {'value': 1,
-                    'rect': (20, 75, 50, 50)
-                    }
-        self.two = {'value': 2,
-                    'rect': (71, 75, 50, 50)
-                    }
-        self.three = {'value': 3,
-                      'rect': (122, 75, 50, 50)
-                      }
-        self.four = {'value': 4,
-                     'rect': (20, 126, 50, 50)
-                     }
-        self.five = {'value': 5,
-                     'rect': (71, 126, 50, 50)
-                     }
-        self.six = {'value': 6,
-                    'rect': (122, 126, 50, 50)
-                    }
-        self.seven = {'value': 7,
-                      'rect': (20, 178, 50, 50)
-                      }
-        self.eight = {'value': 8,
-                      'rect': (71, 178, 50, 50)
-                      }
-        self.nine = {'value': 9,
-                     'rect': (122, 178, 50, 50)
-                     }
-        self.zero = {'value': 0,
-                     'rect': (71, 229, 50, 50)
-                     }
+from pprint import pprint
 
 
 class text_label(pygame.sprite.Sprite):
@@ -100,22 +69,17 @@ class text_label(pygame.sprite.Sprite):
         else:
             self.fontRect.centery = self.surface.get_rect().centery
 
-        if self.rounded:
-            DrawRoundRect(
-                self.surface,
-                self.background_color,
-                pygame.Rect(0, 0, 310, 60),
-                0,
-                2,
-                2)
-        else:
-            if self.background_color:
-                self.surface.fill(self.background_color)
-            else:
-                self.surface.fill(COLORS['CLOUD'])
+        # if self.rounded:
+                # self.surface.fill(self.background_color)
+        # else:
+            # if self.background_color:
+                # self.surface.fill(self.background_color)
+            # else:
+                # self.surface.fill(COLORS['CLOUD'])
 
     def update(self):
         self.blit_text()
+        self.surface.fill(self.background_color)
         self.surface.blit(self.label, self.fontRect)
 
 
@@ -125,9 +89,24 @@ class title_banner(text_label):
         self.image = kwargs['title_icon']
         super(title_banner, self).__init__(*args, **kwargs)
         # print "initialized title_text class"
+        self.surface.get_size()
+        self.blit_text()
+        self.banner = rounded_rect(
+            (self.surface.get_size()),
+            radius=2,
+            fill=self.background_color,
+            quality=5,
+            shadow=False)
+        self.rect = self.surface.get_rect()
+        self.pygameImage = pygame.image.fromstring(
+            self.banner.image.tostring(),
+            self.banner.image.size,
+            'RGBA',
+            False).convert_alpha()
 
     def update(self):
         self.blit_text()
+        self.surface.blit(self.pygameImage, (0, 0))
         self.image_rect = self.image.get_rect()
 
         self.image_rect.left = 25
@@ -135,33 +114,6 @@ class title_banner(text_label):
         self.image_rect.centery = self.fontRect.centery
         self.surface.blit(self.image, self.image_rect)
 
-
-def DrawRoundRect(surface, color, rect, width, xr, yr):
-    clip = surface.get_clip()
-    # left and right
-    surface.set_clip(clip.clip(rect.inflate(0, -yr * 2)))
-    pygame.draw.rect(surface, color, rect.inflate(1 - width, 0), width)
-    # top and bottom
-    surface.set_clip(clip.clip(rect.inflate(-xr * 2, 0)))
-    pygame.draw.rect(surface, color, rect.inflate(0, 1 - width), width)
-    # top left corner
-    surface.set_clip(clip.clip(rect.left, rect.top, xr, yr))
-    corner = pygame.Rect(rect.left, rect.top, 2 * xr, 2 * yr)
-    pygame.draw.ellipse(surface, color, corner, width)
-    # top right corner
-    surface.set_clip(clip.clip(rect.right - xr, rect.top, xr, yr))
-    pygame.draw.ellipse(surface, color, pygame.Rect(
-        rect.right - 2 * xr, rect.top, 2 * xr, 2 * yr), width)
-    # bottom left
-    surface.set_clip(clip.clip(rect.left, rect.bottom - yr, xr, yr))
-    pygame.draw.ellipse(surface, color, pygame.Rect(
-        rect.left, rect.bottom - 2 * yr, 2 * xr, 2 * yr), width)
-    # bottom right
-    surface.set_clip(clip.clip(rect.right - xr, rect.bottom - yr, xr, yr))
-    pygame.draw.ellipse(surface, color, pygame.Rect(
-        rect.right - 2 * xr, rect.bottom - 2 * yr, 2 * xr, 2 * yr), width)
-    surface.set_clip(clip)
-    return clip
 
 
 def format_location(item):
@@ -355,3 +307,140 @@ class render_textrect():
                 str(justification))
         return surface
     surface = None
+
+
+class rounded_rect():
+
+    def __init__(self, og_size, radius, fill, quality, shadow=False):
+        self.quality = quality
+        self.og_size = og_size
+        self.radius = radius * self.quality
+        self.fill = fill
+        # to get better quality corners we will scale the
+        # image up then shink it back down
+        self.size = (
+            self.og_size[0] *
+            self.quality,
+            self.og_size[1] *
+            self.quality)
+        self.width, self.height = self.size
+        if shadow:
+            self.image = self.round_rectangle()
+        else:
+            self.image = self.makeShadow(
+                self.round_rectangle(),
+                10,
+                30,
+                (0,
+                 2),
+                COLORS['CLOUD'],
+                0x000000)
+        self.image = self.image.resize(self.og_size, resample=Image.LANCZOS)
+
+    def round_corner(self):
+        """Draw a round corner"""
+        corner = Image.new('RGBA', (self.radius, self.radius), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(corner)
+        draw.pieslice(
+            (0,
+             0,
+             self.radius *
+             2,
+             self.radius *
+             2),
+            180,
+            270,
+            fill=self.fill)
+        corner.convert('RGBA')
+        # corner.show()
+        return corner
+
+    def round_rectangle(self):
+        """Draw a rounded rectangle"""
+
+        rectangle = Image.new('RGBA', self.size)
+        # ImageDraw.Draw.rectangle(size, (0,0,0,0))
+
+        origCorner = self.round_corner()
+        corner = origCorner
+        rectangle.paste(corner, (0, 0))
+        corner = origCorner.rotate(90)
+        rectangle.paste(corner, (0, self.height - self.radius))
+        corner = origCorner.rotate(180)
+        rectangle.paste(
+            corner,
+            (self.width -
+             self.radius,
+             self.height -
+             self.radius))
+        corner = origCorner.rotate(270)
+        rectangle.paste(corner, (self.width - self.radius, 0))
+
+        dr = ImageDraw.Draw(rectangle)
+        dl = ImageDraw.Draw(rectangle)
+        dr.rectangle(
+            ((self.width - self.radius, 0), ((self.radius), (self.height))), fill=self.fill)
+        dl.rectangle(
+            ((0, self.radius), ((self.width), (self.height - self.radius))), fill=self.fill)
+
+        # rectangle = rectangle.resize(self.og_size, resample=Image.LANCZOS)
+        return rectangle
+
+    def makeShadow(self,
+                   image,
+                   iterations,
+                   border,
+                   offset,
+                   backgroundColour,
+                   shadowColour):
+    # image: base image to give a drop shadow
+    # iterations: number of times to apply the blur filter to the shadow
+    # border: border to give the image to leave space for the shadow
+    # offset: offset of the shadow as [x,y]
+    # backgroundCOlour: colour of the background
+    # shadowColour: colour of the drop shadow
+
+    # Calculate the size of the shadow's image
+        fullWidth = image.size[0] + abs(offset[0]) + 2 * border
+        fullHeight = image.size[1] + abs(offset[1]) + 2 * border
+
+    # Create the shadow's image. Match the parent image's mode.
+        shadow = Image.new(
+            image.mode,
+            (fullWidth,
+             fullHeight),
+            backgroundColour)
+        # shadow.show()
+    # Place the shadow, with the required offset
+    # if <0, push the rest of the image right
+        shadowLeft = border + max(offset[0], 0)
+    # if <0, push the rest of the image down
+        shadowTop = border + max(offset[1], 0)
+    # Paste in the constant colour
+        shadow.paste(shadowColour,
+                     [shadowLeft, shadowTop,
+                      shadowLeft + image.size[0],
+                      shadowTop + image.size[1]])
+        # i=2
+    # Apply the BLUR filter repeatedly
+        for i in range(iterations):
+            shadow = shadow.filter(ImageFilter.BLUR)
+        # shadow.show()
+
+    # Paste the original image on top of the shadow
+    # if the shadow offset was <0, push right
+        imgLeft = border - min(offset[0], 0)
+    # if the shadow offset was <0, push down
+        imgTop = border - min(offset[1], 0)
+        shadow.paste(image, (imgLeft, imgTop))
+        # shadow.show()
+        return shadow
+
+if __name__ == "__main__":
+    from global_variables import COLORS
+    img = rounded_rect((310, 60), 10, COLORS['PURPLE'], 10, shadow=True)
+    print img.image.size
+    # img.image.show()
+    print img.image.mode
+    # print newIMG.verify()
+    # img.image.save('zzz.png')
