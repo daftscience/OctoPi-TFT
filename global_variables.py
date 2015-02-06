@@ -1,5 +1,7 @@
 import sys
 import pygame
+import os
+from parseIcons import icon
 sys.dont_write_bytecode = True
 
 ROWS = {'1': 'A',
@@ -19,6 +21,16 @@ ROWS = {'1': 'A',
 # TITLE_RECT = pygame.Rect(3, 30, 314, 60)
 TITLE_RECT = pygame.Rect(0, 25, 320, 70)
 SWIPE_HINT_RECT = pygame.Rect(0, 210, 320, 30)
+
+ICON_FONT_FILE = 'pifile.ttf'
+ICON_FONT_JSON = 'config.json'
+
+ICONS = icon(ICON_FONT_JSON, ICON_FONT_FILE)
+
+CORNER_QUALITY = 8
+SHADING_QUALITY = 3
+
+
 
 
 COLORS = {
@@ -44,3 +56,4 @@ LOADING_MESSEGES = [
     "Homing",
     "Running Enhanced clean on all probes"
 ]
+

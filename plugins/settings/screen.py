@@ -32,8 +32,8 @@ class myScreen(PiInfoScreen):
         self.surface.fill(COLORS['CLOUD'])
         self.hint_text.string = "settings will\n be here soon!"
         self.title.update()
-        mykeys = virtkeyboard.VirtualKeyboard()
-        userinput = mykeyboard.run(self.serface, "Something?")
+        # mykeys = virtkeyboard.VirtualKeyboard()
+        # userinput = mykeyboard.run(self.serface, "Something?")
 
         RACK_DB.next_location()
 

@@ -18,8 +18,6 @@ import configobj
 import sys
 import os
 import urllib2
-# import urllib
-# import StringIO
 import gui_objects
 import eztext
 from global_variables import COLORS, TITLE_RECT
@@ -51,6 +49,7 @@ class PiInfoScreen():
         # Set config filepath...
         self.plugindir = os.path.dirname(
             sys.modules[self.__class__.__module__].__file__)
+        self.banner_location = os.path.join(self.plugindir, 'resources', 'banner.png')
         self.configfile = os.path.join(self.plugindir, "config", "screen.ini")
         # ...and read the config file
         self.readConfig()
@@ -90,7 +89,8 @@ class PiInfoScreen():
             # Rect(left, top, width, height) -> Rect
             rect=TITLE_RECT,
             rounded=True,
-            background_color=COLORS[self.color])
+            background_color=COLORS[self.color],
+            banner_location = self.banner_location)
 
         self.hint_rect = pygame.Rect(0, 120, 320, 70)
         # self.hint_rect = pygame.Rect(0, 120, 320, 60)
@@ -148,12 +148,9 @@ class PiInfoScreen():
             "plugin_info"]['loading_message']
 
         try:
-            title_icon_location = os.path.join(
-                "resources/icons",
-                self.pluginConfig['ui_settings']['title_icon'])
-            self.title_icon = pygame.image.load(title_icon_location)
+            self.title_icon = self.pluginConfig['ui_settings']['title_icon']
         except:
-            self.title_icon = None
+            self.title_icon = 0xf058
             print "no title icon for this plugin"
 
         # create a dict with fonts defined in config/settings.ini

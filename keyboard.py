@@ -38,8 +38,12 @@
 
 import pygame
 import time
-from global_variables import COLORS
+import os
+import unicodedata
+from pprint import pprint
+from global_variables import COLORS, ICONS, ICON_FONT_FILE
 from pygame.locals import *
+# from parseIcons import icon
 
 from string import maketrans
 Uppercase = maketrans("1234567890",
@@ -64,20 +68,32 @@ class VirtualKeyboard():
 
         # create a background surface
         self.background = pygame.Surface(self.rect.size)
+        # self.screen.fill(COLORS['ASPHALT'])
         self.screen.fill(COLORS['CLOUD'])
 
-        self.keyW = int(self.w / 4)  # key width with border
-        self.keyH = int(self.h / 5)  # key height
+        self.keyW = int((self.w) / 4)  # key width with border
+        self.keyH = int((self.h) / 5)  # key height
 
         self.x = (self.w - self.keyW * 4) / 2  # centered
+        print self.x
         self.y = 0  # stay away from the edges (better touch)
 
         pygame.font.init()  # Just in case
-        self.keyFont = pygame.font.Font(None, self.keyW)  # keyboard font
+
+        font_file = 'Anke.ttf'
+        font_location = os.path.join("resources/fonts", font_file)
+        self.keyFont = pygame.font.Font(
+            font_location, int(
+                self.keyH * 0.8))  # keyboard font
+        # font_file = 'pifile.ttf'
+        icon_location = os.path.join("resources/icons/font", ICON_FONT_FILE)
+        self.fa = pygame.font.Font(
+            icon_location, int(
+                self.keyH * 0.70))  # keyboard font
 
         # set dimensions for text input box
-        self.textW = self.keyW * 3  # + 4  # leave room for escape key
-        self.textH = self.keyH * 1
+        self.textW = self.w# + 4  # leave room for escape key
+        self.textH = self.keyH
 
         self.caps = False
         self.keys = []
@@ -124,8 +140,10 @@ class VirtualKeyboard():
                             self.selectatmouse()
 
             counter += 1
-            if counter > 5:
+            print self.input.cursorvis
+            if counter > 10:
                 self.input.flashcursor()
+                # self.input.draw()
                 counter = 0
 
     def unselectall(self, force=False):
@@ -155,6 +173,11 @@ class VirtualKeyboard():
                     return False
                 if key.spacekey:
                     self.input.addcharatcursor(' ')
+                    self.paintkeys()
+                    return False
+                if key.clear:
+                    while self.input.cursorpos > 0:
+                        self.input.backspace()
                     self.paintkeys()
                     return False
                 if key.shiftkey:
@@ -208,11 +231,8 @@ class VirtualKeyboard():
 
     def addkeys(self):  # Add all the keys for the virtual keyboard
 
-        x = self.x+1
+        x = self.x + 1
         y = self.y + self.textH  # + self.keyH / 4
-
-        # y = self.keyH  # overlap border
-        # x += self.x + self.keyW
 
         row = ['1', '2', '3']
         for item in row:
@@ -225,20 +245,19 @@ class VirtualKeyboard():
                 self.keyFont)
             self.keys.append(onekey)
             x += self.keyW
-
-        onekey = VKey('<-',
+        onekey = VKey('keyboard-backspace',
                       x,
                       y,
-                      self.keyW,
+                      self.keyW-1,
                       self.keyH,
-                      self.keyFont)
-        onekey.special = True
+                      self.fa, special=True)
+        # onekey.special = True
         onekey.bskey = True
         self.keys.append(onekey)
         x += onekey.w + self.keyW / 3
 
         y += self.keyH  # overlap border
-        x = self.x+1
+        x = self.x + 1
 
         row = ['4', '5', '6']
         for item in row:
@@ -251,22 +270,19 @@ class VirtualKeyboard():
                 self.keyFont)
             self.keys.append(onekey)
             x += self.keyW
-
         x += self.x
-
-        onekey = VKey(
-            'a',
-            x,
-            y,
-            self.keyW,
-            self.keyH,
-            self.keyFont)
-        onekey.special = True
-        onekey.shiftkey = True
+        onekey = VKey('alphabetical',
+                      x,
+                      y,
+                      self.keyW-1,
+                      self.keyH,
+                      self.fa, special=True, shiftkey=True)
+        # onekey.special = True
+        # onekey.shiftkey = True
         self.keys.append(onekey)
 
         y += self.keyH
-        x = self.x+1
+        x = self.x + 1
 
         row = ['7', '8', '9']
         for item in row:
@@ -281,48 +297,58 @@ class VirtualKeyboard():
             x += self.keyW
 
         onekey = VKey(
-            'En',
+            # self.icons.unicode('alphabetical'),
+            'keyboard-return',
             x,
             y,
-            self.keyW,
+            self.keyW-1,
             self.keyH * 2,
-            self.keyFont)
-        onekey.special = True
+            self.fa, special=True)
+        # onekey.special = True
         onekey.enter = True
         self.keys.append(onekey)
         # x += onekey.w
 
         y += self.keyH
-        x = self.x+1
+        x = self.x + 1
+
+        onekey = VKey('keyboard-close',
+                      x,
+                      y,
+                      int(self.keyW),
+                      self.keyH,
+                      self.fa, special=True)
+        onekey.escape = True
+        self.keys.append(onekey)
+        x += self.keyW
 
         onekey = VKey('0',
                       x,
                       y,
-                      int(self.keyW * 3),
+                      int(self.keyW),
                       self.keyH,
                       self.keyFont)
         self.keys.append(onekey)
-        x += self.keyW * 3
+        x += self.keyW
 
-        # xfont = pygame.font.SysFont(
-        #     'Courier',
-        #     22,
-        #     bold=True)  # I like this X better #TODO???
-        onekey = VKey(
-            'X',
-            self.x +
-            self.textW+1,
-            self.y,
-            self.keyW,
-            self.keyH,self.keyFont)  # exit key TODO???
-        onekey.special = True
-        onekey.escape = True
+        onekey = VKey('eraser',
+                      x,
+                      y,
+                      int(self.keyW),
+                      self.keyH,
+                      self.fa, special=True)
+        onekey.clear = True
         self.keys.append(onekey)
+        x += self.keyW
+
+
+
+
+
         self.all_keys = pygame.sprite.Group()
         self.all_keys.add(self.all_keys, self.keys)
         # for key in self.keys:
             # all_keys.add(key)
-
 
     def paintkeys(self):
         ''' Draw the keyboard (but only if they're dirty.) '''
@@ -353,13 +379,16 @@ class TextInput():
         self.cursorpos = len(text)
         self.x = x
         self.y = y
-        self.w = w-3
-        self.h = h -2
-        self.rect = Rect(x+1, y, w, h)
+        self.w = w-2
+        self.h = h-3
+        self.rect = Rect(1,1, w, h)
+        self.surface_rect = Rect(0,0, w, h)
         self.layer = pygame.Surface((self.w, self.h))
-        self.background = pygame.Surface((self.w, self.h))
-        self.surface = screen.subsurface(self.rect)
-        self.max_length = 10
+        # self.background = pygame.Surface((self.w, self.h))
+        # pprint(screen.get_rect())
+        # pprint(self.rect)
+        self.surface = screen.subsurface(self.surface_rect)
+        self.max_length = 9
 
         self.background_color = COLORS['ORANGE']
         self.font_color = COLORS['CLOUD']
@@ -367,26 +396,32 @@ class TextInput():
 
         # self.font = pygame.font.Font(None, fontsize) # use this if you want more
         # text in the line
-        rect = screen.get_rect()
-        fsize = int(
-            rect.height /
-            8 +
-            0.5)  # font size proportional to screen height
-        self.txtFont = pygame.font.SysFont('Courier New', fsize, bold=True)
 
+
+        font_file = 'SourceCodePro-Regular.ttf'
+        font_location = os.path.join("resources/fonts", font_file)
+
+
+        rect = self.surface_rect
+        fsize = int(self.h)  # font size proportional to screen height
+        self.txtFont = pygame.font.Font(
+            font_location, int(
+                fsize))  # keyboard font
+        # self.txtFont = pygame.font.SysFont('Courier New', fsize, bold=True)
 
         # attempt to figure out how many chars will fit on a line
         # this does not work with proportional fonts
         tX = self.txtFont.render("XXXXXXXXXX", 1, (255, 255, 0))  # 10 chars
         rtX = tX.get_rect()  # how big is it?
-        
+
         # chars per line (horizontal)
         self.lineChars = int(self.w / (rtX.width / 10)) - 1
+        self.lineH = self.h-4  # pixels per line (vertical)
         self.lineH = rtX.height  # pixels per line (vertical)
-        
+
         # print 'txtinp: width={} rtX={} font={} lineChars={}
         # lineH={}'.format(self.w,rtX,fsize, self.lineChars,self.lineH)
-        self.cursorlayer = pygame.Surface((2, 29))  # thin vertical line
+        self.cursorlayer = pygame.Surface((2, self.lineH-20))  # thin vertical line
         self.cursorlayer.fill(self.cursor_color)  # white vertical line
         self.cursorvis = True
 
@@ -397,14 +432,15 @@ class TextInput():
 
     def draw(self):
         ''' Draw the text input box '''
-        self.layer.fill(self.background_color)  # clear the layer
+        self.layer.fill(self.background_color)
+        # self.layer.fill(COLORS['TEAL'])  # clear the layer
 
-        txt1 = self.text[:self.lineChars]  # line 1
-        t1 = self.txtFont.render(txt1, 1, self.font_color)  # line 1
-        self.layer.blit(t1, (4, 4))
+        # txt1 = self.text[:self.lineChars]  # line 1
+        t1 = self.txtFont.render(self.text, 1, self.font_color)  # line 1
+        self.layer.blit(t1, (10, -8))
 
-        self.surface.blit(self.layer, self.rect)
         self.drawcursor()
+        self.surface.blit(self.layer, self.rect)
 
         pygame.display.update()
 
@@ -414,18 +450,17 @@ class TextInput():
             self.cursorvis = False
         else:
             self.cursorvis = True
-        # self.background.set_alpha(10)
-        # self.screen.blit(self.screenCopy, self.rect)
-        # self.surface.blit(self.screenCopy, self.rect)
-        self.surface.blit(self.layer, self.rect)
 
         if self.cursorvis:
             self.drawcursor()
-        pygame.display.update()
+        self.draw()
+        # pygame.display.update()
 
     def addcharatcursor(self, letter):
         ''' Add a character whereever the cursor is currently located '''
-        if self.cursorpos < len(self.text) and len(self.text) > self.max_length:
+        if self.cursorpos < len(
+                self.text) and len(
+                self.text) > self.max_length:
             # Inserting in the middle
             self.text = self.text[:self.cursorpos] + \
                 letter + self.text[self.cursorpos:]
@@ -466,22 +501,28 @@ class TextInput():
         if line > 1:
             line = 1
         x = 4
-        y = 4 + self.y + line * self.lineH
+        y = 4
         print y
         # Calc width of text to this point
         if self.cursorpos > 0:
             linetext = self.text[line * self.lineChars:self.cursorpos]
             rtext = self.txtFont.render(linetext, 1, self.font_color)
             textpos = rtext.get_rect()
-            x = x + textpos.width + 1
+            x = x + textpos.width + 6
 
-        # self.subsurface.blit(self.screenCopy, (x, y))
-        self.surface.blit(self.cursorlayer, (x, y))
+        if self.cursorvis:
+            self.cursorlayer.fill(self.cursor_color)
+        else:
+            self.cursorlayer.fill(self.background_color)
+        self.layer.blit(self.cursorlayer, (x, y))
+        # self.surface.blit(self.cursorlayer, (x, y))
+        pygame.display.update()
 
     def setcursor(self, pos):  # move cursor to char nearest position (x,y)
-        line = int((pos[1] - self.y) / self.lineH)  # vertical
-        if line > 1:
-            line = 1  # only 2 lines
+        # line = int((pos[1] - self.y) / self.lineH)  # vertical
+        # if line > 1:
+            # line = 1  # only 2 lines
+        line=0
         x = pos[0] - self.x + line * self.w  # virtual x position
         p = 0
         l = len(self.text)
@@ -508,25 +549,26 @@ class VKey(pygame.sprite.Sprite):
     ''' A single key for the VirtualKeyboard '''
 #    def __init__(self, caption, x, y, w=67, h=67):
 
-    def __init__(self, caption, x, y, w, h, font):
+    def __init__(self, caption, x, y, w, h, font, special=False, shiftkey=False):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
 
-        self.w = w + 1  # overlap borders
-        self.h = h + 1  # overlap borders
-        self.special = False
-        self.enter = False
+        self.w = w #+ 1  # overlap borders
+        self.h = h #+ 1  # overlap borders
+        self.special = special
+        self.enter =False
         self.bskey = False
         self.fskey = False
+        self.clear = False
         self.spacekey = False
         self.escape = False
-        self.shiftkey = False
+        self.shiftkey = shiftkey
         self.font = font
         self.selected = False
         self.dirty = True
-
-        self.image = pygame.Surface((w-2,h-2))
+        # self.icons = icon(ICON_FONT_JSON, ICON_FONT_FILE)
+        self.image = pygame.Surface((w-1, h-1))
         self.rect = Rect(self.x, self.y, w, h)
 
         # self.font.render(keyletter, 1, (255, 255, 255))
@@ -534,13 +576,21 @@ class VKey(pygame.sprite.Sprite):
         self.color = COLORS['TEAL']
         self.selected_color = COLORS['ORANGE']
         self.font_color = COLORS['CLOUD']
-        self.caption = caption
-        self.shifted_caption = self.caption.translate(Uppercase)
+
+        if special:
+            self.caption = ICONS.unicode(caption)
+            if shiftkey:
+                self.shifted_caption = ICONS.unicode('numeric')
+        else:
+            self.caption = caption
+            self.shifted_caption = self.caption.translate(Uppercase)
+        
+        if not special or self.shiftkey:
+            self.shifted_text = self.font.render(
+                self.shifted_caption,
+                1,
+                self.font_color)
         self.text = self.font.render(self.caption, 1, self.font_color)
-        self.shifted_text = self.font.render(self.shifted_caption, 1, self.font_color)
-
-
-
 
     def update(self, shifted=False, forcedraw=False):
         '''  Draw one key if it needs redrawing '''
@@ -549,7 +599,7 @@ class VKey(pygame.sprite.Sprite):
                 return
 
         text = self.text
-        if not self.special:
+        if not self.special or self.shiftkey:
             if shifted:
                 text = self.shifted_text
 
@@ -557,7 +607,6 @@ class VKey(pygame.sprite.Sprite):
             color = self.selected_color
         else:
             color = self.color
-
 
         self.image.fill(color)
         textpos = text.get_rect()

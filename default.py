@@ -4,11 +4,11 @@ import imp
 import os
 import random
 import traceback
+sys.dont_write_bytecode = True
 from global_variables import COLORS, LOADING_MESSEGES
 from time import time
 from keyboard import VirtualKeyboard
 
-sys.dont_write_bytecode = True
 debug = True
 screensleep = 60000
 
@@ -353,10 +353,6 @@ def getSwipeType():
     return 0
 
 
-
-
-
-
 def longPress(downTime):
     if pygame.time.get_ticks() - longPressTime > downTime:
         return True
@@ -400,7 +396,6 @@ while not quit:
                 vkey = VirtualKeyboard(screen)
                 txt = vkey.run('')
             # print "Screen Index After: " + str(screenindex)
-
 
         if (event.type == TFTBUTTONCLICK):
             if (event.button == 1):

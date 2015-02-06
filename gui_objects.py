@@ -1,12 +1,15 @@
 import pygame
 import sys
+import os
 from PIL import Image, ImageFilter
 from time import strftime, localtime, sleep
 # from shadow import dropShadow, rounded_rectangle
-from PIL import Image, ImageDraw, ImageFilter
-from global_variables import COLORS, ROWS
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from global_variables import COLORS, ROWS, ICON_FONT_FILE, ICON_FONT_JSON, SHADING_QUALITY, CORNER_QUALITY
 sys.dont_write_bytecode = True
 from pprint import pprint
+from parseIcons import icon
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
 class text_label(pygame.sprite.Sprite):
@@ -51,14 +54,8 @@ class text_label(pygame.sprite.Sprite):
 
         if self.align == 'left':
             self.fontRect.left = self.surface.get_rect().left
-            # fontRect.left = bg_rect.left
-            # self.image.blit(fontSurface, fontRect)
         elif self.align == 'right':
             self.fontRect.right = self.surface.get_rect().right
-            # fontRect = fontSurface.get_rect()
-            # bg_rect = self.image.get_rect()
-            # fontRect.right = bg_rect.right
-            # self.image.blit(fontSurface, fontRect)
         else:
             self.fontRect.centerx = self.surface.get_rect().centerx
 
@@ -69,14 +66,6 @@ class text_label(pygame.sprite.Sprite):
         else:
             self.fontRect.centery = self.surface.get_rect().centery
 
-        # if self.rounded:
-                # self.surface.fill(self.background_color)
-        # else:
-            # if self.background_color:
-                # self.surface.fill(self.background_color)
-            # else:
-                # self.surface.fill(COLORS['CLOUD'])
-
     def update(self):
         self.blit_text()
         self.surface.fill(self.background_color)
@@ -86,34 +75,57 @@ class text_label(pygame.sprite.Sprite):
 class title_banner(text_label):
 
     def __init__(self, *args, **kwargs):
-        self.image = kwargs['title_icon']
+        self.title_icon = kwargs['title_icon']
         super(title_banner, self).__init__(*args, **kwargs)
+        self.icons = icon(ICON_FONT_JSON, ICON_FONT_FILE)
         # print "initialized title_text class"
         self.surface.get_size()
         self.blit_text()
-        self.banner = rounded_rect(
-            (self.surface.get_size()),
-            radius=2,
-            fill=self.background_color,
-            quality=5,
-            shadow=False)
-        self.rect = self.surface.get_rect()
-        self.pygameImage = pygame.image.fromstring(
-            self.banner.image.tostring(),
-            self.banner.image.size,
-            'RGBA',
-            False).convert_alpha()
+
+        try:
+            self.pygameImage = pygame.image.load(kwargs['banner_location'])
+        except:
+            self.banner = rounded_rect(
+                (self.surface.get_size()),
+                radius=2,
+                fill=self.background_color,
+                quality=CORNER_QUALITY,
+                shadow=False)
+
+            self.rect = self.surface.get_rect()
+            self.add_text()
+
+            self.pygameImage = pygame.image.fromstring(
+                self.banner.image.tostring(),
+                self.banner.image.size,
+                'RGBA',
+                False).convert_alpha()
+            pygame.image.save(self.pygameImage, kwargs['banner_location'])
+        
+        self.blit_text()
+
+    def add_text(self):
+        print self.title_icon
+        icon_unicode = self.icons.unicode(self.title_icon)
+        self.fa = ImageFont.truetype(self.icons.font_location, 40)
+        text = ImageDraw.Draw(self.banner.image)
+        image_width, image_height = text.textsize(icon_unicode, font=self.fa)
+        surface_width, surface_height = self.surface.get_size()
+        text.text(
+            (35,
+             (surface_height - image_height) / 2),
+            icon_unicode,
+            font=self.fa)
+        # self.banner.image.show()
 
     def update(self):
-        self.blit_text()
         self.surface.blit(self.pygameImage, (0, 0))
-        self.image_rect = self.image.get_rect()
+        # self.image_rect = self.image.get_rect()
 
-        self.image_rect.left = 25
+        # self.image_rect.left = 25
         self.surface.blit(self.label, self.fontRect)
-        self.image_rect.centery = self.fontRect.centery
-        self.surface.blit(self.image, self.image_rect)
-
+        # self.image_rect.centery = self.fontRect.centery
+        # self.surface.blit(self.image, self.image_rect)
 
 
 def format_location(item):

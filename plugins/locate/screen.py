@@ -37,17 +37,17 @@ class myScreen(PiInfoScreen):
         self.title.update()
         self.hint_surface.blit(self.hint_text.update(), (0, 0))
 
-        self.not_found_path = os.path.join("resources/icons", 'sadface.png')
-        self.not_found = pygame.image.load(self.not_found_path).convert_alpha()
-        self.not_found_rect = self.not_found.get_rect()
-        print "width: " + str(self.not_found_rect.width)
+        # self.not_found_path = os.path.join("resources/icons", 'sadface.png')
+        # self.not_found = pygame.image.load(self.not_found_path).convert_alpha()
+        # self.not_found_rect = self.not_found.get_rect()
+        # print "width: " + str(self.not_found_rect.width)
 
         # pprint(self.hint_surface.get_rect())
-        self.not_found_rect.centerx = self.hint_surface.get_rect().centerx
-        self.not_found_rect.top = 0
-        pprint(self.not_found_rect)
-        self.not_found_surface = self.hint_surface.subsurface(
-            self.not_found_rect)
+        # self.not_found_rect.centerx = self.hint_surface.get_rect().centerx
+        # self.not_found_rect.top = 0
+        # pprint(self.not_found_rect)
+        # self.not_found_surface = self.hint_surface.subsurface(
+            # self.not_found_rect)
 
         RACK_DB.next_location()
 
@@ -151,8 +151,8 @@ class myScreen(PiInfoScreen):
                     self.new_result = False
                     if self.result_text.string == "not found":
                         print "not found man"
-                        self.hint_surface.blit(
-                            self.not_found, self.not_found_rect)
+                        # self.hint_surface.blit(
+                            # self.not_found, self.not_found_rect)
                         # self.surface.blit(self.hint_surface, self.hint_rect)
                     else:
                         print "blitting result_rect"

@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFilter
-
+from global_variables import SHADING_QUALITY, CORNER_QUALITY
 
 class rounded_rect():
 
@@ -19,7 +19,8 @@ class rounded_rect():
         if shadow:
           self.image = self.round_rectangle()
         else:
-          self.image = makeShadow(self.rounded_rectangle(), 5, 5, (0,6), 0xffffff, 0x000000)
+          # self.image = makeShadow(self.rounded_rectangle(), 5, 5, (0,6), 0xffffff, 0x000000)
+          self.image = makeShadow(self.rounded_rectangle(), 5, SHADING_QUALITY, (0,6), 0xffffff, 0x000000)
     def round_corner(self):
         """Draw a round corner"""
         corner = Image.new('RGBA', (self.radius, self.radius), (0, 0, 0, 0))
