@@ -1,14 +1,14 @@
 import pygame
 import sys
 import os
+import parseIcons
 from PIL import Image, ImageFilter
-from time import strftime, localtime, sleep
-# from shadow import dropShadow, rounded_rectangle
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
-from global_variables import COLORS, ROWS, ICON_FONT_FILE, ICON_FONT_JSON, SHADING_QUALITY, CORNER_QUALITY
+from time import strftime, localtime
+from PIL import ImageDraw, ImageFont
+from global_variables import COLORS, ROWS, ICON_FONT_FILE
+from global_variables import ICON_FONT_JSON, CORNER_QUALITY
+
 sys.dont_write_bytecode = True
-from pprint import pprint
-from parseIcons import icon
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -77,7 +77,7 @@ class title_banner(text_label):
     def __init__(self, *args, **kwargs):
         self.title_icon = kwargs['title_icon']
         super(title_banner, self).__init__(*args, **kwargs)
-        self.icons = icon(ICON_FONT_JSON, ICON_FONT_FILE)
+        self.icons = parseIcons.icon(ICON_FONT_JSON, ICON_FONT_FILE)
         # print "initialized title_text class"
         self.surface.get_size()
         self.blit_text()
@@ -101,7 +101,7 @@ class title_banner(text_label):
                 'RGBA',
                 False).convert_alpha()
             pygame.image.save(self.pygameImage, kwargs['banner_location'])
-        
+
         self.blit_text()
 
     def add_text(self):
@@ -165,11 +165,6 @@ class render_textrect():
         self.MaxFont = MaxFont
         self.MinFont = MinFont
 
-        # print "----font size----"
-        # print self.MaxFont
-        # print self.MinFont
-        # print "-----------------"
-
         if isinstance(self.margin, tuple):
             if not len(self.margin) == 4:
                 try:
@@ -223,8 +218,6 @@ class render_textrect():
 
     def draw_text_rect(self):
         final_lines = []
-        # print self.string
-        # string = self.string
         requested_lines = self.string.splitlines()
         # Create a series of lines that will fit on the provided
         # rectangle.
@@ -266,8 +259,6 @@ class render_textrect():
         for line in final_lines:
             if accumulated_height + \
                     self.font.size(line)[1] >= self.rect.height:
-                # print "throwing exception - lineheight=" +
-                # str(accumulated_height)
                 raise self.TextRectException(
                     "Once word-wrapped, the text string was too tall to fit in the rect.")
             if line != "":
@@ -364,7 +355,6 @@ class rounded_rect():
             270,
             fill=self.fill)
         corner.convert('RGBA')
-        # corner.show()
         return corner
 
     def round_rectangle(self):
@@ -394,8 +384,6 @@ class rounded_rect():
             ((self.width - self.radius, 0), ((self.radius), (self.height))), fill=self.fill)
         dl.rectangle(
             ((0, self.radius), ((self.width), (self.height - self.radius))), fill=self.fill)
-
-        # rectangle = rectangle.resize(self.og_size, resample=Image.LANCZOS)
         return rectangle
 
     def makeShadow(self,
@@ -422,7 +410,6 @@ class rounded_rect():
             (fullWidth,
              fullHeight),
             backgroundColour)
-        # shadow.show()
     # Place the shadow, with the required offset
     # if <0, push the rest of the image right
         shadowLeft = border + max(offset[0], 0)

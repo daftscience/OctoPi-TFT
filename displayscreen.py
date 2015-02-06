@@ -1,18 +1,3 @@
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
-'''
-
 import pygame
 import configobj
 import sys
@@ -21,6 +6,7 @@ import urllib2
 import gui_objects
 import eztext
 from global_variables import COLORS, TITLE_RECT
+
 sys.dont_write_bytecode = True
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -86,7 +72,6 @@ class PiInfoScreen():
             font=self.fonts['title_font']['font'],
             text=self.name,
             color=COLORS[self.fonts['title_font']['color']],
-            # Rect(left, top, width, height) -> Rect
             rect=TITLE_RECT,
             rounded=True,
             background_color=COLORS[self.color],
@@ -100,7 +85,6 @@ class PiInfoScreen():
             font=self.fonts['swipe_font']['font'],
             rect=self.hint_rect,
             text_color=COLORS[self.color],
-            # text_color=COLORS[self.color],
             background_color=COLORS['CLOUD'],
             justification=1,
             FontPath=self.fonts['swipe_font']['path'],
@@ -117,7 +101,6 @@ class PiInfoScreen():
             font=self.fonts['clock_font']['font'],
             text='',
             color=COLORS[self.fonts['clock_font']['color']],
-            # Rect(left, top, width, height) -> Rect
             rect=self.clock_rect,
             valign='center',
             align="right",
@@ -171,7 +154,6 @@ class PiInfoScreen():
                 'size': font_size}
 
         if self.pluginConfig["ui_settings"]["has_input"] == 'True':
-            # self.has_accn = True
             self.has_accn_input = True
         else:
             self.has_accn_input = False
@@ -225,13 +207,6 @@ class PiInfoScreen():
         response = urllib2.urlopen(request)
         the_page = response.read()
         return the_page
-
-    # Function to get image and return in format pygame can use
-    # def LoadImageFromUrl(self, url, solid=False):
-    #     f = urllib.urlopen(url)
-    #     buf = StringIO.StringIO(f.read())
-    #     image = self.LoadImage(buf, solid)
-    #     return image
 
     def LoadImage(self, fileName, solid=False):
         image = pygame.image.load(fileName)

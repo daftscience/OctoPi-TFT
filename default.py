@@ -4,10 +4,10 @@ import imp
 import os
 import random
 import traceback
-sys.dont_write_bytecode = True
 from global_variables import COLORS, LOADING_MESSEGES
 from time import time
 from keyboard import VirtualKeyboard
+sys.dont_write_bytecode = True
 
 debug = True
 screensleep = 60000

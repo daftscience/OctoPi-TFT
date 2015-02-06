@@ -1,12 +1,10 @@
 import sys
-import os
 import pygame
 import gui_objects
 from time import strftime, localtime, time
-# from time import time, gmtime, strftime, mktime, localtime
 from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
-from global_variables import COLORS, TITLE_RECT, ROWS
+from global_variables import COLORS
 from displayscreen import PiInfoScreen
 from database import RACK_DB
 sys.dont_write_bytecode = True
@@ -37,18 +35,6 @@ class myScreen(PiInfoScreen):
         self.title.update()
         self.hint_surface.blit(self.hint_text.update(), (0, 0))
 
-        # self.not_found_path = os.path.join("resources/icons", 'sadface.png')
-        # self.not_found = pygame.image.load(self.not_found_path).convert_alpha()
-        # self.not_found_rect = self.not_found.get_rect()
-        # print "width: " + str(self.not_found_rect.width)
-
-        # pprint(self.hint_surface.get_rect())
-        # self.not_found_rect.centerx = self.hint_surface.get_rect().centerx
-        # self.not_found_rect.top = 0
-        # pprint(self.not_found_rect)
-        # self.not_found_surface = self.hint_surface.subsurface(
-            # self.not_found_rect)
-
         RACK_DB.next_location()
 
         # This is the box where location results go
@@ -75,7 +61,6 @@ class myScreen(PiInfoScreen):
             font=self.fonts['info_font']['font'],
             text="",
             color=COLORS[self.fonts['info_font']['color']],
-            # Rect(left, top, width, height) -> Rect
             rect=self.info0_rect,
             valign='bottom',
             align="center",
@@ -96,7 +81,6 @@ class myScreen(PiInfoScreen):
             background_color=COLORS['CLOUD'])
 
     def reset(self):
-        # self.hint_text.fontsize = self.hint_text.MaxFont
         self.hint_surface.fill(COLORS['CLOUD'])
         self.result_text.font = self.fonts['result_font']['font']
         self.info0.text = ''
@@ -144,16 +128,12 @@ class myScreen(PiInfoScreen):
         pass
 
     def showScreen(self):
-        # print pygame.mouse.get_pos()
         if self.timer:
             if self.timeout > time():
                 if self.new_result:
                     self.new_result = False
                     if self.result_text.string == "not found":
                         print "not found man"
-                        # self.hint_surface.blit(
-                            # self.not_found, self.not_found_rect)
-                        # self.surface.blit(self.hint_surface, self.hint_rect)
                     else:
                         print "blitting result_rect"
                         self.hint_surface.blit(

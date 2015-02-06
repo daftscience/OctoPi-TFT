@@ -1,14 +1,8 @@
 import sys
-import pygame
-import gui_objects
 from time import strftime, localtime
-# from time import time, gmtime, strftime, mktime, localtime
-from pprint import pprint
-from pygame.locals import K_RETURN, KEYDOWN
-from global_variables import COLORS, TITLE_RECT, ROWS
+from global_variables import COLORS
 from displayscreen import PiInfoScreen
 from database import RACK_DB
-# import virtkeyboard
 sys.dont_write_bytecode = True
 
 
