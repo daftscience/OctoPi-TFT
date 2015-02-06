@@ -120,8 +120,6 @@ class myScreen(PiInfoScreen):
                     for item in reversed_list:
                         formated.append(gui_objects.format_location(item))
                     self.result_text.string = "\n".join(formated)
-                    pprint(formated)
-                    print self.result_text.string
         self.accn_input.update(event)
 
     def update_locations(self):
@@ -132,17 +130,17 @@ class myScreen(PiInfoScreen):
             if self.timeout > time():
                 if self.new_result:
                     self.new_result = False
+                    # NOT FOUND
                     if self.result_text.string == "not found":
-                        print "not found man"
+                        pass
                     else:
-                        print "blitting result_rect"
+                        # FOUND
                         self.hint_surface.blit(
                             self.result_text.update(), (0, 0))
                 pass
             else:
                 self.timer = False
                 self.reset()
-                print "blitting hint"
                 self.hint_surface.blit(self.hint_text.update(), (0, 0))
 
         self.clock.text = strftime("%H:%M", localtime(time()))

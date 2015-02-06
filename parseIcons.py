@@ -1,7 +1,7 @@
-import simplejson
-import os
 import sys
 sys.dont_write_bytecode = True
+import simplejson
+import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # -----------------------------------------------------------------------------
@@ -15,7 +15,8 @@ class icon():
     def __init__(self, json_file, font_name):
         # GET THE LOCATION OF THE JSON FILE
         self.json_file = os.path.join('resources/icons/', json_file)
-
+        # GET THE LOCATION OF THE FONT - THIS IS NEEDED FOR SOME REASON
+        self.font_location = os.path.join('resources/icons/font/', font_name)
         # LOAD THE JSON FILE
         json_data = open(self.json_file)
         data = simplejson.load(json_data)
