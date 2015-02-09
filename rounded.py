@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFilter
 from global_variables import SHADING_QUALITY, CORNER_QUALITY
 
+
 class rounded_rect():
 
     def __init__(self, og_size, radius, fill, quality, shadow=False):
@@ -17,10 +18,16 @@ class rounded_rect():
             self.quality)
         self.width, self.height = self.size
         if shadow:
-          self.image = self.round_rectangle()
+            self.image = self.round_rectangle()
         else:
-          # self.image = makeShadow(self.rounded_rectangle(), 5, 5, (0,6), 0xffffff, 0x000000)
-          self.image = makeShadow(self.rounded_rectangle(), 5, SHADING_QUALITY, (0,6), 0xffffff, 0x000000)
+            self.image = makeShadow(
+                image=self.rounded_rectangle(),
+                iterations=5,
+                border=SHADING_QUALITY,
+                ofset=(0, 6),
+                backgroundColour=0xffffff,
+                shadowColour=0x000000)
+
     def round_corner(self):
         """Draw a round corner"""
         corner = Image.new('RGBA', (self.radius, self.radius), (0, 0, 0, 0))
@@ -70,51 +77,51 @@ class rounded_rect():
         rectangle = rectangle.resize(self.og_size, resample=Image.LANCZOS)
         return rectangle
 
-
     def makeShadow(self,
-        image,
-        iterations,
-        border,
-        offset,
-        backgroundColour,
-        shadowColour):
-    # image: base image to give a drop shadow
-    # iterations: number of times to apply the blur filter to the shadow
-    # border: border to give the image to leave space for the shadow
-    # offset: offset of the shadow as [x,y]
-    # backgroundCOlour: colour of the background
-    # shadowColour: colour of the drop shadow
+                   image,
+                   iterations,
+                   border,
+                   offset,
+                   backgroundColour,
+                   shadowColour):
+        # image: base image to give a drop shadow
+        # iterations: number of times to apply the blur filter to the shadow
+        # border: border to give the image to leave space for the shadow
+        # offset: offset of the shadow as [x,y]
+        # backgroundCOlour: colour of the background
+        # shadowColour: colour of the drop shadow
 
-    # Calculate the size of the shadow's image
-      fullWidth = image.size[0] + abs(offset[0]) + 2 * border
-      fullHeight = image.size[1] + abs(offset[1]) + 2 * border
+        # Calculate the size of the shadow's image
+        fullWidth = image.size[0] + abs(offset[0]) + 2 * border
+        fullHeight = image.size[1] + abs(offset[1]) + 2 * border
 
     # Create the shadow's image. Match the parent image's mode.
-      shadow = Image.new(image.mode, (fullWidth, fullHeight), backgroundColour)
+        shadow = Image.new(
+            image.mode, (fullWidth, fullHeight), backgroundColour)
 
     # Place the shadow, with the required offset
     # if <0, push the rest of the image right
-      shadowLeft = border + max(offset[0], 0)
+        shadowLeft = border + max(offset[0], 0)
     # if <0, push the rest of the image down
-      shadowTop = border + max(offset[1], 0)
+        shadowTop = border + max(offset[1], 0)
     # Paste in the constant colour
-      shadow.paste(shadowColour,
-                 [shadowLeft, shadowTop,
-                  shadowLeft + image.size[0],
-                  shadowTop + image.size[1]])
+        shadow.paste(shadowColour,
+                     [shadowLeft, shadowTop,
+                      shadowLeft + image.size[0],
+                      shadowTop + image.size[1]])
 
     # Apply the BLUR filter repeatedly
-      for i in range(iterations):
-        shadow = shadow.filter(ImageFilter.BLUR)
+        for i in range(iterations):
+            shadow = shadow.filter(ImageFilter.BLUR)
 
     # Paste the original image on top of the shadow
     # if the shadow offset was <0, push right
-      imgLeft = border - min(offset[0], 0)
+        imgLeft = border - min(offset[0], 0)
     # if the shadow offset was <0, push down
-      imgTop = border - min(offset[1], 0)
-      shadow.paste(image, (imgLeft, imgTop))
+        imgTop = border - min(offset[1], 0)
+        shadow.paste(image, (imgLeft, imgTop))
 
-      return shadow
+        return shadow
 
 if __name__ == "__main__":
     from global_variables import COLORS

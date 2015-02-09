@@ -5,8 +5,10 @@ import parseIcons
 from PIL import Image, ImageFilter
 from time import strftime, localtime
 from PIL import ImageDraw, ImageFont
-from global_variables import COLORS, ROWS, ICON_FONT_FILE
-from global_variables import ICON_FONT_JSON, CORNER_QUALITY
+from global_variables import COLORS, ROWS, ICON_FONT_FILE, ICONS
+from global_variables import ICON_FONT_JSON, CORNER_QUALITY, REBUILD_BANNER, CORNER_RADIUS
+
+from pprint import pprint
 
 sys.dont_write_bytecode = True
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -60,9 +62,9 @@ class text_label(pygame.sprite.Sprite):
             self.fontRect.centerx = self.surface.get_rect().centerx
 
         if self.valign == 'top':
-            self.fontRect.top = self.surface.get_rect().top
+            self.fontRect.top = 0
         elif self.valign == 'bottom':
-            self.fontRect.bottom = self.surface.get_rect().bottom
+            self.fontRect.bottom = self.rect.height
         else:
             self.fontRect.centery = self.surface.get_rect().centery
 
@@ -77,17 +79,42 @@ class title_banner(text_label):
     def __init__(self, *args, **kwargs):
         self.title_icon = kwargs['title_icon']
         super(title_banner, self).__init__(*args, **kwargs)
-        self.icons = parseIcons.icon(ICON_FONT_JSON, ICON_FONT_FILE)
+        # self.icons = parseIcons.icon(ICON_FONT_JSON, ICON_FONT_FILE)
         # print "initialized title_text class"
         self.surface.get_size()
         self.blit_text()
+        self.banner_location = kwargs['banner_location']
 
-        try:
-            self.pygameImage = pygame.image.load(kwargs['banner_location'])
-        except:
+        if REBUILD_BANNER:
+            self.build_banner()
+        else:
+            try:
+                self.pygameImage = pygame.image.load(self.banner_location)
+            except:
+                self.build_banner()
+            # self.banner = rounded_rect(
+            #     (self.surface.get_size()),
+            #     radius=2,
+            #     fill=self.background_color,
+            #     quality=CORNER_QUALITY,
+            #     shadow=False)
+
+            # self.rect = self.surface.get_rect()
+            # self.add_text()
+
+            # self.pygameImage = pygame.image.fromstring(
+            #     self.banner.image.tostring(),
+            #     self.banner.image.size,
+            #     'RGBA',
+            #     False).convert_alpha()
+            # pygame.image.save(self.pygameImage, kwargs['banner_location'])
+
+        self.blit_text()
+
+    def build_banner(self):
             self.banner = rounded_rect(
                 (self.surface.get_size()),
-                radius=2,
+                radius=CORNER_RADIUS,
                 fill=self.background_color,
                 quality=CORNER_QUALITY,
                 shadow=False)
@@ -100,14 +127,12 @@ class title_banner(text_label):
                 self.banner.image.size,
                 'RGBA',
                 False).convert_alpha()
-            pygame.image.save(self.pygameImage, kwargs['banner_location'])
-
-        self.blit_text()
+            pygame.image.save(self.pygameImage, self.banner_location)
 
     def add_text(self):
-        print self.title_icon
-        icon_unicode = self.icons.unicode(self.title_icon)
-        self.fa = ImageFont.truetype(self.icons.font_location, 40)
+        # print self.title_icon
+        icon_unicode = ICONS.unicode(self.title_icon)
+        self.fa = ImageFont.truetype(ICONS.font_location, 40)
         text = ImageDraw.Draw(self.banner.image)
         image_width, image_height = text.textsize(icon_unicode, font=self.fa)
         surface_width, surface_height = self.surface.get_size()

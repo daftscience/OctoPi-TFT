@@ -3,6 +3,7 @@ import time
 import os
 from global_variables import COLORS, ICONS, ICON_FONT_FILE
 from pygame.locals import *
+from sunquest import *
 
 from string import maketrans
 Uppercase = maketrans("1234567890",
@@ -28,7 +29,7 @@ class VirtualKeyboard():
         self.keyH = int((self.h) / 5)  # key height
 
         self.x = (self.w - self.keyW * 4) / 2  # centered
-        print self.x
+        # print self.x
         self.y = 0  # stay away from the edges (better touch)
 
         pygame.font.init()  # Just in case
@@ -38,9 +39,8 @@ class VirtualKeyboard():
         self.keyFont = pygame.font.Font(
             font_location, int(
                 self.keyH * 0.8))  # keyboard font
-        icon_location = os.path.join("resources/icons/font", ICON_FONT_FILE)
         self.fa = pygame.font.Font(
-            icon_location, int(
+            ICONS.font_location, int(
                 self.keyH * 0.70))  # keyboard font
 
         # set dimensions for text input box
@@ -81,19 +81,40 @@ class VirtualKeyboard():
                     if (e.type == MOUSEBUTTONUP):
                         if self.clickatmouse():
                             # user clicked enter or escape if returns True
-                            self.clear()
-                            # Return what the user entered
-                            return self.input.text
+                            if self.input.text == '':
+                                self.clear()
+                                # Return what the user entered
+                                return self.input.text
+                            else:
+                                # check that it's a valid accn
+                                if sunquest_fix(self.input.text) != None:
+                                    self.clear()
+                                    return sunquest_fix(self.input.text)
+                                else:
+                                    self.paintkeys()
+                                    temp = self.input.text
+                                    self.input.text = 'invalid'
+                                    self.input.cursorvis = False
+                                    self.input.draw()
+                                    time.sleep(1)
+                                    self.input.text = temp
+                                    self.input.draw()
+                                    # print "invalid"
+                                    # self.clear()
                     if (e.type == MOUSEMOTION):
                         if e.buttons[0] == 1:
                             # user click-dragged to a different key?
                             self.selectatmouse()
 
             counter += 1
-            print self.input.cursorvis
+            # print self.input.cursorvis
             if counter > 10:
                 self.input.flashcursor()
                 counter = 0
+
+    def invalid_entry(self):
+        self.clear()
+
 
     def unselectall(self, force=False):
         ''' Force all the keys to be unselected
@@ -142,6 +163,8 @@ class VirtualKeyboard():
                 else:
                     keycap = key.caption
                 self.input.addcharatcursor(keycap)
+                if self.caps:
+                    self.togglecaps()
                 self.paintkeys()
                 return False
 
@@ -420,7 +443,7 @@ class TextInput():
             line = 1
         x = 4
         y = 4
-        print y
+        # print y
         # Calc width of text to this point
         if self.cursorpos > 0:
             linetext = self.text[line * self.lineChars:self.cursorpos]

@@ -4,7 +4,7 @@ import gui_objects
 from time import strftime, localtime, time
 from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
-from global_variables import COLORS
+from global_variables import COLORS, ICONS
 from displayscreen import PiInfoScreen
 from database import RACK_DB
 sys.dont_write_bytecode = True
@@ -27,7 +27,7 @@ class myScreen(PiInfoScreen):
 
         self.timer = False
         self.timeout = 0
-        self.timeout_delay = 4  # in seconds
+        self.timeout_delay = 5  # in seconds
         self.new_result = False
 
         self.surface.fill(COLORS['CLOUD'])
@@ -36,6 +36,10 @@ class myScreen(PiInfoScreen):
         self.hint_surface.blit(self.hint_text.update(), (0, 0))
 
         RACK_DB.next_location()
+
+        print ICONS.font_location
+        self.icon_font = pygame.font.Font(ICONS.font_location, 30)  # keyboard font
+
 
         # This is the box where location results go
         self.result_rect = pygame.Rect(0, 200, 320, 60)
@@ -90,8 +94,9 @@ class myScreen(PiInfoScreen):
         self.result_text.cutoff = False
 
     def event_handler(self, event):
-        if event.type == KEYDOWN and event.key == K_RETURN:
-            accn = self.accn_input.value
+        if event.type == RETURN_EVENT:
+            accn = event.value
+            self.accn_box.text = "Accn#: "+ str(accn)
             if accn != '':
                 self.new_result = True
                 self.reset()
@@ -99,7 +104,8 @@ class myScreen(PiInfoScreen):
                 self.timer = True
                 result = RACK_DB.find_accn(accn)
                 if not result:
-                    self.result_text.string = "not found"
+                    self.result_text.font = self.icon_font
+                    self.result_text.string = ICONS.unicode('numeric')
                     self.info0.text = accn
                     self.info1.text = "sorry, not found"
                 else:
@@ -120,7 +126,7 @@ class myScreen(PiInfoScreen):
                     for item in reversed_list:
                         formated.append(gui_objects.format_location(item))
                     self.result_text.string = "\n".join(formated)
-        self.accn_input.update(event)
+        # self.accn_input.update(event)
 
     def update_locations(self):
         pass
@@ -131,13 +137,14 @@ class myScreen(PiInfoScreen):
                 if self.new_result:
                     self.new_result = False
                     # NOT FOUND
-                    if self.result_text.string == "not found":
+                    if self.info1.text == "sorry, not found":
+                        print "somthin"
+                        self.hint_surface.blit(self.result_text.update(), (0, 0))
                         pass
                     else:
                         # FOUND
                         self.hint_surface.blit(
                             self.result_text.update(), (0, 0))
-                pass
             else:
                 self.timer = False
                 self.reset()
@@ -147,6 +154,6 @@ class myScreen(PiInfoScreen):
         self.clock.update()
         self.info0.update()
         self.info1.update()
-        self.accn_input.draw(self.surface, self.accn_surface, COLORS['CLOUD'])
+        self.accn_box.update()
         self.screen.blit(self.surface, (0, 0))
         return self.screen

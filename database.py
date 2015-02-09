@@ -1,15 +1,16 @@
 from tinydb import TinyDB, where
 from time import time, mktime, strftime, localtime
 import datetime
+from global_variables import DATABASE_SETTINGS
 from pprint import pprint
 
 
 class tiny_db():
 
     def __init__(self):
-        self.db = TinyDB('db.json')
-        self.row_height = 12
-        self.column_width = 6
+        self.db = TinyDB(DATABASE_SETTINGS['database'])
+        self.row_height = DATABASE_SETTINGS['rows']
+        self.column_width = DATABASE_SETTINGS['columns']
         self.get_last_filed()
         self.rack_day = None
         self.next={}

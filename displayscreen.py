@@ -1,12 +1,14 @@
 import pygame
-import configobj
 import sys
 import os
 import urllib2
 import gui_objects
 import eztext
-from global_variables import COLORS, TITLE_RECT
+from configobj import ConfigObj
+from validate import Validator
+from global_variables import COLORS, TITLE_RECT, FONTS, PLUGIN_VALIDATOR
 
+from pprint import pprint
 sys.dont_write_bytecode = True
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -55,16 +57,6 @@ class PiInfoScreen():
             self.surfacesize = self.supportedsizes[0]
             self.surface = pygame.Surface(self.surfacesize)
 
-        if self.has_accn_input == True:
-            self.accn_surface = self.surface.subsurface(5, 0, 260, 27)
-            self.accn_input = eztext.Input(
-                font=self.fonts['input_font']['font'],
-                maxlength=13,
-                color=COLORS[self.fonts['input_font']['color']],
-                prompt='Accn #: ',
-                x=5, y=2)
-
-
         self.title_surface = self.surface.subsurface(TITLE_RECT)
         self.title = gui_objects.title_banner(
             surface=self.title_surface,
@@ -94,25 +86,45 @@ class PiInfoScreen():
             shrink=True,
             vjustification=1)
 
-        self.clock_rect = pygame.Rect(265, 2, 50, 25)
+        self.clock_rect = pygame.Rect(265, 0, 50, 25)
         self.clock_surface = self.surface.subsurface(self.clock_rect)
         self.clock = gui_objects.text_label(
             surface=self.clock_surface,
-            font=self.fonts['clock_font']['font'],
+            font=FONTS['clock_font']['font'],
             text='',
-            color=COLORS[self.fonts['clock_font']['color']],
+            color=COLORS[FONTS['clock_font']['color']],
             rect=self.clock_rect,
-            valign='center',
+            valign='bottom',
             align="right",
             background_color=COLORS['CLOUD'])
 
+        self.accn_rect = pygame.Rect(5, 0, 260, 25)
+        self.accn_surface = self.surface.subsurface(self.accn_rect)
+        self.accn_box = gui_objects.text_label(
+            surface=self.accn_surface,
+            font=self.fonts['input_font']['font'],
+            text='',
+            color=COLORS[self.fonts['input_font']['color']],
+            rect=self.accn_rect,
+            valign='bottom',
+            align="left",
+            background_color=COLORS['CLOUD'])
+        self.accn_box.update()
+        # print self.name
+        # print "fontRect " + str(self.accn_box.fontRect.height)
+        # print "rect " + str(self.accn_box.rect.height)
+
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
-        print "reading config file: " + self.configfile
-        try:
-            self.pluginConfig = configobj.ConfigObj(self.configfile)
-        except:
-            print "Error reading config/settings.ini"
+        validator = Validator()
+        configspec = ConfigObj(PLUGIN_VALIDATOR, interpolation=False, list_values=True,
+                       _inspec=True)
+        self.pluginConfig = ConfigObj(self.configfile, configspec=configspec)
+        result = self.pluginConfig.validate(validator)
+        if result != True:
+            pprint(result)
+            print 'Config file validation failed!'
+        # print "reading config file: " + self.configfile
 
         self.setPluginVariables()
 
@@ -134,7 +146,7 @@ class PiInfoScreen():
             self.title_icon = self.pluginConfig['ui_settings']['title_icon']
         except:
             self.title_icon = 0xf058
-            print "no title icon for this plugin"
+            # print "no title icon for this plugin"
 
         # create a dict with fonts defined in config/settings.ini
         self.fonts = {}
@@ -142,7 +154,8 @@ class PiInfoScreen():
             font = self.pluginConfig['fonts'][key]
 
             font_file = font['font']
-            font_size = int(font['size'])
+            font_size = font['size']
+            # font_size = int(font['size'])
             font_color = font['color']
 
             font_location = os.path.join("resources/fonts", font_file)
@@ -153,11 +166,11 @@ class PiInfoScreen():
                 'path': font_location,
                 'size': font_size}
 
-        if self.pluginConfig["ui_settings"]["has_input"] == 'True':
-            self.has_accn_input = True
-        else:
-            self.has_accn_input = False
-            self.accn_input = None
+        # if self.pluginConfig["ui_settings"]["has_input"] == 'True':
+        #     self.has_accn_input = True
+        # else:
+        #     self.has_accn_input = False
+        #     self.accn_input = None
 
     # Tells the main script that the plugin is compatible with the requested
     # screen size
@@ -199,14 +212,6 @@ class PiInfoScreen():
     def Button4Click(self):
         pass
 
-    # Get web page
-    def getPage(self, url):
-        user_agent = 'Mozilla/5 (Solaris 10) Gecko'
-        headers = {'User-Agent': user_agent}
-        request = urllib2.Request(url)
-        response = urllib2.urlopen(request)
-        the_page = response.read()
-        return the_page
 
     def LoadImage(self, fileName, solid=False):
         image = pygame.image.load(fileName)

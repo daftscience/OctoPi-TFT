@@ -4,7 +4,7 @@ import imp
 import os
 import random
 import traceback
-from global_variables import COLORS, LOADING_MESSEGES
+from global_variables import *
 from time import time
 from keyboard import VirtualKeyboard
 sys.dont_write_bytecode = True
@@ -16,7 +16,7 @@ screensleep = 60000
 # Initialise pygame
 
 RASPBERRYPI = False
-# pprint(pygame.display.list_modes(), 3)
+# pprint(pygame.di`play.list_modes(), 3)
 # Tell the RPi to use the TFT screen and that it's a touchscreen device
 if os.name == 'posix':
     RASPBERRYPI = True
@@ -153,7 +153,7 @@ def showLoadedPlugin(plugin):
     loaded.
     '''
     # pass
-    print "showloadedplugin"
+    # print "showloadedplugin"
     screen.fill(COLORS['CLOUD'])
     label = myfont.render(
         random.choice(LOADING_MESSEGES), 1, COLORS[(plugin.color)])
@@ -258,12 +258,16 @@ pluginScreens = []
 size = width, height = 320, 240
 
 # Set up some custom events
-TFTBUTTONCLICK = pygame.USEREVENT + 1
-UPDATESCREEN = TFTBUTTONCLICK + 1
-NEXTSCREEN = UPDATESCREEN + 1
-NEWSCREEN = NEXTSCREEN + 1
-SLEEPEVENT = NEWSCREEN + 1
+# TFTBUTTONCLICK = pygame.USEREVENT + 1
+# UPDATESCREEN = TFTBUTTONCLICK + 1
+# NEXTSCREEN = UPDATESCREEN + 1
+# NEWSCREEN = NEXTSCREEN + 1
+# SLEEPEVENT = NEWSCREEN + 1
+# RETURN_EVENT = SLEEPEVENT + 1
 
+# print "return event"
+# print RETURN_EVENT
+# print "---------------"
 
 # This code needs work-------------------------------------
 # Set up the four TFT button events
@@ -271,6 +275,8 @@ click1event = pygame.event.Event(TFTBUTTONCLICK, button=1)
 click2event = pygame.event.Event(TFTBUTTONCLICK, button=2)
 click3event = pygame.event.Event(TFTBUTTONCLICK, button=3)
 click4event = pygame.event.Event(TFTBUTTONCLICK, button=4)
+
+# return_event = pygame.event.Event(RETURN_EVENT)
 
 # Set up the callback functions for the buttons
 if RASPBERRYPI:
@@ -394,7 +400,9 @@ while not quit:
                 continue
             elif swipe == 4:
                 vkey = VirtualKeyboard(screen)
-                txt = vkey.run('')
+                tmp = vkey.run('')
+                tmp_event = pygame.event.Event(RETURN_EVENT, value=tmp)
+                pluginScreens[screenindex].event_handler(tmp_event)
             # print "Screen Index After: " + str(screenindex)
 
         if (event.type == TFTBUTTONCLICK):
