@@ -9,6 +9,7 @@ from string import maketrans
 Uppercase = maketrans("1234567890",
                       'SMTWHF-X--')
 
+DEBUG = False
 
 class VirtualKeyboard():
 
@@ -86,19 +87,22 @@ class VirtualKeyboard():
                                 # Return what the user entered
                                 return self.input.text
                             else:
-                                # check that it's a valid accn
-                                if sunquest_fix(self.input.text) != None:
-                                    self.clear()
-                                    return sunquest_fix(self.input.text)
+                                if DEBUG:
+                                    return self.input.text
                                 else:
-                                    self.paintkeys()
-                                    temp = self.input.text
-                                    self.input.text = 'invalid'
-                                    self.input.cursorvis = False
-                                    self.input.draw()
-                                    time.sleep(1)
-                                    self.input.text = temp
-                                    self.input.draw()
+                                # check that it's a valid accn
+                                    if sunquest_fix(self.input.text) != None:
+                                        self.clear()
+                                        return sunquest_fix(self.input.text)
+                                    else:
+                                        self.paintkeys()
+                                        temp = self.input.text
+                                        self.input.text = 'invalid'
+                                        self.input.cursorvis = False
+                                        self.input.draw()
+                                        time.sleep(1)
+                                        self.input.text = temp
+                                        self.input.draw()
                                     # print "invalid"
                                     # self.clear()
                     if (e.type == MOUSEMOTION):
@@ -341,9 +345,9 @@ class TextInput():
         self.surface = screen.subsurface(self.surface_rect)
         self.max_length = 9
 
-        self.background_color = COLORS['ORANGE']
-        self.font_color = COLORS['CLOUD']
-        self.cursor_color = COLORS['CLOUD']
+        self.background_color = COLORS['CLOUD']
+        self.font_color = COLORS['DARK_GRAY']
+        self.cursor_color = self.font_color
 
         font_file = 'SourceCodePro-Regular.ttf'
         font_location = os.path.join("resources/fonts", font_file)
@@ -513,7 +517,7 @@ class VKey(pygame.sprite.Sprite):
         self.rect = Rect(self.x, self.y, w, h)
 
         self.color = COLORS['TEAL']
-        self.selected_color = COLORS['ORANGE']
+        self.selected_color = COLORS['DEEP_ORANGE']
         self.font_color = COLORS['CLOUD']
 
         if special:

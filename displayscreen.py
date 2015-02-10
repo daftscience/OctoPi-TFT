@@ -74,19 +74,19 @@ class PiInfoScreen():
         self.hint_surface = self.surface.subsurface(self.hint_rect)
         self.hint_text = gui_objects.render_textrect(
             string="scan to locate\nswipe up for keyboard",
-            font=self.fonts['swipe_font']['font'],
+            font=FONTS['swipe_font']['font'],
             rect=self.hint_rect,
             text_color=COLORS[self.color],
             background_color=COLORS['CLOUD'],
             justification=1,
-            FontPath=self.fonts['swipe_font']['path'],
+            FontPath=FONTS['swipe_font']['path'],
             cutoff=False,
-            MinFont=self.fonts['swipe_font']['size'] - 4,
-            MaxFont=self.fonts['swipe_font']['size'],
+            MinFont=FONTS['swipe_font']['size'] - 4,
+            MaxFont=FONTS['swipe_font']['size'],
             shrink=True,
             vjustification=1)
 
-        self.clock_rect = pygame.Rect(265, 0, 50, 25)
+        self.clock_rect = pygame.Rect(255, 0, 60, 25)
         self.clock_surface = self.surface.subsurface(self.clock_rect)
         self.clock = gui_objects.text_label(
             surface=self.clock_surface,
@@ -98,7 +98,7 @@ class PiInfoScreen():
             align="right",
             background_color=COLORS['CLOUD'])
 
-        self.accn_rect = pygame.Rect(5, 0, 260, 25)
+        self.accn_rect = pygame.Rect(5, 0, 250, 25)
         self.accn_surface = self.surface.subsurface(self.accn_rect)
         self.accn_box = gui_objects.text_label(
             surface=self.accn_surface,

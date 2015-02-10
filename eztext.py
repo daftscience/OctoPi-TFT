@@ -32,35 +32,37 @@ class Input:
     """ A text input for pygame apps """
 
     def __init__(self, **options):
-        """ Options: x, y, font, color, restricted, maxlength, prompt """
-        self.options = Config(options, ['x', '0'], ['y', '0'], ['font', 'pygame.font.Font(None, 32)'],
-                              ['color', '(0,0,0)'], [
-            'restricted', '\'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~\''],
-            ['maxlength', '-1'], ['prompt', '\'\''])
-        self.x = self.options.x
-        self.y = self.options.y
-        self.font = self.options.font
-        self.color = self.options.color
-        self.restricted = self.options.restricted
-        self.maxlength = self.options.maxlength
-        self.prompt = self.options.prompt
         self.value = ''
+
+    #     """ Options: x, y, font, color, restricted, maxlength, prompt """
+    #     self.options = Config(options, ['x', '0'], ['y', '0'], ['font', 'pygame.font.Font(None, 32)'],
+    #                           ['color', '(0,0,0)'], [
+    #         'restricted', '\'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~\''],
+    #         ['maxlength', '-1'], ['prompt', '\'\''])
+    #     self.x = self.options.x
+    #     self.y = self.options.y
+    #     self.font = self.options.font
+    #     self.color = self.options.color
+        self.restricted = '\'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~\''
+    #     self.maxlength = self.options.maxlength
+    #     self.prompt = self.options.prompt
+    #     self.value = ''
         self.shifted = False
 
-    def set_pos(self, x, y):
-        """ Set the position to x, y """
-        self.x = x
-        self.y = y
+    # def set_pos(self, x, y):
+    #     """ Set the position to x, y """
+    #     self.x = x
+    #     self.y = y
 
-    def set_font(self, font):
-        """ Set the font for the input """
-        self.font = font
+    # def set_font(self, font):
+    #     """ Set the font for the input """
+    #     self.font = font
 
-    def draw(self, surface, subsurface, color):
-        subsurface.fill(color)
-        """ Draw the text input to a surface """
-        text = self.font.render(self.prompt + self.value, True, self.color)
-        surface.blit(text, (self.x, self.y))
+    # def draw(self, surface, subsurface, color):
+    #     subsurface.fill(color)
+    #     """ Draw the text input to a surface """
+    #     text = self.font.render(self.prompt + self.value, True, self.color)
+    #     surface.blit(text, (self.x, self.y))
 
     def update(self, event):
         # """ Update the input based on passed events """
@@ -269,5 +271,6 @@ class Input:
                     self.value += '>'
                 elif event.key == K_SLASH and '?' in self.restricted:
                     self.value += '?'
-        if len(self.value) > self.maxlength and self.maxlength >= 0:
-            self.value = self.value[:-1]
+        # print self.value
+        # if len(self.value) > self.maxlength and self.maxlength >= 0:
+            # self.value = self.value[:-1]

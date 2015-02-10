@@ -14,6 +14,7 @@ sys.dont_write_bytecode = True
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
+# this class takes an array of text and fonts then renders them
 class text_label(pygame.sprite.Sprite):
 
     def __init__(self, *args, **kwargs):
@@ -48,7 +49,6 @@ class text_label(pygame.sprite.Sprite):
             self.rect = None
 
     def blit_text(self):
-
         self.label = self.font.render(self.text, 1, self.color)
         # get the size of the text object
         self.fontRect = self.label.get_rect()
@@ -92,65 +92,58 @@ class title_banner(text_label):
                 self.pygameImage = pygame.image.load(self.banner_location)
             except:
                 self.build_banner()
-            # self.banner = rounded_rect(
-            #     (self.surface.get_size()),
-            #     radius=2,
-            #     fill=self.background_color,
-            #     quality=CORNER_QUALITY,
-            #     shadow=False)
-
-            # self.rect = self.surface.get_rect()
-            # self.add_text()
-
-            # self.pygameImage = pygame.image.fromstring(
-            #     self.banner.image.tostring(),
-            #     self.banner.image.size,
-            #     'RGBA',
-            #     False).convert_alpha()
-            # pygame.image.save(self.pygameImage, kwargs['banner_location'])
-
         self.blit_text()
 
     def build_banner(self):
-            self.banner = rounded_rect(
-                (self.surface.get_size()),
-                radius=CORNER_RADIUS,
-                fill=self.background_color,
-                quality=CORNER_QUALITY,
-                shadow=False)
+        self.banner = rounded_rect(
+            (self.surface.get_size()),
+            radius=CORNER_RADIUS,
+            fill=self.background_color,
+            quality=CORNER_QUALITY,
+            shadow=False)
 
-            self.rect = self.surface.get_rect()
-            self.add_text()
+        self.rect = self.surface.get_rect()
+        # self.add_text()
 
-            self.pygameImage = pygame.image.fromstring(
-                self.banner.image.tostring(),
-                self.banner.image.size,
-                'RGBA',
-                False).convert_alpha()
-            pygame.image.save(self.pygameImage, self.banner_location)
+        self.pygameImage = pygame.image.fromstring(
+            self.banner.image.tostring(),
+            self.banner.image.size,
+            'RGBA',
+            False).convert_alpha()
+        pygame.image.save(self.pygameImage, self.banner_location)
 
-    def add_text(self):
+    # def add_text(self):
         # print self.title_icon
-        icon_unicode = ICONS.unicode(self.title_icon)
-        self.fa = ImageFont.truetype(ICONS.font_location, 40)
-        text = ImageDraw.Draw(self.banner.image)
-        image_width, image_height = text.textsize(icon_unicode, font=self.fa)
-        surface_width, surface_height = self.surface.get_size()
-        text.text(
-            (35,
-             (surface_height - image_height) / 2),
-            icon_unicode,
-            font=self.fa)
+        # icon_unicode = ICONS.unicode(self.title_icon)
+        # self.fa = ImageFont.truetype(ICONS.font_location, 33)
+        # text = ImageDraw.Draw(self.banner.image)
+        # image_width, image_height = text.textsize(icon_unicode, font=self.fa)
+        # surface_width, surface_height = self.surface.get_size()
+        # text.text(
+            # (35,
+             # (surface_height - image_height) / 2),
+            # icon_unicode,
+            # font=self.fa)
         # self.banner.image.show()
 
     def update(self):
         self.surface.blit(self.pygameImage, (0, 0))
-        # self.image_rect = self.image.get_rect()
-
-        # self.image_rect.left = 25
         self.surface.blit(self.label, self.fontRect)
-        # self.image_rect.centery = self.fontRect.centery
-        # self.surface.blit(self.image, self.image_rect)
+
+        fa = pygame.font.Font(ICONS.font_location, 45)
+        icon = fa.render(ICONS.unicode(self.title_icon), 1, self.color)
+
+        icon_rect = icon.get_rect()
+        icon_rect.centerx = self.fontRect.left/2
+        icon_rect.centery = self.fontRect.centery
+
+        self.surface.blit(icon, icon_rect)
+
+
+
+
+
+
 
 
 def format_location(item):
@@ -369,13 +362,9 @@ class rounded_rect():
         """Draw a round corner"""
         corner = Image.new('RGBA', (self.radius, self.radius), (0, 0, 0, 0))
         draw = ImageDraw.Draw(corner)
+        print self.fill
         draw.pieslice(
-            (0,
-             0,
-             self.radius *
-             2,
-             self.radius *
-             2),
+            (0,0,self.radius *2,self.radius *2),
             180,
             270,
             fill=self.fill)
