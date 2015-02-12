@@ -4,7 +4,7 @@ import gui_objects
 from time import strftime, localtime, time
 from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
-from global_variables import COLORS, ICONS
+from global_variables import COLORS, ICONS, SCREEN_TIMEOUT
 from displayscreen import PiInfoScreen
 from database import RACK_DB
 sys.dont_write_bytecode = True
@@ -27,7 +27,7 @@ class myScreen(PiInfoScreen):
 
         self.timer = False
         self.timeout = 0
-        self.timeout_delay = 5 # in seconds
+        self.timeout_delay = SCREEN_TIMEOUT * 60 # in seconds
         self.new_result = False
 
         self.surface.fill(COLORS['CLOUD'])
@@ -49,7 +49,7 @@ class myScreen(PiInfoScreen):
             string="",
             font=self.fonts['result_font']['font'],
             rect=self.result_rect,
-            text_color=COLORS[self.color],
+            text_color=self.color,
             background_color=COLORS['CLOUD'],
             justification=1,
             FontPath=self.fonts['result_font']['path'],
@@ -60,13 +60,13 @@ class myScreen(PiInfoScreen):
             vjustification=1)
 
         # TOP INFO BAR
-        self.info0_rect = pygame.Rect(5, 93, 310, 25)
+        self.info0_rect = pygame.Rect(5, 95, 310, 25)
         self.info0_surface = self.surface.subsurface(self.info0_rect)
         self.info0 = gui_objects.text_label(
             surface=self.info0_surface,
             font=self.fonts['info_font']['font'],
             text="",
-            color=COLORS[self.fonts['info_font']['color']],
+            color=self.fonts['info_font']['color'],
             rect=self.info0_rect,
             valign='bottom',
             align="center",
@@ -80,7 +80,7 @@ class myScreen(PiInfoScreen):
             font=self.fonts['info_font']['font'],
             text="",
             # color=COLORS[self.fonts['info_font']['color']],
-            color=COLORS['INDIGO'],
+            color=self.color,
             # Rect(left, top, width, height) -> Rect
             rect=self.info1_rect,
             valign='center',

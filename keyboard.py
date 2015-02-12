@@ -68,6 +68,8 @@ class VirtualKeyboard():
             self.y,
             self.textW,
             self.textH)
+        self.togglecaps()
+        self.paintkeys()
 
         counter = 0
         # main event loop (hog all processes since we're on top, but someone might want
@@ -346,7 +348,7 @@ class TextInput():
         self.max_length = 9
 
         self.background_color = COLORS['CLOUD']
-        self.font_color = COLORS['DARK_GRAY']
+        self.font_color = COLORS['BLUE-GREY']['700']
         self.cursor_color = self.font_color
 
         font_file = 'SourceCodePro-Regular.ttf'
@@ -516,8 +518,8 @@ class VKey(pygame.sprite.Sprite):
         self.image = pygame.Surface((w - 1, h - 1))
         self.rect = Rect(self.x, self.y, w, h)
 
-        self.color = COLORS['TEAL']
-        self.selected_color = COLORS['DEEP_ORANGE']
+        self.color = COLORS['TEAL']['600']
+        self.selected_color = COLORS['DEEP-ORANGE']['600']
         self.font_color = COLORS['CLOUD']
 
         if special:

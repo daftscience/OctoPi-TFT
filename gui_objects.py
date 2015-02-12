@@ -5,8 +5,9 @@ import parseIcons
 from PIL import Image, ImageFilter
 from time import strftime, localtime
 from PIL import ImageDraw, ImageFont
-from global_variables import COLORS, ROWS, ICON_FONT_FILE, ICONS
-from global_variables import ICON_FONT_JSON, CORNER_QUALITY, REBUILD_BANNER, CORNER_RADIUS
+from global_variables import COLORS, ROWS, ICON_FONT_FILE, ICONS, SHADING_ITERATIONS
+from global_variables import ICON_FONT_JSON, REBUILD_BANNER, CORNER_RADIUS
+from global_variables import SHADING_QUALITY, BACKGROUND_COLOR, BORDER
 
 from pprint import pprint
 
@@ -49,6 +50,7 @@ class text_label(pygame.sprite.Sprite):
             self.rect = None
 
     def blit_text(self):
+        # print self.color
         self.label = self.font.render(self.text, 1, self.color)
         # get the size of the text object
         self.fontRect = self.label.get_rect()
@@ -99,7 +101,7 @@ class title_banner(text_label):
             (self.surface.get_size()),
             radius=CORNER_RADIUS,
             fill=self.background_color,
-            quality=CORNER_QUALITY,
+            background_color=BACKGROUND_COLOR,
             shadow=False)
 
         self.rect = self.surface.get_rect()
@@ -120,10 +122,10 @@ class title_banner(text_label):
         # image_width, image_height = text.textsize(icon_unicode, font=self.fa)
         # surface_width, surface_height = self.surface.get_size()
         # text.text(
-            # (35,
-             # (surface_height - image_height) / 2),
-            # icon_unicode,
-            # font=self.fa)
+        # (35,
+        # (surface_height - image_height) / 2),
+        # icon_unicode,
+        # font=self.fa)
         # self.banner.image.show()
 
     def update(self):
@@ -134,16 +136,10 @@ class title_banner(text_label):
         icon = fa.render(ICONS.unicode(self.title_icon), 1, self.color)
 
         icon_rect = icon.get_rect()
-        icon_rect.centerx = self.fontRect.left/2
+        icon_rect.centerx = self.fontRect.left / 2
         icon_rect.centery = self.fontRect.centery
 
         self.surface.blit(icon, icon_rect)
-
-
-
-
-
-
 
 
 def format_location(item):
@@ -332,13 +328,15 @@ class render_textrect():
 
 class rounded_rect():
 
-    def __init__(self, og_size, radius, fill, quality, shadow=False):
-        self.quality = quality
+    def __init__(self, og_size, radius, fill, background_color, shadow=False):
+        self.quality = SHADING_QUALITY
         self.og_size = og_size
         self.radius = radius * self.quality
         self.fill = fill
+        self.background_color = background_color
         # to get better quality corners we will scale the
         # image up then shink it back down
+        self.border = BORDER * SHADING_QUALITY
         self.size = (
             self.og_size[0] *
             self.quality,
@@ -348,35 +346,43 @@ class rounded_rect():
         if shadow:
             self.image = self.round_rectangle()
         else:
+
+               # REBUILD_BANNER = False
+            # BORDER = 3
+            # SHADING_QUALITY = 2
+            # CORNER_RADIUS = 2
+            # SHADING_ITERATIONS = 20
+            # def makeShadow( image, offset=(5,5), background=0xffffff, 
+                # shadow=0x444444,
+                    # border=8, iterations=3):
+
             self.image = self.makeShadow(
-                self.round_rectangle(),
-                10,
-                30,
-                (0,
-                 2),
-                COLORS['CLOUD'],
-                0x000000)
+                image=self.round_rectangle(),
+                offset=(0 * SHADING_QUALITY, 0 * SHADING_QUALITY),
+                background=self.background_color,
+                shadow=0x444444,
+                border=self.border,
+                iterations=SHADING_ITERATIONS)
         self.image = self.image.resize(self.og_size, resample=Image.LANCZOS)
 
     def round_corner(self):
         """Draw a round corner"""
         corner = Image.new('RGBA', (self.radius, self.radius), (0, 0, 0, 0))
         draw = ImageDraw.Draw(corner)
-        print self.fill
+        # print self.fill
         draw.pieslice(
-            (0,0,self.radius *2,self.radius *2),
+            (0, 0, self.radius * 2, self.radius * 2),
             180,
             270,
             fill=self.fill)
+            # fill=(123,123,123,0))
         corner.convert('RGBA')
         return corner
 
     def round_rectangle(self):
         """Draw a rounded rectangle"""
-
         rectangle = Image.new('RGBA', self.size)
         # ImageDraw.Draw.rectangle(size, (0,0,0,0))
-
         origCorner = self.round_corner()
         corner = origCorner
         rectangle.paste(corner, (0, 0))
@@ -398,15 +404,16 @@ class rounded_rect():
             ((self.width - self.radius, 0), ((self.radius), (self.height))), fill=self.fill)
         dl.rectangle(
             ((0, self.radius), ((self.width), (self.height - self.radius))), fill=self.fill)
+        # pprint(rectangle)
         return rectangle
 
-    def makeShadow(self,
-                   image,
-                   iterations,
-                   border,
-                   offset,
-                   backgroundColour,
-                   shadowColour):
+    # def makeShadow(self,
+    #                image,
+    #                iterations,
+    #                border,
+    #                offset,
+    #                backgroundColour,
+    #                shadowColour):
     # image: base image to give a drop shadow
     # iterations: number of times to apply the blur filter to the shadow
     # border: border to give the image to leave space for the shadow
@@ -415,39 +422,83 @@ class rounded_rect():
     # shadowColour: colour of the drop shadow
 
     # Calculate the size of the shadow's image
-        fullWidth = image.size[0] + abs(offset[0]) + 2 * border
-        fullHeight = image.size[1] + abs(offset[1]) + 2 * border
-
+    #     fullWidth = image.size[0] + abs(offset[0]) + border
+    # fullWidth = image.size[0] + abs(offset[0]) + 2 * border
+    # fullHeight = image.size[1] + abs(offset[1]) + 2 * border
+    #     fullHeight = image.size[1] + abs(offset[1]) + border
     # Create the shadow's image. Match the parent image's mode.
-        shadow = Image.new(
-            image.mode,
-            (fullWidth,
-             fullHeight),
-            backgroundColour)
+    #     shadow = Image.new(
+    #         image.mode,
+    #         (fullWidth,
+    #          fullHeight),
+    #         backgroundColour)
     # Place the shadow, with the required offset
     # if <0, push the rest of the image right
-        shadowLeft = border + max(offset[0], 0)
+    #     shadowLeft = border/2 + max(offset[0], 0)
     # if <0, push the rest of the image down
-        shadowTop = border + max(offset[1], 0)
+    #     shadowTop = border/2 + max(offset[1], 0)
     # Paste in the constant colour
-        shadow.paste(shadowColour,
-                     [shadowLeft, shadowTop,
-                      shadowLeft + image.size[0],
-                      shadowTop + image.size[1]])
-        # i=2
+    #     shadow.paste(shadowColour,
+    #                  [shadowLeft, shadowTop,
+    #                   shadowLeft + image.size[0],
+    #                   shadowTop + image.size[1]])
+    # i=2
     # Apply the BLUR filter repeatedly
-        for i in range(iterations):
-            shadow = shadow.filter(ImageFilter.BLUR)
-        # shadow.show()
+    #     for i in range(iterations):
+    #         shadow = shadow.filter(ImageFilter.BLUR)
+    # shadow.show()
 
     # Paste the original image on top of the shadow
     # if the shadow offset was <0, push right
-        imgLeft = border - min(offset[0], 0)
+    #     imgLeft = border - min(offset[0], 0)
     # if the shadow offset was <0, push down
-        imgTop = border - min(offset[1], 0)
-        shadow.paste(image, (imgLeft, imgTop))
-        # shadow.show()
-        return shadow
+    #     imgTop = border - min(offset[1], 0)
+    #     shadow.paste(image, (imgLeft, imgTop))
+    #     shadow.show()
+    #     return shadow
+
+    def makeShadow(self, image, offset=(5, 5), background=0xffffff, shadow=0x444444,
+                   border=8, iterations=3):
+        """
+        Add a gaussian blur drop shadow to an image.  
+
+        image       - The image to overlay on top of the shadow.
+        offset      - Offset of the shadow from the image as an (x,y) tuple.  Can be
+                      positive or negative.
+        background  - Background colour behind the image.
+        shadow      - Shadow colour (darkness).
+        border      - Width of the border around the image.  This must be wide
+                      enough to account for the blurring of the shadow.
+        iterations  - Number of times to apply the filter.  More iterations 
+                      produce a more blurred shadow, but increase processing time.
+        """
+
+        # Create the backdrop image -- a box in the background colour with a
+        # shadow on it.
+        totalWidth = image.size[0] + abs(offset[0]) + 2 * border
+        totalHeight = image.size[1] + abs(offset[1]) + 2 * border
+        back = Image.new(image.mode, (totalWidth, totalHeight), background)
+
+        # Place the shadow, taking into account the offset from the image
+        shadowLeft = border + max(offset[0], 0)
+        shadowTop = border + max(offset[1], 0)
+        back.paste(shadow, [shadowLeft, shadowTop, shadowLeft + image.size[0],
+                            shadowTop + image.size[1]])
+
+        # Apply the filter to blur the edges of the shadow.  Since a small kernel
+        # is used, the filter must be applied repeatedly to get a decent blur.
+        n = 0
+        while n < iterations:
+            back = back.filter(ImageFilter.BLUR)
+            n += 1
+
+        # Paste the input image onto the shadow backdrop
+        imageLeft = border - min(offset[0], 0)
+        imageTop = border - min(offset[1], 0)
+        back.paste(image, (imageLeft, imageTop))
+
+        return back
+
 
 if __name__ == "__main__":
     from global_variables import COLORS

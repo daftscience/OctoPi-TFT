@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFilter
-from global_variables import SHADING_QUALITY, CORNER_QUALITY
+from global_variables import SHADING_QUALITY, CORNER_QUALITY, SHADING_ITERATIONS
 
 
 class rounded_rect():
@@ -9,6 +9,7 @@ class rounded_rect():
         self.og_size = og_size
         self.radius = radius * self.quality
         self.fill = fill
+        self.border = SHADING_QUALITY * self.quality
         # to get better quality corners we will scale the
         # image up then shink it back down
         self.size = (
@@ -22,8 +23,8 @@ class rounded_rect():
         else:
             self.image = makeShadow(
                 image=self.rounded_rectangle(),
-                iterations=5,
-                border=SHADING_QUALITY,
+                iterations=SHADING_ITERATIONS,
+                border=self.border,
                 ofset=(0, 6),
                 backgroundColour=0xffffff,
                 shadowColour=0x000000)

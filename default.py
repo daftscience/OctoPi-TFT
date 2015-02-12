@@ -156,7 +156,7 @@ def showLoadedPlugin(plugin):
     # print "showloadedplugin"
     screen.fill(COLORS['CLOUD'])
     label = myfont.render(
-        random.choice(LOADING_MESSEGES), 1, COLORS[(plugin.color)])
+        random.choice(LOADING_MESSEGES), 1, plugin.color)
     labelpos = label.get_rect()
     labelpos.centerx = screen.get_rect().centerx
     labelpos.centery = screen.get_rect().centery
@@ -396,7 +396,7 @@ while not quit:
             elif swipe == 2:
                 screenindex = setNextScreen(-1, screenindex)
             elif swipe == 3:
-                quit = True
+                # quit = True
                 continue
             elif swipe == 4:
                 vkey = VirtualKeyboard(screen)

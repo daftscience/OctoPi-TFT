@@ -30,8 +30,8 @@ class myScreen(PiInfoScreen):
     def event_handler(self, event):
         pass
 
-    def update_locations(self):
-        pass
+    # def update_locations(self):
+        # pass
 
     def showScreen(self):
         self.hint_surface.blit(self.hint_text.update(), (0, 0))

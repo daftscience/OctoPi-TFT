@@ -43,13 +43,13 @@ class myScreen(PiInfoScreen):
         info0_text = "Next Location: "
         info0_size = self.fonts['default_font']['font'].render(info0_text, 1, (0,0,0))
         w = info0_size.get_rect().width
-        self.info0_rect = pygame.Rect(5, 93, w, 25)
+        self.info0_rect = pygame.Rect(5, 95, w, 25)
         self.info0_surface = self.surface.subsurface(self.info0_rect)
         self.info0 = gui_objects.text_label(
             surface=self.info0_surface,
             font=self.fonts['default_font']['font'],
             text=info0_text,
-            color=COLORS[self.fonts['default_font']['color']],
+            color=self.fonts['default_font']['color'],
             # Rect(left, top, width, height) -> Rect
             rect=self.info0_rect,
             valign='bottom',
@@ -60,14 +60,14 @@ class myScreen(PiInfoScreen):
         # These information labels will change when the screen is updated
         # They will need to be updated
         #----------------------------------------
-        self.info2_rect = pygame.Rect(0, 93, 100, 25)
+        self.info2_rect = pygame.Rect(0, 95, 100, 25)
         self.info2_rect.left = self.info0_rect.right + 1
         self.info2_surface = self.surface.subsurface(self.info2_rect)
         self.info2 = gui_objects.text_label(
             surface=self.info2_surface,
             font=self.fonts['default_font']['font'],
             text="Unavailable Location",
-            color=COLORS[self.fonts['info_font']['color']],
+            color=self.fonts['info_font']['color'],
             rect=self.info2_rect,
             valign='bottom',
             align="left",
@@ -96,7 +96,7 @@ class myScreen(PiInfoScreen):
             'font_location': self.li_row_font,
             'text': ROWS[str(RACK_DB.next['row'])]+' ',
             'size': 23,
-            'color': COLORS[self.color]
+            'color': self.color
         }
         li_items.append(item)
         # self.info1.text = ''
@@ -104,10 +104,10 @@ class myScreen(PiInfoScreen):
         while len(li_items) - 1 < RACK_DB.next['column']:
             if (len(li_items)) == RACK_DB.next['column']:
                 text = self.select_dot
-                color = COLORS[self.color]  
+                color = self.color
             else:
                 text = self.full_dot
-                color = COLORS['CONCRETE']
+                color = COLORS['DEEP-PURPLE']["300"]
             item = {
                 'font_location': ICONS.font_location,
                 'text': text,
@@ -116,7 +116,7 @@ class myScreen(PiInfoScreen):
             }
             li_items.append(item)
         text = self.empty_dot
-        color = COLORS['CONCRETE']
+        color = COLORS['BLUE-GREY']['500']
         while len(li_items)-1 < DATABASE_SETTINGS['columns']:
             item = {
                 'font_location': ICONS.font_location,

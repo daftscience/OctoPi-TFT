@@ -39,7 +39,7 @@ class multi_font():
         total_width = 0
         for item in self.images:
             item_width, item_height = item.get_size()
-            print item_height
+            # print item_height
             if max_height < item_height:
                 max_height = item_height
             total_width += item_width

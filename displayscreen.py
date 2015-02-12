@@ -63,10 +63,10 @@ class PiInfoScreen():
             title_icon=self.title_icon,
             font=self.fonts['title_font']['font'],
             text=self.name,
-            color=COLORS[self.fonts['title_font']['color']],
+            color=self.fonts['title_font']['color'],
             rect=TITLE_RECT,
             rounded=True,
-            background_color=COLORS[self.color],
+            background_color=self.color,
             banner_location = self.banner_location)
 
         self.hint_rect = pygame.Rect(0, 120, 320, 70)
@@ -76,7 +76,7 @@ class PiInfoScreen():
             string="scan to locate\nswipe up for keyboard",
             font=FONTS['swipe_font']['font'],
             rect=self.hint_rect,
-            text_color=COLORS[self.color],
+            text_color=self.color,
             background_color=COLORS['CLOUD'],
             justification=1,
             FontPath=FONTS['swipe_font']['path'],
@@ -92,7 +92,7 @@ class PiInfoScreen():
             surface=self.clock_surface,
             font=FONTS['clock_font']['font'],
             text='',
-            color=COLORS[FONTS['clock_font']['color']],
+            color=FONTS['clock_font']['color'],
             rect=self.clock_rect,
             valign='bottom',
             align="right",
@@ -104,7 +104,7 @@ class PiInfoScreen():
             surface=self.accn_surface,
             font=self.fonts['input_font']['font'],
             text='',
-            color=COLORS[self.fonts['input_font']['color']],
+            color=self.fonts['input_font']['color'],
             rect=self.accn_rect,
             valign='bottom',
             align="left",
@@ -117,6 +117,7 @@ class PiInfoScreen():
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
         validator = Validator()
+        print self.configfile
         configspec = ConfigObj(PLUGIN_VALIDATOR, interpolation=False, list_values=True,
                        _inspec=True)
         self.pluginConfig = ConfigObj(self.configfile, configspec=configspec)
@@ -138,7 +139,8 @@ class PiInfoScreen():
     def setPluginVariables(self):
 
         self.name = self.pluginConfig["plugin_info"]["name"]
-        self.color = self.pluginConfig["plugin_info"]["color"]
+        self.shade = self.pluginConfig["plugin_info"]["shade"]
+        self.color = COLORS[self.pluginConfig["plugin_info"]["color"]][self.shade]
         self.loadingMessage = self.pluginConfig[
             "plugin_info"]['loading_message']
 
@@ -155,8 +157,9 @@ class PiInfoScreen():
 
             font_file = font['font']
             font_size = font['size']
+            font_shade = font['shade']
             # font_size = int(font['size'])
-            font_color = font['color']
+            font_color = COLORS[font['color']][font_shade]
 
             font_location = os.path.join("resources/fonts", font_file)
 

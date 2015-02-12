@@ -4,6 +4,78 @@
 		"selected_items":
 		[
 			[
+				"font",
+				"font_color"
+			],
+			[
+				"COLOR",
+				"COLOR_HEX	statement"
+			],
+			[
+				"icon",
+				"icon_rect"
+			],
+			[
+				"get",
+				"get_rect"
+			],
+			[
+				"Icons",
+				"ICONS	import"
+			],
+			[
+				"li",
+				"li_row_font	statement"
+			],
+			[
+				"item",
+				"item_height	statement"
+			],
+			[
+				"ba",
+				"barcode_input	statement"
+			],
+			[
+				"update",
+				"update_indicator	function"
+			],
+			[
+				"location",
+				"location_indicator"
+			],
+			[
+				"surface",
+				"surface_rect	statement"
+			],
+			[
+				"datab",
+				"DATABASE_SETTINGS"
+			],
+			[
+				"lo",
+				"location_indicator"
+			],
+			[
+				"loca",
+				"location_indicator_surface	statement"
+			],
+			[
+				"max",
+				"max_height	statement"
+			],
+			[
+				"Icon",
+				"ICONS	statement"
+			],
+			[
+				"multi",
+				"multi_font_text	module"
+			],
+			[
+				"accn",
+				"accn_surface	statement"
+			],
+			[
 				"result",
 				"result_rect	statement"
 			],
@@ -80,28 +152,12 @@
 				"RETURN_EVENT	statement"
 			],
 			[
-				"font",
-				"font_name	param"
-			],
-			[
 				"curs",
 				"cursorpos"
 			],
 			[
 				"json",
 				"json_file"
-			],
-			[
-				"icon",
-				"icon_unicode	statement"
-			],
-			[
-				"surface",
-				"surface_height	statement"
-			],
-			[
-				"get",
-				"get_size"
 			],
 			[
 				"rounded",
@@ -352,16 +408,8 @@
 				"COLORS"
 			],
 			[
-				"accn",
-				"accn_surface"
-			],
-			[
 				"info1_",
 				"info1_surface	statement"
-			],
-			[
-				"update",
-				"update_locations	function"
 			],
 			[
 				"file_info_",
@@ -466,54 +514,6 @@
 			[
 				"fill",
 				"fill_background"
-			],
-			[
-				"background",
-				"background_color"
-			],
-			[
-				"screen",
-				"screenindex"
-			],
-			[
-				"SWE",
-				"SWIPE_TO_SCREEN"
-			],
-			[
-				"NEX",
-				"NEXT_SCREEN"
-			],
-			[
-				"plugin",
-				"pluginScreens"
-			],
-			[
-				"earl",
-				"earliest_date_epoch"
-			],
-			[
-				"rackD",
-				"rackDay"
-			],
-			[
-				"fa",
-				"False"
-			],
-			[
-				"loc",
-				"locate_screen"
-			],
-			[
-				"rend",
-				"rendered_text"
-			],
-			[
-				"k",
-				"K_RETURN"
-			],
-			[
-				"osk",
-				"osk_btn"
 			]
 		]
 	},
@@ -528,50 +528,10 @@
 			}
 		},
 		{
-			"file": "plugins/locate/screen.py",
-			"settings":
-			{
-				"buffer_size": 5982,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "gui_objects.py",
 			"settings":
 			{
-				"buffer_size": 16602,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "keyboard.py",
-			"settings":
-			{
-				"buffer_size": 17827,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "sunquest.py",
-			"settings":
-			{
-				"buffer_size": 945,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "config/settings.ini",
-			"settings":
-			{
-				"buffer_size": 624,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "displayscreen.py",
-			"settings":
-			{
-				"buffer_size": 9315,
+				"buffer_size": 16090,
 				"line_ending": "Windows"
 			}
 		},
@@ -579,16 +539,8 @@
 			"file": "global_variables.py",
 			"settings":
 			{
-				"buffer_size": 3341,
+				"buffer_size": 4835,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parseIcons.py",
-			"settings":
-			{
-				"buffer_size": 1133,
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -892,20 +844,32 @@
 		"/C/Users/Tom/Desktop/GitHub/pifile/config",
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins",
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/config",
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate",
-		"/C/Users/Tom/Desktop/GitHub/pifile/resources",
-		"/C/Users/Tom/Desktop/GitHub/pifile/resources/fonts"
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/config",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings/config",
+		"/C/Users/Tom/Desktop/GitHub/pifile/resources"
 	],
 	"file_history":
 	[
+		"/C/Users/Tom/Desktop/GitHub/pifile/keyboard.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/config/screen.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/parseIcons.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/global_variables.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/displayscreen.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/config/screen.ini",
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/screen.py",
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/screen.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/database.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/keyboard.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/rounded.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/parseIcons.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/config/_plugin_validator.ini",
 		"/C/Users/Tom/Desktop/GitHub/pifile/config/settings.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings/config/screen.ini",
+		"/C/Users/Tom/Desktop/GitHub/pifile/sunquest.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/multi_font_text.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/gui_objects.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/eztext.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/database.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/rounded.py",
+		"/C/Users/Tom/Desktop/GitHub/pifile/config/_plugin_validator.ini",
 		"/C/Users/Tom/Desktop/GitHub/pifile/config/_config_validator.ini",
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings/screen.py",
 		"/C/Users/Tom/Documents/Downloads/Corel Draw X7 [32-64]/CORELDRAW_GRAPHICS_SUITE_X7_WIN64-XFORCE/Crack/install.txt",
@@ -913,14 +877,8 @@
 		"/C/Users/Tom/Desktop/GitHub/pifile/shadow.py",
 		"/C/Users/Tom/Desktop/GitHub/pifile/resources/fonts/font-awesome-to-png.py",
 		"/C/Users/Tom/Desktop/GitHub/pifile/keyboardtest.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/gui_objects.py",
-		"/C/Users/Tom/Desktop/GitHub/pifile/displayscreen.py",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
-		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/locate/config/screen.ini",
-		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/settings/config/screen.ini",
-		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/config/screen.ini",
-		"/C/Users/Tom/Desktop/GitHub/pifile/eztext.py",
 		"/C/Users/Tom/Desktop/GitHub/pifile/resources/fontawesome-webfont.ttf",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Colorsublime/Colorsublime.sublime-settings",
 		"/C/Users/Tom/Desktop/GitHub/pifile/LICENSE",
@@ -938,7 +896,6 @@
 		"/C/Users/Tom/Desktop/GitHub/pifile/plugins/file/config.ini",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
-		"/C/Users/Tom/Desktop/GitHub/pifile/global_variables.py",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/FTPSync/FTPSync.sublime-settings",
 		"/C/Users/Tom/AppData/Roaming/Sublime Text 3/Packages/User/FTPSync.sublime-settings",
 		"/C/Users/Tom/Desktop/GitHub/pifile/pitftgpio.py",
@@ -1026,7 +983,7 @@
 	],
 	"find":
 	{
-		"height": 50.0
+		"height": 48.0
 	},
 	"find_in_files":
 	{
@@ -1041,6 +998,22 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"RGB",
+			"print",
+			"self.accn",
+			"accn",
+			"print",
+			"pprint",
+			"rect",
+			".fill",
+			"fill",
+			"pprint",
+			"info1",
+			"pprint",
+			"surface",
+			"self.screen",
+			"0",
+			"'])",
 			"print",
 			"input.text +",
 			"text_label",
@@ -1152,22 +1125,6 @@
 			"print_properties",
 			"print_pro",
 			"print_properties",
-			"print",
-			"accn",
-			"timeout",
-			"self.string",
-			"cutoff",
-			"shrink",
-			"cutoff",
-			"font",
-			"hint_Text",
-			"hint_text",
-			"self.hint",
-			"self.",
-			"accumulated_height",
-			"margin",
-			"render_",
-			"draw",
 			"print"
 		],
 		"highlight": true,
@@ -1187,7 +1144,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1203,8 +1160,8 @@
 						"selection":
 						[
 							[
-								8713,
-								8713
+								1102,
+								1102
 							]
 						],
 						"settings":
@@ -1214,207 +1171,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 10131.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "plugins/locate/screen.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5982,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								614,
-								614
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 594.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "gui_objects.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16602,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1471,
-								1471
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1346.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "keyboard.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17827,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								261,
-								261
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "sunquest.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 945,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								945,
-								945
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 990.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "config/settings.ini",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 624,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								503,
-								503
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 396.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "displayscreen.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9315,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2566,
-								2538
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2204.0,
+						"translation.y": 1302.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "global_variables.py",
+					"buffer": 1,
+					"file": "gui_objects.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3341,
+						"buffer_size": 16090,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1306,
-								1328
+								12888,
+								12888
 							]
 						],
 						"settings":
@@ -1424,27 +1201,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1048.0,
+						"translation.y": 10850.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "parseIcons.py",
+					"buffer": 2,
+					"file": "global_variables.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1133,
+						"buffer_size": 4835,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								197,
+								197
 							]
 						],
 						"settings":
@@ -1457,7 +1234,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1465,7 +1242,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 46.0
+		"height": 39.0
 	},
 	"input":
 	{
@@ -1517,7 +1294,7 @@
 	"project": "pifile.sublime-project",
 	"replace":
 	{
-		"height": 88.0
+		"height": 74.0
 	},
 	"save_all_on_build": false,
 	"select_file":
@@ -1556,7 +1333,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 361.0,
+	"side_bar_width": 368.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
