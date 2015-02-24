@@ -1,6 +1,6 @@
 import sys
 import os
-import pygameui
+# import pygameui
 import pygame
 from time import strftime, localtime, time, sleep
 from change_time import change_time
@@ -230,6 +230,7 @@ class myScreen(PiInfoScreen):
             return self.screen
 
     def exit_function(self):
+        self.setting_visible = False
         self.screen.fill(COLORS['CLOUD'])
         for b in self.buttons:
             b.clear()

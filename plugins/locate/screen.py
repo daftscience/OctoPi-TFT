@@ -58,7 +58,7 @@ class myScreen(PiInfoScreen):
             justification=1,
             FontPath=self.fonts['result_font']['path'],
             cutoff=False,
-            MinFont=self.fonts['result_font']['size'] - 8,
+            MinFont=self.fonts['result_font']['size'] - 10,
             MaxFont=self.fonts['result_font']['size'],
             shrink=True,
             vjustification=1)
@@ -131,7 +131,7 @@ class myScreen(PiInfoScreen):
             else:
                 self.info0.text = "Accn #: " + accn
                 self.result_text.string = ''
-                if len(result) <= 3:
+                if len(result) <= 6:
                     if len(result) == 1:
                         self.info1.text = str(
                             len(result)) + ' location found'
@@ -140,8 +140,8 @@ class myScreen(PiInfoScreen):
                             len(result)) + ' locations found'
                     reversed_list = reversed(result)
                 else:
-                    self.info1.text = "Showing last 3 locations"
-                    reversed_list = reversed(result[-3:])
+                    self.info1.text = "Showing last 6 locations"
+                    reversed_list = reversed(result[-6:])
                 formated = []
                 for item in reversed_list:
                     formated.append(gui_objects.format_location(item))

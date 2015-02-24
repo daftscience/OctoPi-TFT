@@ -170,7 +170,7 @@ def showLoadedPlugin(plugin):
     labelpos.centery = screen.get_rect().centery
     screen.blit(label, labelpos)
     pygame.display.flip()
-    sleep(.5)
+    sleep(2)
 
 
 def setNextScreen(a, screenindex):

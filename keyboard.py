@@ -68,6 +68,7 @@ class VirtualKeyboard():
             self.y,
             self.textW,
             self.textH)
+        self.caps = False
         self.togglecaps()
         self.paintkeys()
 
@@ -405,12 +406,12 @@ class TextInput():
 
     def addcharatcursor(self, letter):
         ''' Add a character whereever the cursor is currently located '''
-        if self.cursorpos < len(
-                self.text) and len(
-                self.text) > self.max_length:
-            # Inserting in the middle
-            self.text = self.text[:self.cursorpos] + \
-                letter + self.text[self.cursorpos:]
+        print self.cursorpos
+        print len(self.text)
+        print self.max_length
+        if self.cursorpos < len(self.text) and len(self.text) < self.max_length:
+            print 'Inserting in the middle'
+            self.text = self.text[:self.cursorpos] + letter + self.text[self.cursorpos:]
             self.cursorpos += 1
             self.draw()
             return
