@@ -6,6 +6,7 @@ from pprint import pprint
 from pygame.locals import K_RETURN, KEYDOWN
 from global_variables import COLORS, ICONS, SCREEN_TIMEOUT
 from displayscreen import PiInfoScreen
+from keyboard import VirtualKeyboard
 from database import RACK_DB
 sys.dont_write_bytecode = True
 
@@ -25,6 +26,9 @@ class myScreen(PiInfoScreen):
     def __init__(self, *args, **kwargs):
         PiInfoScreen.__init__(self, args[0], kwargs)
 
+        self.vkey_surface = pygame.display.get_surface()
+        # self.vkey_surface = self.surface.copy()
+        self.vkey = VirtualKeyboard(self.vkey_surface)
         self.timer = False
         self.timeout = 0
         self.timeout_delay = SCREEN_TIMEOUT * 60 # in seconds
@@ -101,8 +105,8 @@ class myScreen(PiInfoScreen):
 
     def event_handler(self, event):
         accn = ''
-        if event.type == RETURN_EVENT:
-            accn = event.value
+        if event.type == SWIPE_UP:
+            accn = self.vkey.run('')
             self.accn_box.text = "Accn#: "+ str(accn)
         elif event.type == KEYDOWN and event.key == K_RETURN:
             accn = self.barcode_input.value

@@ -7,8 +7,9 @@ from time import strftime, localtime
 from eztext import Input
 from pygame.locals import K_RETURN, KEYDOWN
 from multi_font_text import multi_font
-from global_variables import COLORS, RETURN_EVENT, ICONS, DATABASE_SETTINGS, ROWS
+from global_variables import COLORS, SWIPE_UP, ICONS, DATABASE_SETTINGS, ROWS, piscreenevents
 from displayscreen import PiInfoScreen
+from keyboard import VirtualKeyboard
 from database import RACK_DB
 sys.dont_write_bytecode = True
 
@@ -26,7 +27,9 @@ class myScreen(PiInfoScreen):
 
     def __init__(self, *args, **kwargs):
         PiInfoScreen.__init__(self, args[0], kwargs)
-
+        self.vkey_surface = pygame.display.get_surface()
+        # self.vkey_surface = self.surface.copy()
+        self.vkey = VirtualKeyboard(self.vkey_surface)
         self.surface.fill(COLORS['CLOUD'])
         self.title.update()
         self.hint_text.string = "scan to store\nswipe up for keyboard"
@@ -107,7 +110,7 @@ class myScreen(PiInfoScreen):
                 color = self.color
             else:
                 text = self.full_dot
-                color = COLORS['DEEP-PURPLE']["300"]
+                color = COLORS[self.color_name]["300"]
             item = {
                 'font_location': ICONS.font_location,
                 'text': text,
@@ -131,8 +134,10 @@ class myScreen(PiInfoScreen):
 
     def event_handler(self, event):
         # print event.type
-        if event.type == RETURN_EVENT:
-            accn = event.value
+        if event.type == SWIPE_UP:
+            # vkey = VirtualKeyboard(screen)
+            tmp = self.vkey.run('')
+            accn = tmp
             if accn != '':
                 RACK_DB.file_accn(accn)
                 self.update_indicator()
@@ -143,16 +148,16 @@ class myScreen(PiInfoScreen):
                 RACK_DB.file_accn(accn)
             self.update_indicator()
         self.barcode_input.update(event)
-
+        # if event.type == piscreenevents["time_changed"]
+            # print("time changed")
     def update_locations(self):
         pass
 
     def showScreen(self):
         # if self.new_to_file:
-
+        RACK_DB.next_location()
         self.hint_surface.blit(self.hint_text.update(), (0, 0))
         file_string = gui_objects.format_location(RACK_DB.next)
-
 
         try:
             self.accn_box.text = "Filed: " + str(RACK_DB.last_filed['accn'])

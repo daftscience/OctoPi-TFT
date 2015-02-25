@@ -41,7 +41,7 @@ COLORS = MATERIAL_COLORS
 # pprint(MATERIAL_COLORS)
 
 
-
+CLOCK_DIRTY = False
 
 
 
@@ -92,7 +92,7 @@ for key in _CONFIG['fonts']:
         'size': font_size}
     # pprint(FONTS)
 
-pprint(_CONFIG['title_banner'])
+# pprint(_CONFIG['title_banner'])
 DATABASE_SETTINGS = {}
 for key in _CONFIG['storage_settings']:
     DATABASE_SETTINGS[key] = _CONFIG['storage_settings'][key]
@@ -141,13 +141,14 @@ ICON_FONT_JSON = 'config.json'
 ICONS = icon(ICON_FONT_JSON, ICON_FONT_FILE)
 
 
-# DECLARE THE USER DEFINED EVENTS
-TFTBUTTONCLICK = pygame.USEREVENT + 1
-UPDATESCREEN = TFTBUTTONCLICK + 1
-NEXTSCREEN = UPDATESCREEN + 1
-NEWSCREEN = NEXTSCREEN + 1
-SLEEPEVENT = NEWSCREEN + 1
-RETURN_EVENT = SLEEPEVENT + 1
+# # DECLARE THE USER DEFINED EVENTS
+# TFTBUTTONCLICK = pygame.USEREVENT + 1
+# UPDATESCREEN = TFTBUTTONCLICK + 1
+# NEXTSCREEN = UPDATESCREEN + 1
+# NEWSCREEN = NEXTSCREEN + 1
+# SLEEPEVENT = NEWSCREEN + 1
+# SWIPE_UP = SLEEPEVENT + 1
+
 
 ###################################
 # SCREEN BANNER VARIABLES
@@ -156,11 +157,61 @@ RETURN_EVENT = SLEEPEVENT + 1
 
 LOADING_MESSEGES = [
     "Creating Time-Loop Inversion Field",
-    "Loading the Loading message..",
-    "Randomizing memory access...",
+    "Loading next loading message",
+    "Randomizing memory access",
     "Tube Clamp Error",
-    "Priming reagents.",
-    "Testing CP functions",
+    "Priming reagents",
+    "Testing CP function",
     "Homing",
     "Running Enhanced clean on all probes"
 ]
+
+
+# Set up some custom events
+TFTBUTTONCLICK = pygame.USEREVENT + 1
+UPDATESCREEN = TFTBUTTONCLICK + 1
+NEXTSCREEN = UPDATESCREEN + 1
+NEWSCREEN = NEXTSCREEN + 1
+SLEEPEVENT = NEWSCREEN + 1
+SWIPE_UP = SLEEPEVENT + 1
+SWIPE_DOWN = SWIPE_UP + 1
+TIME_CHANGED = SWIPE_DOWN + 1
+
+# print "return event"
+# print RETURN_EVENT
+# print "---------------"
+#############################################################################
+
+##############################################################################
+# Call back functions for TFT Buttons
+
+def TFTBtn1Click(channel):
+    tftscreen.backlight_off()
+
+
+def TFTBtn2Click(channel):
+    tftscreen.backlight_low()
+
+
+def TFTBtn3Click(channel):
+    tftscreen.backlight_med()
+
+
+def TFTBtn4Click(channel):
+    tftscreen.backlight_high()
+# This code needs work-------------------------------------
+# Set up the four TFT button events
+click1event = pygame.event.Event(TFTBUTTONCLICK, button=1)
+click2event = pygame.event.Event(TFTBUTTONCLICK, button=2)
+click3event = pygame.event.Event(TFTBUTTONCLICK, button=3)
+click4event = pygame.event.Event(TFTBUTTONCLICK, button=4)
+
+# return_event = pygame.event.Event(RETURN_EVENT)
+
+# Dict of events that are accessible to screens
+piscreenevents = {
+    "button": TFTBUTTONCLICK,
+    "update": UPDATESCREEN,
+    "nextscreen": NEXTSCREEN,
+    "time_changed": TIME_CHANGED,
+}

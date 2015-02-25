@@ -44,6 +44,7 @@ class PiInfoScreen():
         # Save the requested screen size
         self.screensize = screensize
         self.userevents = userevents
+        # pprint(self.userevents)
         # Check requested screen size is compatible and set supported property
         if screensize not in self.supportedsizes:
             self.supported = False
@@ -117,7 +118,7 @@ class PiInfoScreen():
     # Read the plugin's config file and dump contents to a dictionary
     def readConfig(self):
         validator = Validator()
-        print self.configfile
+        # print self.configfile
         configspec = ConfigObj(PLUGIN_VALIDATOR, interpolation=False, list_values=True,
                        _inspec=True)
         self.pluginConfig = ConfigObj(self.configfile, configspec=configspec)
@@ -139,6 +140,7 @@ class PiInfoScreen():
     def setPluginVariables(self):
 
         self.name = self.pluginConfig["plugin_info"]["name"]
+        self.color_name = self.pluginConfig["plugin_info"]["color"]
         self.shade = self.pluginConfig["plugin_info"]["shade"]
         self.color = COLORS[self.pluginConfig["plugin_info"]["color"]][self.shade]
         self.loadingMessage = self.pluginConfig[
@@ -225,8 +227,7 @@ class PiInfoScreen():
         return image
 
     # Draws a progress bar
-    def showProgress(self, position, barsize,
-                     bordercolour, fillcolour, bgcolour):
+    def showProgress(self, position, barsize,bordercolour, fillcolour, bgcolour):
         try:
             if position < 0:
                 position = 0
@@ -243,13 +244,14 @@ class PiInfoScreen():
             progress, bordercolour, (0, 0, barsize[0], barsize[1]), 1)
         return progress
 
+    def exit_function(self):
+        pass
 
     # Main function - returns screen to main script
     # Will be overriden by plugins
     # Defaults to showing name and description of plugin
     def showScreen(self):
         self.screen.fill([0, 0, 0])
-
         screentext = pygame.font.SysFont("freesans", 20).render(
             "%s: %s." % (self.pluginname, self.plugininfo), 1, (255, 255, 255))
         screenrect = screentext.get_rect()
@@ -263,6 +265,7 @@ class PiInfoScreen():
         pass
 
     def setUpdateTimer(self):
-        pygame.time.set_timer(self.userevents["update"], 0)
-        pygame.time.set_timer(
-            self.userevents["update"], int(self.refreshtime * 1000))
+        pass
+        # pygame.time.set_timer(self.userevents["update"], 0)
+        # pygame.time.set_timer(
+            # self.userevents["update"], int(self.refreshtime * 1000))

@@ -74,6 +74,7 @@ class text_label(pygame.sprite.Sprite):
         self.blit_text()
         self.surface.fill(self.background_color)
         self.surface.blit(self.label, self.fontRect)
+        return self.surface
 
 
 class title_banner(text_label):

@@ -56,7 +56,7 @@ class VirtualKeyboard():
         pygame.display.update()
 
     def run(self, text=''):
-
+        self.screen.fill(COLORS['CLOUD'])
         self.text = text
         # create an input text box
         # create a text input box with room for 2 lines of text. leave room for
