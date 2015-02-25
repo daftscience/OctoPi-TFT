@@ -92,11 +92,6 @@ for key in _CONFIG['fonts']:
         'size': font_size}
     # pprint(FONTS)
 
-# pprint(_CONFIG['title_banner'])
-DATABASE_SETTINGS = {}
-for key in _CONFIG['storage_settings']:
-    DATABASE_SETTINGS[key] = _CONFIG['storage_settings'][key]
-
 # Check if the banner needs to be redrawn
 # then reset the value so the next load
 # times are faster
@@ -115,19 +110,6 @@ SHADING_ITERATIONS = _CONFIG['title_banner']['SHADING_ITERATIONS']
 SCREEN_TIMEOUT = _CONFIG['settings']['screen_timeout']
 
 
-ROWS = {'1': 'A',
-        '2': 'B',
-        '3': 'C',
-        '4': 'D',
-        '5': 'E',
-        '6': 'F',
-        '7': 'G',
-        '8': 'H',
-        '9': 'I',
-        '10': 'J',
-        '11': 'K',
-        '12': 'L'
-        }
 
 # TITLE_RECT = pygame.Rect(3, 30, 314, 60)
 # these probably shouldnt be here

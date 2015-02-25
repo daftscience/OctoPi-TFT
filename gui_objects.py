@@ -5,7 +5,7 @@ import parseIcons
 from PIL import Image, ImageFilter
 from time import strftime, localtime
 from PIL import ImageDraw, ImageFont
-from global_variables import COLORS, ROWS, ICON_FONT_FILE, ICONS, SHADING_ITERATIONS
+from global_variables import COLORS, ICON_FONT_FILE, ICONS, SHADING_ITERATIONS
 from global_variables import ICON_FONT_JSON, REBUILD_BANNER, CORNER_RADIUS
 from global_variables import SHADING_QUALITY, BACKGROUND_COLOR, BORDER
 

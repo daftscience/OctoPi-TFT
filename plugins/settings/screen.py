@@ -6,7 +6,7 @@ from time import strftime, localtime, time, sleep
 from change_time import change_time
 from global_variables import COLORS, piscreenevents, CLOCK_DIRTY, ICONS, SWIPE_UP, SWIPE_DOWN
 from displayscreen import PiInfoScreen
-from database import RACK_DB
+import gui_objects
 from button import button
 sys.dont_write_bytecode = True
 
@@ -30,6 +30,8 @@ class myScreen(PiInfoScreen):
         self.minus = ICONS.unicode('down-open')
         self.plus = ICONS.unicode('up-open')
         self.surface.fill(COLORS['CLOUD'])
+
+
         self.hint_text.string = "Swipe up for settings\n Swipe horizontally to exit"
         self.title.update()
         self.adjust_time = change_time()

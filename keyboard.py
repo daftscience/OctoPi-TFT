@@ -3,7 +3,6 @@ import time
 import os
 from global_variables import COLORS, ICONS, ICON_FONT_FILE
 from pygame.locals import *
-from sunquest import *
 
 from string import maketrans
 Uppercase = maketrans("1234567890",
